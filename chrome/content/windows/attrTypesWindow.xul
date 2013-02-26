@@ -31,7 +31,7 @@
   <script type="application/x-javascript"
     src="chrome://annotationextension/content/annotCreation/datasource.js" />
   <script type="application/x-javascript"
-    src="chrome://annotationextension/content/annotCreation/attrTypesWindow.js" />
+    src="chrome://annotationextension/content/windows/attrTypesWindow.js" />
   <script type="application/x-javascript"
     src="chrome://annotationextension/content/annotCreation/type.js" />
   

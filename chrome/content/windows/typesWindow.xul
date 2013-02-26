@@ -30,7 +30,7 @@
   <script type="application/x-javascript"
     src="chrome://annotationextension/content/annotCreation/datasource.js" />
   <script type="application/x-javascript"
-    src="chrome://annotationextension/content/annotCreation/typesWindow.js" />
+    src="chrome://annotationextension/content/windows/typesWindow.js" />
   <script type="application/x-javascript"
     src="chrome://annotationextension/content/annotCreation/type.js" />
   

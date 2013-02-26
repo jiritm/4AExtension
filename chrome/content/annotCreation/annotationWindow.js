@@ -669,7 +669,7 @@ annotationExtensionChrome.bottomAnnotationWindow =
   openTypesWindow : function()
   {
     var params = {out:null};
-    window.openDialog("chrome://annotationextension/content/annotCreation/typesWindow.xul", "annotationextension:typesWindow", "resizable,chrome,centerscreen,modal,height=400,width=600", params);
+    window.openDialog("chrome://annotationextension/content/windows/typesWindow.xul", "annotationextension:typesWindow", "resizable,chrome,centerscreen,modal,height=400,width=600", params);
     if (params.out)
     {
       var tab = annotationExtensionChrome.bottomAnnotationWindow.getCurrentTab();

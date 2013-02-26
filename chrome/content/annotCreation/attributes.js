@@ -45,7 +45,7 @@ annotationExtensionChrome.attributes =
    */
   selectAttrType : function(id)
   {
-    window.openDialog("chrome://annotationextension/content/annotCreation/attrTypesWindow.xul", "annotationextension:attrTypeWindow", "resizable,chrome,centerscreen,modal,height=400,width=600",
+    window.openDialog("chrome://annotationextension/content/windows/attrTypesWindow.xul", "annotationextension:attrTypeWindow", "resizable,chrome,centerscreen,modal,height=400,width=600",
       id);
   },
   
@@ -54,7 +54,7 @@ annotationExtensionChrome.attributes =
    */
   openAddAttributeWindowRoot : function()
   {
-    window.openDialog("chrome://annotationextension/content/annotCreation/addAttributeWindow.xul", "annotationextension:addAttrWindow", "resizable,chrome,centerscreen,modal,height=430,width=600",
+    window.openDialog("chrome://annotationextension/content/windows/addAttributeWindow.xul", "annotationextension:addAttrWindow", "resizable,chrome,centerscreen,modal,height=430,width=600",
       annotationExtensionChrome.attrDatasource.baseURI + annotationExtensionChrome.attrDatasource.rootName, //Ancestor
       annotationExtensionChrome.bottomAnnotationWindow.selectedTypeURI, //URI TYPU(v typeAttr.rdf) KE KTEREMU SE MA PRIPOJIT NOVY ATRIBUT
       annotationExtensionChrome.attrDatasource.baseURI + annotationExtensionChrome.attrDatasource.rootName,
@@ -70,7 +70,7 @@ annotationExtensionChrome.attributes =
     var view = document.getElementById('aeAttrTree').view;
     var selection = view.selection.currentIndex;
     
-    window.openDialog("chrome://annotationextension/content/annotCreation/addAttributeWindow.xul", "annotationextension:addAttrWindow", "resizable,chrome,centerscreen,modal,height=430,width=600",
+    window.openDialog("chrome://annotationextension/content/windows/addAttributeWindow.xul", "annotationextension:addAttrWindow", "resizable,chrome,centerscreen,modal,height=430,width=600",
       //this.selectedAttrUIID,
       annotationExtensionChrome.attrDatasource.baseURI + annotationExtensionChrome.attrDatasource.rootName, //Ancestor
       this.selectedAttrType,  //URI TYPU(v typeAttr.rdf) KE KTEREMU SE MA PRIPOJIT NOVY ATRIBUT
