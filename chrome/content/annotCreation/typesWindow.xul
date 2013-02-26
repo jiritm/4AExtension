@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+
+<!--
+ - Soubor: typesWindow.xul.
+ - Autor: Jiri Trhlik
+ - Datum: 3.9.2011
+ - Popis: Uzivatelske rozhrani pro vyber typu anotace.
+ - Posledni uprava: 5.6.2012
+ --> 
+
+<?xml-stylesheet type="text/css" href="chrome://annotationextension/skin/annotationExtension.css" ?>
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+
+<!DOCTYPE overlay SYSTEM
+  "chrome://annotationextension/locale/annotationExtension.dtd">
+<!-- Okno pro zobrazeni typu anotaci-->
+<window
+    id="annotationextension-types-window"
+    title="&annotationextension.Window.title; - &annotationextension.typesWindow.title;"
+    orient="horizontal"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    onload="annotationExtensionChrome.typesWindow.init();"
+    onunload="annotationExtensionChrome.typesWindow.destroy();">
+  
+  <script type="application/x-javascript"
+    src="chrome://annotationextension/content/annotCreation/namespace.js" />
+  <script type="application/x-javascript"
+    src="chrome://annotationextension/content/annotCreation/treeDatasource.js" />
+  <script type="application/x-javascript"
+    src="chrome://annotationextension/content/annotCreation/datasource.js" />
+  <script type="application/x-javascript"
+    src="chrome://annotationextension/content/annotCreation/typesWindow.js" />
+  <script type="application/x-javascript"
+    src="chrome://annotationextension/content/annotCreation/type.js" />
+  
+  <vbox flex="1">
+    <hbox flex="1">
+      <tree id="aeTypesTree"
+            flex="1"
+            class="plain aeTree"
+            persist="sizemode"
+            sizemode="normal"
+            seltype="single"
+            hidecolumnpicker="true"
+            datasources="rdf:null" ref=""
+            ondblclick="annotationExtensionChrome.typesWindow.selectType();"
+            sort="chrome://annotationextension/rdf#name"
+            sortDirection="ascending"
+            flags="dont-build-content">
+    
+        <treecols>
+          <treecol id="name" primary="true" flex="1" hideheader="true" sortActive="true" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
+          <treecol id="comment" flex="1" hideheader="true"/>
+        </treecols>
+        
+        <template>
+          <rule>
+             <conditions>
+              <content uri="?types"/>
+              <member container="?types" child="?type"/>
+              <triple subject="?type"
+                      predicate="chrome://annotationextension/rdf#name"
+                      object="?name"/>
+              <triple subject="?type"
+                      predicate="chrome://annotationextension/rdf#comment"
+                      object="?comment"/>
+            </conditions>
+             
+            <action>
+              <treechildren>
+               <treeitem uri="?type">
+                 <treerow>
+                   <treecell label="?name"/>
+                   <treecell label="?comment"/>
+                 </treerow>
+               </treeitem>
+              </treechildren>
+            </action>
+          </rule>
+          
+        </template>
+      </tree>
+    </hbox>
+  
+    <hbox>
+      <vbox flex="1">
+        
+        <vbox>
+          <vbox>
+            <hbox>
+              <label value="&annotationextension.typesWindow.addAsSubtype.label;"/>
+              <spacer flex="1"/>
+              <vbox>
+                <image id="aeRemoveType"
+                    onclick="annotationExtensionChrome.typesWindow.removeType();"
+                    tooltiptext="&annotationextension.typesWindow.removeType;"/>
+              </vbox>
+            </hbox>
+            <hbox>
+              <vbox>
+                <textbox id="aeNewTypeNameTextbox"/>
+              </vbox>
+              <vbox>
+                <spacer flex="1"/>
+                <hbox>
+                  <!-- Pridat novy podtyp -->
+                  <button class="aeAddTypeButtonLeft" tooltiptext="&annotationextension.typesWindow.addType;" onclick="annotationExtensionChrome.typesWindow.addNewType('root');">
+                    <image id="aeAddType"/>
+                  </button>
+                  <!-- Pridat novy typ -->
+                  <button class="aeAddSubtypeButtonRight" tooltiptext="&annotationextension.typesWindow.addSubtype;" onclick="annotationExtensionChrome.typesWindow.addNewType('subtype');">
+                    <image id="aeAddSubtype"/>
+                  </button>
+                </hbox>
+                <spacer flex="1"/>
+              </vbox>
+      
+              <spacer flex="1"/>
+            </hbox>
+          </vbox>
+        </vbox>
+        
+        <hbox align="end" pack="end">
+          <spacer flex="1"/>
+          <button id="aeSelectTypeButton" label="&annotationextension.typesWindow.selectButton.label;"
+            oncommand='annotationExtensionChrome.typesWindow.selectType();'/>
+        </hbox>
+        
+      </vbox>
+    </hbox>
+  </vbox>
+</window>

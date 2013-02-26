@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<!--
+ - Soubor: browseOverlayFF3.xul
+ -  Autor: Jiri Trhlik
+ -  Datum: 3.9.2011
+ -  Popis: Prida ikonu do statusbaru Firefoxu 3.*.*
+ --> 
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+<?xml-stylesheet type="text/css"
+  href="chrome://annotationextension/skin/browserOverlay.css" ?>
+
+<!DOCTYPE overlay SYSTEM
+  "chrome://annotationextension/locale/annotationExtension.dtd">
+
+<overlay id="xulschoolhello-browser-overlay"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  
+  <statusbar id="status-bar" class="chromeclass-status">
+    <statusbarpanel
+      id="aeStatusBarPanel"
+      class="statusbarpanel-menu-iconic"
+      tooltiptext="&annotationextension.Toolbar.tooltiptext;"
+      onclick="annotationExtensionChrome.browserOverlay.toggleAnnotationWindow();" />
+  </statusbar>
+    
+</overlay>

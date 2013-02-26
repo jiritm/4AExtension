@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+
+<!--
+ - Soubor: usersWindow.xul.
+ - Autor: Jiri Trhlik
+ - Datum: 25.2.2013
+ - Popis: Uzivatelske rozhrani pro vyber uzivatele.
+ - Posledni uprava:
+ --> 
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+<?xml-stylesheet type="text/css" href="chrome://annotationextension/skin/annotationExtension.css" ?>
+
+<!DOCTYPE overlay SYSTEM "chrome://annotationextension/locale/annotationExtension.dtd">
+<!-- Okno pro zobrazeni typu anotaci-->
+<window
+    id="annotationextension-users-window"
+    title="&annotationextension.Window.title; - &annotationextension.usersWindow.title;"
+    orient="horizontal"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    onload="annotationExtensionChrome.usersWindow.init();"
+    onunload="annotationExtensionChrome.usersWindow.destroy();">
+  
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/namespace.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/treeDatasource.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/datasource.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/windows/usersWindow.js" />
+  
+  <vbox flex="1">
+    <hbox flex="1">
+      <tree id="aeUsersTree"
+            flex="1"
+            class="plain aeTree"
+            persist="sizemode"
+            sizemode="normal"
+            seltype="single"
+            hidecolumnpicker="true"
+            datasources="rdf:null" ref=""
+            ondblclick="annotationExtensionChrome.usersWindow.selectUser();"
+            sort="chrome://annotationextension/rdf#name"
+            sortDirection="ascending"
+            flags="dont-build-content">
+    
+        <treecols>
+          <treecol id="aeUserName" primary="true" flex="1" hideheader="true" sortActive="true" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
+          <treecol id="aeUserEmail" flex="1" hideheader="true"/>
+        </treecols>
+        
+        <template>
+          <rule>
+             <conditions>
+              <content uri="?users"/>
+              <member container="?users" child="?user"/>
+              <triple subject="?user"
+                      predicate="chrome://annotationextension/rdf#name"
+                      object="?name"/>
+              <triple subject="?user"
+                      predicate="chrome://annotationextension/rdf#email"
+                      object="?email"/>
+            </conditions>
+             
+            <action>
+              <treechildren>
+               <treeitem uri="?user">
+                 <treerow>
+                   <treecell label="?name"/>
+                   <treecell label="?email"/>
+                 </treerow>
+               </treeitem>
+              </treechildren>
+            </action>
+          </rule>
+          
+        </template>
+      </tree>
+    </hbox>
+  
+    <hbox>
+      <vbox flex="1">
+        
+        <hbox align="end" pack="end">
+          <spacer flex="1"/>
+          <button id="aeSelectUserButton" label="&annotationextension.usersWindow.selectButton.label;"
+            oncommand='annotationExtensionChrome.usersWindow.selectUser();'/>
+        </hbox>
+        
+      </vbox>
+    </hbox>
+  </vbox>
+</window>

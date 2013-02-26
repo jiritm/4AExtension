@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+
+<!--
+ - Soubor: editSetting.xul
+ -  Autor: Jiri Trhlik
+ -  Datum: 14.11.2011
+ -  Popis: Dialog pro upravu nastaveni.
+ -  Posledni uprava: 5.6.2012
+ -->
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+<?xml-stylesheet type="text/css"
+  href="chrome://annotationextension/skin/annotationExtension.css" ?>
+
+<!DOCTYPE overlay SYSTEM
+  "chrome://annotationextension/locale/annotationExtension.dtd">
+  
+<dialog id="aeEditSettDialog" title="&annotationextension.Window.title; - &annotationextension.editSettingsDialog.title;"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  buttons="accept,cancel"
+  onload="onLoad();"
+  ondialogaccept="return doAccept();"
+  ondialogcancel="return doCancel();">
+  
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/namespace.js" />
+
+  <script type="application/x-javascript">
+    Components.utils.import("resource://annotationextension/namespace.jsm");
+    Components.utils.import("resource://annotationextension/constants.jsm");
+    
+    function doAccept()
+    {
+      window.arguments[0].out = {newValue:document.getElementById("aeNewValueTextbox").value};
+       
+      return true;
+    };
+    
+    function doCancel()
+    {
+      return true;
+    };
+    
+    function onLoad()
+    {
+      document.getElementById('aeNewValueTextbox').value = window.arguments[0].settValue;
+    };
+    
+  </script>
+  
+  <vbox flex="1">
+    <hbox>
+      <label value="&annotationextension.editSettingsDialog.newValue;"/>
+      <textbox id="aeNewValueTextbox" flex="1"/>
+    </hbox>
+  </vbox>
+              
+</dialog>

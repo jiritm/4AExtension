@@ -1,0 +1,180 @@
+<!ENTITY annotationextension.ViewMenu.label       "Annotation Window">
+<!ENTITY annotationextension.Toolbar.label        "Annotation">
+<!ENTITY annotationextension.Toolbar.tooltiptext  "Open Annotation Window">
+<!ENTITY annotationextension.aeSelectedText.selectedText.wholeDocument  "Whole document annotation...">
+
+<!ENTITY annotationextension.Window.title                 "4A Extension">
+<!ENTITY annotationextension.Window.close                 "Close">
+<!ENTITY annotationextension.Window.annotateDocument      "Document Annotation">
+<!ENTITY annotationextension.Window.logout                "Logout">
+<!ENTITY annotationextension.Window.suggest               "Turn On Suggesting of Annotations">
+<!ENTITY annotationextension.Window.suggestEnd            "Turn Off Suggesting of Annotations">
+<!ENTITY annotationextension.Window.aeControlPanel.label  "Annotation">
+<!ENTITY annotationextension.config.button.label          "Settings">
+<!ENTITY annotationextension.choose.button.label          "Choose">
+<!ENTITY annotationextension.clear.button.label           "Clear All">
+<!ENTITY annotationextension.save.button.label            "Save">
+<!ENTITY annotationextension.annotationWindow.Attributes          "Attributes:">
+<!ENTITY annotationextension.annotationWindow.addAttribute        "Add Attribute">
+<!ENTITY annotationextension.annotationWindow.addAttributeToAttr  "Add Attribute To Selected Attribute">
+
+<!ENTITY annotationextension.annotationWindow.selectedText.tooltip  "Text is selected on the page with the mouse">
+<!ENTITY annotationextension.annotationWindow.contentText.tooltip   "Text note">
+<!ENTITY annotationextension.annotationWindow.selectedType.tooltip  "Shows annotations types using autocomplete function. If the given type does not exist, the new type will be created by pressing enter.">
+<!ENTITY annotationextension.annotationWindow.choose.tooltip        "Opens a window with the tree of types">
+
+<!ENTITY annotationextension.annotationWindow.chooseUser.tooltip    "Opens a window with users">
+<!ENTITY annotationextension.annotationWindow.chooseGroup.tooltip   "Opens a window with user groups">
+
+<!ENTITY annotationextension.annotationWindow.sidebar               "Shows sidebar with whole document annotations">
+
+<!ENTITY annotationextension.aeSelectedText.selectedText.label      "Selected text:">
+<!ENTITY annotationextension.aeContentText.annotationText.label     "Content:">
+<!ENTITY annotationextension.aeTypeSelect.typeAnnotation.label      "Type:">
+<!ENTITY annotationextension.aeTypeSelect.confirmType.label         "Confirm type by pressing enter.">
+
+<!ENTITY annotationextension.aeSelectedText.selectedText.next.tooltip      "Next range">
+<!ENTITY annotationextension.aeSelectedText.selectedText.previous.tooltip  "Previous range">
+<!ENTITY annotationextension.aeSelectedText.selectedText.delete.tooltip    "Delete range(s)">
+
+<!ENTITY annotationextension.aeLoginPrompt.username.label      "Username:">
+<!ENTITY annotationextension.aeLoginPrompt.password.label      "Password:">
+<!ENTITY annotationextension.aeLoginPrompt.loginButton.label   "Login">
+<!ENTITY annotationextension.aeLoginPrompt.savePassword.label  "Remember my password">
+<!ENTITY annotationextension.aeLoginPrompt.deleteUser.label    "Forget me when I sign out">
+<!ENTITY annotationextension.aeLoginPrompt.autoLogin.label     "Auto-connect">
+<!ENTITY annotationextension.aeLoginPrompt.badLogin.label      "The email address or password is incorrect.">
+
+<!ENTITY annotationextension.config.server.address             "Server address:">
+<!ENTITY annotationextension.config.server.port                "Server port:">
+
+<!ENTITY annotationextension.config.title                   "4A Extension - Settings">
+<!ENTITY annotationextension.config.tab.serverOption        "Server" >
+<!ENTITY annotationextension.config.tab.windowOption        "Window">
+<!ENTITY annotationextension.config.caption.consoleHeight   "Height of Annotation Window newly opened">
+<!ENTITY annotationextension.config.heightMode.previous     "Restore height of the window closed last time">
+<!ENTITY annotationextension.config.caption.startupMode     "When Firefox starts">
+<!ENTITY annotationextension.config.startupMode.open        "Open Annotation Window">
+<!ENTITY annotationextension.config.startupMode.close       "Close Annotation Window">
+<!ENTITY annotationextension.config.startupMode.restore     "Open if and only if Annotation Window was opened last time">
+<!ENTITY annotationextension.config.tab.aeTextSelectOption  "Text selection">
+<!ENTITY annotationextension.config.showRange.all           "All ranges and then select range">
+<!ENTITY annotationextension.config.showRange.first         "First range and then select range">
+<!ENTITY annotationextension.config.caption.separateMode    "When select multiple ranges, show ranges separate by">
+<!ENTITY annotationextension.config.separate.space          "Space">
+<!ENTITY annotationextension.config.separate.newLine        "New line">
+<!ENTITY annotationextension.config.separate.noSepar        "No separator">
+
+<!ENTITY annotationextension.config.notAvailable            "Not available now.">
+
+<!ENTITY annotationextension.config.tab.aeGroupOption       "Groups">
+<!ENTITY annotationextension.config.groups.join             "Join to group">
+<!ENTITY annotationextension.config.groups.leave            "Leave group">
+<!ENTITY annotationextension.config.groups.actualGroup      "Group:">
+<!ENTITY annotationextension.config.groups.defaultUserGroup           "Default user group:">
+<!ENTITY annotationextension.config.groups.defaultUserGroup.tooltip   "Sets default user group">
+<!ENTITY annotationextension.config.groups.selectDefaultButton.label  "Select">
+
+<!ENTITY annotationextension.config.tab.aeOtherOption       "Other">
+<!ENTITY annotationextension.config.tab.aeColorsOption      "Colors of Annotations">
+<!ENTITY annotationextension.config.others.add              "Add New Setting">
+<!ENTITY annotationextension.config.colors.add              "Add New Color">
+
+<!ENTITY annotationextension.config.tab.aeSubscription                "Subscriptions">
+<!ENTITY annotationextension.config.subscriptions.add                 "Add New Subscription">
+<!ENTITY annotationextension.config.subscriptions.listCol.label       "List">
+<!ENTITY annotationextension.config.subscriptions.URICol.label        "URI">
+<!ENTITY annotationextension.config.subscriptions.userCol.label       "User">
+<!ENTITY annotationextension.config.subscriptions.typeCol.label       "Type">
+<!ENTITY annotationextension.config.subscriptions.saveSubscriptions.label              "Save current subscriptions">
+<!ENTITY annotationextension.config.subscriptions.loadDefaultSubscriptions.label       "Load default subsriptions">
+
+<!ENTITY annotationextension.typesWindow.title                     "Type Select">
+<!ENTITY annotationextension.typesWindow.selectButton.label        "Select">
+<!ENTITY annotationextension.typesWindow.addAsSubtype.label        "Add a New Type:">
+<!ENTITY annotationextension.typesWindow.addType                   "As a Root Type.">
+<!ENTITY annotationextension.typesWindow.addSubtype                "As a Subtype of Selected.">
+<!ENTITY annotationextension.typesWindow.removeType                "Remove Selected Type">
+
+<!ENTITY annotationextension.groupsWindow.title                "Group Select">
+<!ENTITY annotationextension.groupsWindow.selectButton.label   "Select">
+
+<!ENTITY annotationextension.usersWindow.title                "User Select">
+<!ENTITY annotationextension.usersWindow.selectButton.label   "Select">
+
+<!ENTITY annotationextension.addAttributesWindow.title                   "Add Attribute">
+<!ENTITY annotationextension.addAttributesWindow.tabTitle.basic          "Basic">  
+<!ENTITY annotationextension.addAttributesWindow.tabTitle.ontology       "Ontology">
+<!ENTITY annotationextension.addAttributesWindow.nameCol                 "Name">
+<!ENTITY annotationextension.addAttributesWindow.commentCol              "Comment">
+<!ENTITY annotationextension.addAttributesWindow.typeCol                 "Type">
+<!ENTITY annotationextension.addAttributesWindow.name.label              "Name:">
+<!ENTITY annotationextension.addAttributesWindow.columnTitle.simple      "Simple Type">
+<!ENTITY annotationextension.addAttributesWindow.columnTitle.structured  "Structured Type">
+<!ENTITY annotationextension.attribute.type.binary                       "Binary">
+<!ENTITY annotationextension.attribute.type.text                         "Text">
+<!ENTITY annotationextension.attribute.type.image                        "Image">
+<!ENTITY annotationextension.attribute.type.duration                     "Duration">
+<!ENTITY annotationextension.attribute.type.anyannotation                "AnyAnnotation">
+<!ENTITY annotationextension.attribute.type.string                       "String">
+<!ENTITY annotationextension.attribute.type.uri                          "URI">
+<!ENTITY annotationextension.attribute.type.integer                      "Integer">
+<!ENTITY annotationextension.attribute.type.decimal                      "Decimal">
+<!ENTITY annotationextension.attribute.type.date                         "Date">
+<!ENTITY annotationextension.attribute.type.time                         "Time">
+<!ENTITY annotationextension.attribute.type.boolean                      "Boolean">
+<!ENTITY annotationextension.attribute.type.person                       "Person">
+<!ENTITY annotationextension.attribute.type.geoPoint                     "GeoPoint">
+<!ENTITY annotationextension.addAttributesWindow.defAttr.label           "Add to the default attributes">
+
+<!ENTITY annotationextension.attributes.defAttr.label           "Default attribute">
+<!ENTITY annotationextension.attributes.reqAttr.label           "Required attribute">
+<!ENTITY annotationextension.attributes.delAttr.label           "Delete attribute">
+<!ENTITY annotationextension.attributes.changeAttrSettings      "Change Attribute Setting">
+<!ENTITY annotationextension.attributes.deleteAttrDialog        "Delete attribute">
+<!ENTITY annotationextension.attributes.deleteAttrLabel         "Delete attribute?">
+<!ENTITY annotationextension.attributes.delDefAttr.label        "Delete from template">
+<!ENTITY annotationextension.attributes.changeTypeInTemplate    "Change attribute type in template">
+
+<!ENTITY annotationextension.attrTypesWindow.title             "Attribute Type Select">
+
+<!ENTITY openDocumentAnnotationsSideBar.title           "4A Extension">
+<!ENTITY viewAnnotationsSidebar.commandkey      "A">
+<!ENTITY viewAnnotationsSidebar.modifierskey    "alt accel">
+<!ENTITY viewAnnotationWindow.commandkey        "R">
+<!ENTITY viewAnnotationWindow.modifierskey      "alt accel">
+<!ENTITY annotationextension.saveAnnotations.commandkey        "S">
+<!ENTITY annotationextension.saveAnnotations.modifierskey      "accel shift">
+
+<!ENTITY annotationextension.sidebar.annotationContent.label  "Annotation:">
+
+<!ENTITY annotationextension.addSettingsDialog.title         "Add New Setting">
+<!ENTITY annotationextension.addSettingsDialog.name          "Name:">
+<!ENTITY annotationextension.addSettingsDialog.value         "New Value:">
+
+<!ENTITY annotationextension.addColorDialog.title         "Add New Color of Annotation">
+<!ENTITY annotationextension.addColorDialog.type          "Type Name:">
+<!ENTITY annotationextension.addColorDialog.color         "Color:">
+
+<!ENTITY annotationextension.editSettingsDialog.title     "Edit Setting">
+<!ENTITY annotationextension.editSettingsDialog.newValue  "New Value:">
+
+<!ENTITY annotationextension.editColorDialog.title     "Change Color">
+<!ENTITY annotationextension.editColorDialog.newColor  "New Color:">
+
+<!ENTITY annotationextension.addSubscriptionDialog.title         "Add new subscription">
+<!ENTITY annotationextension.addSubscriptionDialog.type          "Type">
+<!ENTITY annotationextension.addSubscriptionDialog.user          "User:">
+<!ENTITY annotationextension.addSubscriptionDialog.URI           "URI:">
+<!ENTITY annotationextension.addSubscriptionDialog.type.tooltip  "Identifies type of annotation and all his subtypes, optional.">
+<!ENTITY annotationextension.addSubscriptionDialog.user.tooltip  "Identifies user, optional.">
+<!ENTITY annotationextension.addSubscriptionDialog.URI.tooltip   "Identifies user group or any generic source of annotations, optional.">
+<!ENTITY annotationextension.addSubscriptionDialog.whitelist     "Whitelist">
+<!ENTITY annotationextension.addSubscriptionDialog.blacklist     "Blacklist">
+<!ENTITY annotationextension.addSubscriptionDialog.whitelist.tooltip     "Whitelist">
+<!ENTITY annotationextension.addSubscriptionDialog.blacklist.tooltip     "Blacklist">
+
+
+<!ENTITY annotationextension.suggestAnnotation.selection.document     "Whole document">
+<!ENTITY annotationextension.suggestAnnotation.type.all               "All Types">
+<!ENTITY annotationextension.suggestAnnotation.type.all.tooltip       "Selects all types for suggesting of annotations">

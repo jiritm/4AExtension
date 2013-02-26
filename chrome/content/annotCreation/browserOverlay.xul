@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+
+<!--
+ - Soubor: browserOverlay.xul
+ - Autor: Jiri Trhlik
+ - Datum: 3.9.2011
+ - Popis: Pridava uzivatelske rozhrani doplnku do Firefoxu.
+ -        Zpristupneni vsech skriptu doplnku.
+ - Posledni uprava: 5.6.2012
+ --> 
+
+<!-- Natahnuti anotacniho okna id="aeBottomWindowOverlay" -->
+<?xul-overlay href="chrome://annotationextension/content/annotCreation/annotationWindow.xul"?>
+<?xul-overlay href="chrome://annotationextension/content/annotCreation/loginPrompt.xul"?>
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+<?xml-stylesheet type="text/css" href="chrome://annotationextension/skin/annotationExtension.css" ?>
+<?xml-stylesheet type="text/css" href="chrome://annotationextension/skin/bindings.css" ?>
+
+<!DOCTYPE overlay SYSTEM
+  "chrome://annotationextension/locale/annotationExtension.dtd">
+
+<overlay id="annotationextension-browser-overlay"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  
+  <!-- Zpristupeni vsech skriptu -->
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/namespace.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/browserOverlay.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/annotationWindow.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/user.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/alerts.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/fragments.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/xpath.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/fragment.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/annotation.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/client.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/document.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/typesView.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/test.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/type.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/group.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/aeArray.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/datasource.js" />  
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/treeDatasource.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/functions.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/annotationProcessor.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/selectedText.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/attributes.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/statusBar.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/annotationWindowTab.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/functions.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/typesColors.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/rangeCreator.js" />
+	<script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/selectedAnnotation.js" />
+	<script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/typesDatasource.js" />
+	<script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/settings.js" />
+	<script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/listboxDatasource.js" />
+	<script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/infoPanel.js" />
+	<script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/subscription.js" />
+	<script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/person.js" />
+  
+  <keyset id="mainKeyset">
+    <!-- TODO: UPRAVIT NA ROZUMNOU KOMBINACI -->
+    <!-- Zobrazi anotacni okno pomoci klaves ctrl + alt + a -->
+    <key id="aeKeyOpenSidebar"
+      command="viewAnnotationsSidebar"
+      key="&viewAnnotationsSidebar.commandkey;" 
+      modifiers="&viewAnnotationsSidebar.modifierskey;" />
+    <key id="aeKeyOpenAnnotWindow"
+      command="viewAnnotationWindow"
+      key="&viewAnnotationWindow.commandkey;" 
+      modifiers="&viewAnnotationWindow.modifierskey;" />
+		<key id="aeKeySaveAnnotations"
+      oncommand="annotationExtensionChrome.bottomAnnotationWindow.saveAnnotationsKeyHandler();"
+      modifiers="&annotationextension.saveAnnotations.modifierskey;"
+			key="&annotationextension.saveAnnotations.commandkey;"/>
+  </keyset>
+  
+	<broadcasterset id="mainBroadcasterSet"> 
+    <broadcaster id="viewAnnotationsSidebar" 
+                 label="&openDocumentAnnotationsSideBar.title;"
+                 autoCheck="false"
+                 type="checkbox"
+                 group="sidebar"
+                 sidebarurl="chrome://annotationextension/content/annotDisplay/sideBar.xul"
+                 sidebartitle="&openDocumentAnnotationsSideBar.title;"
+                 oncommand="toggleSidebar('viewAnnotationsSidebar');" />
+     <broadcaster id="viewAnnotationWindow"
+                  label="&annotationextension.ViewMenu.label;"
+                  type="checkbox"
+                  checked="false"
+                  oncommand="annotationExtensionChrome.browserOverlay.toggleAnnotationWindow();" />
+  </broadcasterset>
+
+  <stringbundleset id="stringbundleset">
+    <!-- Vytvori jmeno - hodnota ze souboru s prekladem-->
+    <stringbundle id="annotationextension-string-bundle"
+      src="chrome://annotationextension/locale/annotationExtension.properties" />
+  </stringbundleset>
+  
+  <!-- Pridani polozky do bocnich panelu -->  
+  <menupopup id="viewSidebarMenu">
+    <menuitem key="aeKeyOpenSidebar" observes="viewAnnotationsSidebar"  />
+  </menupopup>
+  
+  <!-- Prida polozku do "Zobrazeni" -->
+  <menupopup id="menu_viewPopup">
+    <menuitem
+      id="aeViewMenu"
+      key="aeKeyOpenAnnotWindow"
+      observes="viewAnnotationWindow"/>
+  </menupopup>
+  
+  <!-- Ikonka anotacniho okna, ktera se muze pretahnout do addonbaru -->
+  <toolbarpalette id="BrowserToolbarPalette">
+    <toolbarbutton
+      id="aeButton"
+      class="toolbarbutton-1 chromeclass-toolbar-additional"
+      label="&annotationextension.Toolbar.label;"
+      tooltiptext="&annotationextension.Toolbar.tooltiptext;"
+      oncommand="annotationExtensionChrome.browserOverlay.toggleAnnotationWindow();" />
+  </toolbarpalette>
+  
+  <!-- Pridani anotacniho okna do Firefoxu -->
+  <vbox id="appcontent"
+        flex="1">
+    <tabbrowser id="content"/>
+
+    <splitter id="aeBottomSplitter" state="open" 
+              resizebefore="farthest" resizeafter="closest"/>
+    <!-- Pripni anotacni okynko dolu ve firefoxu -->
+    <box id="aeBottomWindow">
+      <deck id="aeMainDeck" selectedIndex="0" flex="1">
+        <vbox id="aeLoginPrompt">
+        </vbox>
+        <vbox id="aeBottomWindowOverlay">
+        </vbox>
+      </deck>
+    </box>
+  </vbox>  
+  
+</overlay>

@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+
+<!--
+ - Soubor: groupsWindow.xul.
+ - Autor: Jiri Trhlik
+ - Datum: 25.2.2013
+ - Popis: Uzivatelske rozhrani pro vyber skupiny.
+ - Posledni uprava:
+ --> 
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+<?xml-stylesheet type="text/css" href="chrome://annotationextension/skin/annotationExtension.css" ?>
+
+<!DOCTYPE overlay SYSTEM "chrome://annotationextension/locale/annotationExtension.dtd">
+<!-- Okno pro zobrazeni typu anotaci-->
+<window
+    id="annotationextension-groups-window"
+    title="&annotationextension.Window.title; - &annotationextension.groupsWindow.title;"
+    orient="horizontal"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    onload="annotationExtensionChrome.groupsWindow.init();"
+    onunload="annotationExtensionChrome.groupsWindow.destroy();">
+  
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/namespace.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/treeDatasource.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/datasource.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/windows/groupsWindow.js" />
+  
+  <vbox flex="1">
+    <hbox flex="1">
+      <tree id="aeGroupsTree"
+            flex="1"
+            class="plain aeTree"
+            persist="sizemode"
+            sizemode="normal"
+            seltype="single"
+            hidecolumnpicker="true"
+            datasources="rdf:null" ref=""
+            ondblclick="annotationExtensionChrome.groupsWindow.selectGroup();"
+            sort="chrome://annotationextension/rdf#name"
+            sortDirection="ascending"
+            flags="dont-build-content">
+    
+        <treecols>
+          <treecol id="aeGroupName" primary="true" flex="1" hideheader="true" sortActive="true" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
+        </treecols>
+        
+        <template>
+          <rule>
+             <conditions>
+              <content uri="?groups"/>
+              <member container="?groups" child="?group"/>
+              <triple subject="?group"
+                      predicate="chrome://annotationextension/rdf#name"
+                      object="?name"/>
+            </conditions>
+             
+            <action>
+              <treechildren>
+               <treeitem uri="?group">
+                 <treerow>
+                   <treecell label="?name"/>
+                 </treerow>
+               </treeitem>
+              </treechildren>
+            </action>
+          </rule>
+          
+        </template>
+      </tree>
+    </hbox>
+  
+    <hbox>
+      <vbox flex="1">
+        
+        <hbox align="end" pack="end">
+          <spacer flex="1"/>
+          <button id="aeSelectGroupButton" label="&annotationextension.groupsWindow.selectButton.label;"
+            oncommand='annotationExtensionChrome.groupsWindow.selectGroup();'/>
+        </hbox>
+        
+      </vbox>
+    </hbox>
+  </vbox>
+</window>

@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<!--
+ - Soubor: deleteAttrDialog.xul
+ -  Autor: Jiri Trhlik
+ -  Datum: 12.12.2011
+ -  Popis: Dialog pro smazani atributu.
+ -  Posledni uprava: 5.6.2012
+ -->
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+<?xml-stylesheet type="text/css"
+  href="chrome://annotationextension/skin/annotationExtension.css" ?>
+
+<!DOCTYPE overlay SYSTEM
+  "chrome://annotationextension/locale/annotationExtension.dtd">
+  
+<dialog id="aeChangeAttrSettingDialog" title="&annotationextension.Window.title; - &annotationextension.attributes.deleteAttrDialog;"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  buttons="accept,cancel"
+  onload="showDefCheckbox()"
+  ondialogaccept="return doAccept();"
+  ondialogcancel="return doCancel();">
+  
+  <script type="application/x-javascript">
+    
+    function doAccept()
+    {
+      window.arguments[0].out = { def : document.getElementById('aeDefAttrCheckboxMain').checked};
+      
+      return true;
+    };
+    
+    function doCancel()
+    {
+      return true;
+    };
+    
+    function showDefCheckbox()
+    {
+      var def = window.arguments[0].inn.def;
+      
+      if (def == 'true')
+      {
+        var aeDefAttrCheckboxMain = document.getElementById('aeDefAttrCheckboxMain');
+        aeDefAttrCheckboxMain.hidden = false;
+      } 
+    };
+
+  </script>  
+    
+  <vbox id="aeDefAndReqCheckboxBox">
+    <label id="aeDelDialogLabel"
+      value="&annotationextension.attributes.deleteAttrLabel;"/>
+    <checkbox id="aeDefAttrCheckboxMain"
+      hidden="true"
+      label="&annotationextension.attributes.delDefAttr.label;"
+      oncommand="defaultCheckboxHandler()"/>
+ </vbox>
+</dialog>

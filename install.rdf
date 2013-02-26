@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+  <Description about="urn:mozilla:install-manifest">
+    <em:id>annotationextension@fit.vutbr.cz</em:id>
+    <em:name>4A Extension</em:name>
+    <em:description>Anotační doplněk pro vytváření a zobrazení anotací 4A Frameworku v prostředí Firefoxu</em:description>
+    <em:version>1.1.3</em:version>
+    <em:creator>Jiří Trhlík</em:creator>
+    <em:iconURL>chrome://annotationextension/skin/boomy/edit.png</em:iconURL>
+    <em:homepageURL>http://knot09.fit.vutbr.cz/annotations/firefox-extension</em:homepageURL>
+    <em:type>2</em:type>
+    <em:updateURL>http://knot09.fit.vutbr.cz/annotations/firefox-extension/updateManifest/annotationextension.rdf</em:updateURL>
+    <em:updateKey>
+    MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDbJCVA8ROCbu
+    3haCpVSc1L1nk+2jiZLk0wZsUOyzD79t4X6bA3ukF9Ky7DlaKQ
+    kvI/lWH4orkotSuTP2Ej40x48YpcZ7IOprTbODWeOCCSzRBXkv
+    HABLx2qvYj/j7rpl6WOfpu9c2Obmg6w9dpZnAyZkVrGL5JbfwG
+    GTnQk2LZTwIDAQAB
+    </em:updateKey> 
+    
+    <em:localized>
+      <Description>
+        <em:locale>en</em:locale>
+        <em:name>4A Extension</em:name>
+        <em:description>Adds window for creating 4A Framework's annotations in Firefox.</em:description>
+      </Description>
+    </em:localized>
+
+    <!-- Mozilla Firefox -->
+    <em:targetApplication>
+      <Description>
+        <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+        <em:minVersion>7.0.*</em:minVersion>
+        <em:maxVersion>17.*</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+  </Description>
+</RDF>

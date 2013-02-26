@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+
+<!--
+ - Soubor: loginPrompt.xul
+ - Autor: Jiri Trhlik
+ - Datum: 3.9.2011
+ - Popis: Uzivatelske rozhrani pro prihlaseni uzivatele.
+ - Posledni uprava: 5.6.2012
+ --> 
+
+<?xml-stylesheet type="text/css"
+  href="chrome://annotationextension/skin/annotationExtension.css" ?>
+
+<!DOCTYPE overlay SYSTEM
+  "chrome://annotationextension/locale/annotationExtension.dtd">
+
+<!-- Prihlasovaci okno -->
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  xmlns:html="http://www.w3.org/1999/xhtml">
+  
+  <!-- PRIHLASOVACI OKNO -->
+  <vbox id="aeLoginPrompt">
+    <!-- Ovladaci panel -->
+    <hbox id="aeControlPanel" pack="center" align="center">
+      <spacer flex="1"/>
+      <label value="&annotationextension.Window.aeControlPanel.label;"/>
+      <spacer flex="1"/>
+      <image id="aeConfigureButton"
+        onclick="annotationExtensionChrome.browserOverlay.openPrefWindow();"
+        tooltiptext="&annotationextension.config.button.label;"/>
+      <image id="aeLoginButtonP"
+        onclick="annotationExtensionChrome.user.login();"
+        tooltiptext="&annotationextension.aeLoginPrompt.loginButton.label;"/>
+      <image id="aeCloseButton"
+        onclick="annotationExtensionChrome.browserOverlay.toggleAnnotationWindow();"
+        tooltiptext="&annotationextension.Window.close;"/>
+    </hbox>
+    <!-- Konec ovladaciho panelu --> 
+
+    <vbox flex="1">
+      
+      <spacer flex="1"/>
+      
+      <vbox align="center" pack="center" flex="1">
+        
+        <hbox pack="center">
+          <image id="aeLoginImage"/>
+        </hbox>
+        
+        <hbox id="aeIncorLoginBox" pack="center" hidden="true" height="20">
+          <vbox>
+            <image id="aeIncorLoginImage"/>
+          </vbox>
+          <label id="aeIncorLoginLabel" value="&annotationextension.aeLoginPrompt.badLogin.label;"/>
+        </hbox>
+        <hbox id="aeProgressBox" pack="center" hidden="true" height="20">
+          <progressmeter id="aeLoginProgress" mode="undetermined"/>
+        </hbox>
+        
+        <spacer id="aeLoginSpacer" height="20"/>
+        
+        <vbox id="aeLoginTable">
+          <grid>
+            <columns>
+              <column/>
+              <column/>
+            </columns>
+            <rows>
+              <row>
+                <hbox align="center" pack="end">
+                  <label control="aeUsername" value="&annotationextension.aeLoginPrompt.username.label;"/>
+                </hbox>
+                <textbox id="aeUsername" rows="1" flex="1"
+                  type="autocomplete"
+                  autocompletesearch="form-history"
+                  autocompletesearchparam="aeusername-form-history"
+                  enablehistory="true"
+                  completedefaultindex="true"
+                  onchange="annotationExtensionChrome.user.usernameTextboxInputHandler()"
+                  ontextentered="annotationExtensionChrome.user.usernameTextboxInputHandler()"
+                  onkeypress="annotationExtensionChrome.user.keypressedHandler(event)"/>
+              </row>
+              <row>
+                <hbox align="center" pack="end">
+                  <label control="aePassword" value="&annotationextension.aeLoginPrompt.password.label;"/>
+                </hbox>
+                <textbox id="aePassword"
+                  type="password"
+                  onkeypress="annotationExtensionChrome.user.keypressedHandler(event)"/>
+              </row>
+            </rows>
+          </grid>
+          <checkbox id="aeSavePasswordCheckbox"
+            label="&annotationextension.aeLoginPrompt.savePassword.label;"
+            oncommand="annotationExtensionChrome.user.savePasswordCheckboxHandler()"/>
+          <checkbox id="aeAutoLoginCheckbox"
+            label="&annotationextension.aeLoginPrompt.autoLogin.label;"
+            oncommand="annotationExtensionChrome.user.autoLoginCheckboxHandler()"/>
+          <checkbox id="aeDeleteUserCheckbox"
+            label="&annotationextension.aeLoginPrompt.deleteUser.label;"
+            oncommand="annotationExtensionChrome.user.deleteUserCheckboxHandler()"/>
+          <hbox align="center" pack="end">
+            <button id="aeLoginButton"
+              oncommand="annotationExtensionChrome.user.login()"
+              label="&annotationextension.aeLoginPrompt.loginButton.label;"/>
+          </hbox>
+        </vbox>
+      </vbox>
+      
+      <spacer flex="1"/>
+      
+    </vbox>
+    
+  </vbox>
+  <!-- KONEC PRIHLASOVACIHO OKNA -->
+</overlay>

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<!--
+ - Soubor: simpleOrStructuredDialog.xul
+ -  Autor: Jiri Trhlik
+ -  Datum: 12.12.2011
+ -  Popis: Dialog pro vybrani simple or structured polozky.
+ -  Posledni uprava: 5.6.2012
+ -->
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+<?xml-stylesheet type="text/css"
+  href="chrome://annotationextension/skin/annotationExtension.css" ?>
+
+<!DOCTYPE overlay SYSTEM
+  "chrome://annotationextension/locale/annotationExtension.dtd">
+
+<window
+    id="aeSimpleOrStructuredWindow"
+    title="&annotationextension.Window.title;"
+    orient="horizontal"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    onload="document.getElementById('aeSelectSimpleToAutocomplete').focus();"
+    onunload="">
+  
+  <script type="application/x-javascript">
+    function selectSimpleOrStruct(s)
+    {
+      if (s == 'simple')
+      {
+        window.arguments[0].struct = false;
+      }
+      else
+      {
+        window.arguments[0].struct = true;
+      }
+      
+      window.close();
+    };
+  </script>
+  
+  <hbox>
+    <button id="aeSelectSimpleToAutocomplete" label="Simple" oncommand="selectSimpleOrStruct('simple')"/>
+    <button id="aeSelectStructToAutocomplete" label="Structured" oncommand="selectSimpleOrStruct('struct')"/>
+  </hbox>
+</window>

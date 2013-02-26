@@ -1,0 +1,442 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+/* Vzhled ikony do status baru a toolbarpanelu */
+#aeButton {
+  list-style-image: url('chrome://annotationextension/skin/oxygen/annotation24.png');
+}
+
+toolbar[iconsize="small"] #aeButton {
+  list-style-image: url('chrome://annotationextension/skin/oxygen/annotation16.png');
+}
+
+#aeStatusBarPanel {
+  list-style-image: url('chrome://annotationextension/skin/oxygen/annotation16.png');
+  cursor: pointer;
+  padding: 0px 3px;
+}
+
+/* Horni uzky panel (s tlacitkem zavrit, nastaveni...) */
+#aeControlPanel {
+  color: white;
+  background-color: #888888;
+  -moz-border-radius: 4px 4px 4px 4px;
+       border-radius: 4px 4px 4px 4px;
+  /* outline: thin solid #0000DD;
+  -moz-outline-radius:  5px 5px 5px 5px; */
+}
+
+/* Hlavni cast anotacniho okna */
+#aeAnnotationContentRow1 {
+  background-color: #CCCCCC;
+  -moz-border-radius: 4px 4px 0px 0px;
+       border-radius: 4px 4px 0px 0px;
+}
+
+#aeAnnotationContentRow2 {
+  background-color: #CCCCCC;
+  -moz-border-radius: 0px 0px 4px 4px;
+       border-radius: 0px 0px 4px 4px;
+}
+
+.labelBox {
+  margin : 3px;
+}
+
+.textboxBox {
+  margin : 5px;
+  padding : 3px;            /* Aby nebyl text v textboxu nalepeny na okraji */
+  background-color: #FFFFFF;
+  -moz-border-radius: 4px 4px 4px 4px;
+       border-radius: 4px 4px 4px 4px;
+  /*-moz-box-shadow: 5px 5px 5px #777777;
+  -webkit-box-shadow: 5px 5px 5px #777777;
+  box-shadow: 5px 5px 5px #777777;*/
+}
+
+#typeTextboxBox {
+  background-color: #FFFFFF;
+  -moz-border-radius: 4px 4px 4px 4px;
+       border-radius: 4px 4px 4px 4px;
+}
+
+.shadowBox {
+  background-color: #EEEEEE;
+  -moz-border-radius: 4px 4px 4px 4px;
+       border-radius: 4px 4px 4px 4px;
+  -moz-box-shadow: 5px 5px 5px #777777;
+  -webkit-box-shadow: 5px 5px 5px #777777;
+  box-shadow: 5px 5px 5px #777777;
+}
+
+#typeGridRow {
+  margin-bottom : 5px;
+}
+
+#typeGrid {
+  margin : 5px;
+}
+
+/* Tlacitko dalsi vyber(vyber=oznaceny text ve Firefoxu) */
+#aeSelectNext {
+  margin: 0 4px 0 0;
+  list-style-image: url("chrome://annotationextension/skin/oxygen/next24.png"); 
+}
+
+#aeSelectNext:hover {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/next24dark.png"); 
+}
+
+#aeSelectNext:hover:active {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/next24light.png"); 
+}
+
+/* Tlacitko dalsi vyber(vyber=oznaceny text ve Firefoxu) */
+#aeSelectPrevious {
+  margin: 0 0 0 4px;
+  list-style-image: url("chrome://annotationextension/skin/oxygen/back24.png");     
+}
+
+#aeSelectPrevious:hover {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/back24dark.png");     
+}
+
+#aeSelectPrevious:hover:active {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/back24light.png");     
+}
+
+/* Cast s atributy */
+#aeAnnotationAttributes {
+  background-color: #DDDDDD;
+  -moz-border-radius: 4px 4px 4px 4px;
+       border-radius: 4px 4px 4px 4px; 
+  border: 1px solid #000000;
+}
+
+/* DOCUMENT ANNOTATION "BUTTON" */
+#aeAnnotateDocumentButton {
+  margin: 0 0 0 3px;
+  list-style-image: url("chrome://annotationextension/skin/oxygen/document16.png");
+}
+
+#aeAnnotateDocumentButton:hover {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/document16dark.png");
+}
+
+#aeAnnotateDocumentButton:hover:active {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/document16light.png");
+}
+
+/* CLOSE "BUTTON" */
+#aeCloseButton {
+  margin: 0 4px 0 0;
+  list-style-image: url("chrome://annotationextension/skin/oxygen/close16.png");
+}
+
+#aeCloseButton:hover {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/close16dark.png");
+}
+
+#aeCloseButton:hover:active {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/close16light.png");
+}
+
+/* LOGOUT "BUTTON" */
+#aeLogoutButton {
+  margin: 0 4px 0 0;
+  list-style-image: url("chrome://annotationextension/skin/oxygen/logout16.png");
+}
+
+#aeLogoutButton:hover {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/logout16dark.png");
+}
+
+#aeLogoutButton:hover:active {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/logout16light.png");
+}
+
+/* LOGIN "BUTTON" */
+#aeLoginButtonP {
+  margin: 0 4px 0 0;
+  list-style-image: url("chrome://annotationextension/skin/oxygen/login16.png");
+}
+
+#aeLoginButtonP:hover {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/login16dark.png");
+}
+
+#aeLoginButtonP:hover:active {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/login16light.png");
+}
+
+/* CONFIGURE "BUTTON" */
+#aeConfigureButton {
+  margin: 0 4px 0 0;
+  list-style-image: url("chrome://annotationextension/skin/oxygen/configure16.png");
+}
+
+#aeConfigureButton:hover {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/configure16dark.png");
+}
+
+#aeConfigureButton:hover:active {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/configure16light.png");
+}
+
+/* CLEAR BUTTON */
+#aeClearButton {
+  -moz-box-shadow: 5px 5px 5px #777777;
+  -webkit-box-shadow: 5px 5px 5px #777777;
+  box-shadow: 5px 5px 5px #777777;
+  list-style-image: url("chrome://annotationextension/skin/oxygen/clear22.png");
+}
+
+#aeClearButton:hover {
+  -moz-box-shadow: 5px 5px 5px #444444;
+  -webkit-box-shadow: 5px 5px 5px #444444;
+  box-shadow: 5px 5px 5px #444444;
+  list-style-image: url("chrome://annotationextension/skin/oxygen/clear22dark.png");
+}
+
+#aeClearButton:hover:active {
+  -moz-box-shadow: 5px 5px 5px #AAAAAA;
+  -webkit-box-shadow: 5px 5px 5px #AAAAAA;
+  box-shadow: 5px 5px 5px #AAAAAA;
+  list-style-image: url("chrome://annotationextension/skin/oxygen/clear22light.png");
+}
+
+/* SAVE BUTTON */
+#aeSaveButton {
+  -moz-box-shadow: 5px 5px 5px #777777;
+  -webkit-box-shadow: 5px 5px 5px #777777;
+  box-shadow: 5px 5px 5px #777777;
+  list-style-image: url("chrome://annotationextension/skin/oxygen/save22.png");
+}
+
+#aeSaveButton:hover {
+  -moz-box-shadow: 5px 5px 5px #444444;
+  -webkit-box-shadow: 5px 5px 5px #444444;
+  box-shadow: 5px 5px 5px #444444;
+  list-style-image: url("chrome://annotationextension/skin/oxygen/save22dark.png");
+}
+
+#aeSaveButton:hover:active {
+  -moz-box-shadow: 5px 5px 5px #AAAAAA;
+  -webkit-box-shadow: 5px 5px 5px #AAAAAA;
+  box-shadow: 5px 5px 5px #AAAAAA;
+  list-style-image: url("chrome://annotationextension/skin/oxygen/save22light.png");
+}
+
+/* LOGIN "BUTTON" */
+#aeLoginButton {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/login16.png");
+  max-height: 28px;
+  min-height: 28px; 
+  height: 28px;
+}
+
+/* Obrazek na prihlasovacim okne */
+#aeLoginImage {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/user.png");
+}
+
+/* Mezera mezi obrazkem a tabulkou s prihlas. udaji v prihlasovacim okne.*/
+#aeLoginSpacer {
+  height: 20px;
+}
+
+/* Text: spatne prihlas. udaje v prihlasovacim okne. */
+#aeIncorLoginBox {
+  color: #FF0000;
+  height: 20px;
+}
+
+/* Obrazek spatneho prihlaseni */
+#aeIncorLoginImage {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/incorrect16.png");
+}
+
+/* Tabulka s prihlasovacim jmenem a heslem v prihlasovacim okne */
+#aeLoginTable {
+  background-color: #DDDDDD;
+  -moz-border-radius: 4px 4px 4px 4px;
+       border-radius: 4px 4px 4px 4px; 
+  border: 1px solid #000000;
+}
+
+#aeOpenTypesWinButton {
+  width: 70px;
+  min-width: 70px;
+  max-width: 70px;
+  
+  max-height: 28px;
+  min-height: 28px; 
+  height: 28px;
+}
+
+/* TLACITKO PRO VYBER TYPU ATRIBUTU */
+.aeAttributeTypeSelect {
+  width: 70px;
+  min-width: 70px;
+  max-width: 70px;
+}
+
+/* POZADI BOXU VYBERU TYPU ATRIBUTU -- PRI PRIDAVANI NOVEHO ATRIBUTU */
+.aeTypeSelectBox {
+  background-color: #CCCCCC;
+}
+
+/* TLACITKO PRO VYBER VNORENE ANOTACE */
+.aeSelectNestedAnnotButton {
+  width: 70px;
+  min-width: 70px;
+  max-width: 70px;
+  color : green;
+}
+
+/* TLACITKO PRO VYBER VNORENE ANOTACE */
+.aeSelectNestedAnnotButtonActive {
+  width: 110px;
+  min-width: 110px;
+  max-width: 110px;
+  color : red;
+}
+
+/* TLACITKO PRO PRIDANI ATRIBUTU */
+#aeAddAttributeButton {
+  margin: 0 5px 0 0;
+  width : 16px;
+  height : 16px;
+  list-style-image: url("chrome://annotationextension/skin/oxygen/add16.png");
+}
+
+#aeAddAttributeButton:hover {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/add16dark.png");
+}
+
+#aeAddAttributeButton:hover:active {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/add16light.png");
+}
+
+/* TLACITKO PRO PRIDANI ATRIBUTU DO ATRIBUTU */
+#aeAddAttributeToAttrButton {
+  margin: 0 5px 0 0;
+  width : 16px;
+  height : 16px;
+  list-style-image: url("chrome://annotationextension/skin/oxygen/add16red.png");
+}
+
+#aeAddAttributeToAttrButton:hover {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/add16redDark.png");
+}
+
+#aeAddAttributeToAttrButton:hover:active {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/add16redLight.png");
+}
+
+/* GRIDS PRO VYBER ATRIBUTU */
+.attrLabelColumn {
+  width : 80px;
+}
+
+/* TLACITKO PRO PRIDANI TYPU ANOTACE */
+#aeAddType {
+  margin: 0 5px 0 0;
+  width : 16px;
+  height : 16px;
+  list-style-image: url("chrome://annotationextension/skin/oxygen/add16.png");
+}
+
+#aeAddType:hover {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/add16dark.png");
+}
+
+#aeAddType:hover:active {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/add16light.png");
+}
+
+/* TLACITKO PRO PRIDANI TYPU ANOTACE JAKO PODTYP */
+#aeAddSubtype {
+  margin: 0 5px 0 0;
+  width : 16px;
+  height : 16px;
+  list-style-image: url("chrome://annotationextension/skin/oxygen/add16red.png");
+}
+
+#aeAddSubtype:hover {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/add16redDark.png");
+}
+
+#aeAddSubtype:hover:active {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/add16redLight.png");
+}
+
+/* TLACITKA PRO PRIDANI TYPU ANOTACE */
+.aeAddTypeBoxLight {
+  background-color: #CCCCCC;
+  -moz-border-radius: 4px 4px 4px 4px;
+       border-radius: 4px 4px 4px 4px; 
+}
+
+.aeAddTypeBoxLight:hover {
+  background : #888888;
+  color : #FFFFFF;
+}
+
+.aeAddTypeBoxLight:hover:active {
+  background : #EEEEEE;
+  color: #000000;
+}
+
+/* TLACITKO PRO PRIDANI TYPU ANOTACE*/
+.aeAddTypeBox {
+  background-color: #999999;
+  -moz-border-radius: 4px 4px 4px 4px;
+       border-radius: 4px 4px 4px 4px; 
+}
+
+.aeAddTypeBox:hover {
+  background : #888888;
+  color : #FFFFFF;
+}
+
+.aeAddTypeBox:hover:active {
+  background : #EEEEEE;
+  color: #000000;
+}
+
+/* TLACITKO PRO SMAZANI TYPU ANOTACE */
+#aeRemoveType {
+  margin: 0 5px 0 0;
+  width : 16px;
+  height : 16px;
+  list-style-image: url("chrome://annotationextension/skin/oxygen/delete24.png");
+}
+
+#aeRemoveType:hover {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/delete24dark.png");
+}
+
+#aeRemoveType:hover:active {
+  list-style-image: url("chrome://annotationextension/skin/oxygen/delete24light.png");
+}
+
+/* Strom pro vyber typu anotace */
+#aeTypesTree treechildren::-moz-tree-row(selected) { background-color: #FFFFAA; }
+/*#aeTypesTree treechildren::-moz-tree-row(odd) { background-color: #EEEEEE; }*/
+#aeTypesTree treechildren::-moz-tree-row(odd, selected) { background-color: #FFFFAA; }
+#aeTypesTree treechildren::-moz-tree-cell-text(selected) { color: #000000; }
+#aeTypesTree treechildren::-moz-tree-cell-text(odd, selected) { color: #000000; }
+
+/* Strom pro vyber atributu anotace */
+#aeAttrTree treechildren::-moz-tree-row(selected) { background-color: #FFFFAA; }
+/*#aeAttrTree treechildren::-moz-tree-row(odd) { background-color: #EEEEEE; }*/
+#aeAttrTree treechildren::-moz-tree-row(odd, selected) { background-color: #FFFFAA; }
+#aeAttrTree treechildren::-moz-tree-cell-text(selected) { color: #000000; }
+#aeAttrTree treechildren::-moz-tree-cell-text(odd, selected) { color: #000000; }
+
+/* Strom pro vyber skupiny */
+#aeGroupTree treechildren::-moz-tree-row(selected) { background-color: #FFFFAA; }
+#aeGroupTree treechildren::-moz-tree-row(odd) { background-color: #EEEEEE; }
+#aeGroupTree treechildren::-moz-tree-row(odd, selected) { background-color: #FFFFAA; }
+#aeGroupTree treechildren::-moz-tree-cell-text(selected) { color: #000000; }
+#aeGroupTree treechildren::-moz-tree-cell-text(odd, selected) { color: #000000; }

@@ -1,0 +1,408 @@
+<?xml version="1.0"?>
+
+<!--
+ - Soubor: annotationWindow.xul
+ - Autor: Jiri Trhlik
+ - Datum: 3.9.2011
+ - Popis: Graficke uzivatelske rozhrani - hlavni okno.
+ - Posledni uprava: 5.6.2012
+ --> 
+
+<?xml-stylesheet type="text/css" href="chrome://annotationextension/skin/annotationExtension.css" ?>
+
+<!DOCTYPE overlay SYSTEM "chrome://annotationextension/locale/annotationExtension.dtd">
+
+<!-- Anotacni okno - definice vsech prvku anotacniho okna atd.-->
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  xmlns:html="http://www.w3.org/1999/xhtml">
+  <box id="aeBottomWindow">
+    <popupset id='aeInfoPanels'/>
+	</box>
+  <!-- ANOTACNI OKNO -->
+  <vbox id="aeBottomWindowOverlay">
+    <!-- Ovladaci panel -->
+    <hbox id="aeControlPanel" pack="center" align="center">
+      <image id="aeShowSidebarButton"
+        onclick="toggleSidebar('viewAnnotationsSidebar');"
+        tooltiptext="&annotationextension.annotationWindow.sidebar;"/>
+      <image id="aeAnnotateDocumentButton"
+        onclick="annotationExtensionChrome.bottomAnnotationWindow.annotateDocument();"
+        tooltiptext="&annotationextension.Window.annotateDocument;"/>
+      <spacer flex="1"/>
+      <label id="statusBar" value="&annotationextension.Window.aeControlPanel.label;"/>
+      <spacer flex="1"/>
+      <hbox id="aeSuggestButtonBox">
+        <image id="aeSuggestButton"
+          onclick="annotationExtensionChrome.bottomAnnotationWindow.suggestAnnotations();"
+          tooltiptext="&annotationextension.Window.suggest;"/>
+        <image id="aeSuggestEndButton"
+          onclick="annotationExtensionChrome.bottomAnnotationWindow.suggestAnnotationsEnd();"
+          tooltiptext="&annotationextension.Window.suggestEnd;"/>
+      </hbox>
+      <image id="aeConfigureButton"
+        onclick="annotationExtensionChrome.browserOverlay.openPrefWindow();"
+        tooltiptext="&annotationextension.config.button.label;"/>
+      <image id="aeLogoutButton"
+        onclick="annotationExtensionChrome.user.logout();"
+        tooltiptext="&annotationextension.Window.logout;"/>
+      <image id="aeCloseButton"
+        onclick="annotationExtensionChrome.browserOverlay.toggleAnnotationWindow();"
+        tooltiptext="&annotationextension.Window.close;"/>
+    </hbox>
+    <!-- Konec ovladaciho panelu -->
+    <!-- Zakladni cast anotacniho okna -->
+    <grid id="aeSelectionContentTypeGrid">
+      <columns>
+        <column/>
+        <column flex="1"/>
+      </columns>
+      <rows>
+        <row id="aeAnnotationContentRow1">
+          <!-- Popisek: "vybrany text" -->
+          <vbox id="aeSelectTextLabelBox" flex="1">
+            <hbox class="labelBox">
+              <label value="&annotationextension.aeSelectedText.selectedText.label;"
+                 tooltiptext="&annotationextension.annotationWindow.selectedText.tooltip;"
+                 control="aeSelectedText"/>
+            </hbox>
+            <hbox id="aeSelectRangeBox" align="center" pack="center" hidden="true">
+              <image class="aeSelectPrevious" onclick="annotationExtensionChrome.selectedText.showRange('previous');"
+                     tooltiptext="&annotationextension.aeSelectedText.selectedText.previous.tooltip;"/>
+              <spacer flex="1"/>
+              <label id="aeSelectedRangeLabel"/>
+              <spacer flex="1"/>
+              <image class="aeSelectNext" onclick="annotationExtensionChrome.selectedText.showRange('next');"
+                     tooltiptext="&annotationextension.aeSelectedText.selectedText.next.tooltip;"/>
+            </hbox>
+            <hbox id="aeDeleteRangeBox"
+              pack="center" hidden="true">
+              <image id="aeDeleteActiveRange"
+                class="aeDeleteAnnotSelection"
+                onclick="annotationExtensionChrome.selectedText.removeActiveRange();"
+                tooltiptext="&annotationextension.aeSelectedText.selectedText.delete.tooltip;"/>
+            </hbox>
+          </vbox>
+          <!-- Textbox zobrazuje vybrany text -->
+          <hbox id="aeSelectedTextBox" class="textboxBoxReadonly" pack="center" align="center">
+            <deck id="aeSelectedTextBoxDeck" selectedIndex="0" flex="1">
+              <textbox id="aeSelectedText"
+                       tooltiptext="&annotationextension.annotationWindow.selectedText.tooltip;"
+                       class="plain" multiline="true" rows="2" readonly="true" flex="1"/>
+              <hbox flex="1" pack="center" align="center">
+                <label id="aeDocAnnotateLabel" value="&annotationextension.aeSelectedText.selectedText.wholeDocument;"/>
+              </hbox>
+            </deck>
+          </hbox>
+        </row>
+        <row id="aeAnnotationContentRow2">
+          <!-- Popisek: "anotace" -->
+          <vbox>
+            <hbox class="labelBox">
+              <label value="&annotationextension.aeContentText.annotationText.label;"
+                tooltiptext="&annotationextension.annotationWindow.contentText.tooltip;"
+                control="aeContentText"/>
+            </hbox>
+            <spacer flex="1"/>
+          </vbox>
+          <hbox flex="1">
+            <!-- Textbox pro zadani anotace -->
+            <hbox class="textboxBox">
+              <textbox id="aeContentText" class="plain" multiline="true" rows="2" flex="1"/>
+            </hbox>
+            
+            <!-- Vyber typu anotace aj. -->
+            <hbox flex="1">
+              <grid flex="1" id="typeGrid">
+                <columns>
+                  <column/>
+                  <column flex="1"/>
+                  <column/>
+                </columns>
+                <rows>
+                  <row id="typeGridRow" class="typeGridRow" align="center">
+                    <hbox class="labelBox">
+                      <label value="&annotationextension.aeTypeSelect.typeAnnotation.label;"
+                        tooltiptext="&annotationextension.annotationWindow.selectedType.tooltip;"
+                        control="aeTypeSelect"/>
+                    </hbox>
+                    <hbox id="typeTextboxBox" flex="1">
+                      <panel id="aeRichPopup" type="autocomplete-richlistbox" noautofocus="true"/>
+                      <textbox id="aeTypeSelect" class="plain" rows="1" flex="1"
+                        height="25px" 
+                        type="autocomplete"
+                        autocompletepopup="aeRichPopup"
+                        showcommentcolumn="true"
+                        autocompletesearch="aeautocomplete"
+                        ontextentered="annotationExtensionChrome.bottomAnnotationWindow.autocompleteTypeSelected();"
+                        onpaste="return(false);"
+                        oninput="annotationExtensionChrome.bottomAnnotationWindow.autocompleteTypeInput(this);"/>
+                        
+                    </hbox>
+                    <button id="aeOpenTypesWinButton"
+                      label="&annotationextension.choose.button.label;"
+                      tooltiptext="&annotationextension.annotationWindow.choose.tooltip;"
+                      oncommand="annotationExtensionChrome.bottomAnnotationWindow.openTypesWindow();"/>
+                  </row>
+                  <row>
+                    <spacer/>
+                    <hbox flex="1">
+                      <label id="aeConfirmTypeLabel" value="&annotationextension.aeTypeSelect.confirmType.label;" hidden="true"/>
+                    </hbox>
+                    <hbox>
+                      <hbox flex="1" align="center" pack="center">
+                        <image id="aeClearButton" tooltiptext="&annotationextension.clear.button.label;"
+                          onclick="annotationExtensionChrome.bottomAnnotationWindow.clearWindow();"/>
+                      </hbox>
+                      <hbox flex="1" align="center" pack="center">
+                        <deck id="aeSaveButtonDeck" selectedIndex="1">
+                          <image id="aeSaveButton"
+                            tooltiptext="&annotationextension.save.button.label; (Ctrl+Shift+S)"
+                            onclick="annotationExtensionChrome.bottomAnnotationWindow.saveAnnotations();"/>
+                          <image id="aeSaveButtonRed"/>
+                        </deck>
+                      </hbox>
+                    </hbox>
+                  </row>
+                </rows>
+              </grid>
+            </hbox>
+            <!-- Konec vyber typu anotace aj. -->
+          </hbox>
+        </row>
+      </rows>
+    </grid>
+    <!-- Konec zakladni cast anotacniho okna -->
+    <!-- Atributy -->
+    <hbox id="aeAnnotationAttributes" flex="1">
+      <hbox flex="1">
+        <hbox width="300">
+          
+          <tree id="aeAttrTree"
+            flex="1"
+            treelines="true"
+            class="plain aeTree"
+            seltype="single"
+            hidecolumnpicker="true"
+            onselect="annotationExtensionChrome.attributes.attrSelected();"
+            datasources="rdf:null" ref=""
+            flags="dont-build-content">
+        
+            <treecols>
+              <treecol id="aeAttrNameColumn" class="labelBox" flex="2" primary="true" hideheader="true" label="&annotationextension.annotationWindow.Attributes;" sortActive="true" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
+              <treecol id="aeAttrCommentColumn" class="labelBox"  flex="1" hideheader="true"/>
+            </treecols>
+            
+            <template>
+             
+             <rule>
+              <!-- STRUKTUROVANY ATRIBUT POVINNY-->
+                <conditions>
+                  <content uri="?types"/>
+                  <member container="?types" child="?type"/>
+                  <triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#name"
+                          object="?name"/>
+                  <triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#struct"
+                          object='true'/>
+                  <triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#req"
+                          object='true'/>
+                  <triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#comment"
+                          object='?comment'/>
+                </conditions>
+                 
+                <action>
+                  <treechildren>
+                   <treeitem uri="?type">
+                     <treerow properties="requiredStruct">
+                       <treecell label="?name"/>
+                       <treecell label="?comment"/>
+                     </treerow>
+                   </treeitem>
+                  </treechildren>
+                </action>
+              </rule>
+             
+             <rule>
+              <!-- STRUKTUROVANY ATRIBUT DEFAULT -->
+                <conditions>
+                  <content uri="?types"/>
+                  <member container="?types" child="?type"/>
+                  <triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#name"
+                          object="?name"/>
+                  <triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#struct"
+                          object='true'/>
+                  <triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#def"
+                          object='true'/>
+                  <triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#comment"
+                          object='?comment'/>
+                </conditions>
+                 
+                <action>
+                  <treechildren>
+                   <treeitem uri="?type">
+                     <treerow properties="defaultStruct">
+                       <treecell label="?name"/>
+                       <treecell label="?comment"/>
+                     </treerow>
+                   </treeitem>
+                  </treechildren>
+                </action>
+              </rule>
+             
+             <rule>
+              <!-- STRUKTUROVANY ATRIBUT -->
+                <conditions>
+                  <content uri="?types"/>
+                  <member container="?types" child="?type"/>
+                  <triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#name"
+                          object="?name"/>
+                  <triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#struct"
+                          object='true'/>
+                  <triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#comment"
+                          object='?comment'/>
+                </conditions>
+                 
+                <action>
+                  <treechildren>
+                   <treeitem uri="?type">
+                     <treerow properties="struct">
+                       <treecell label="?name"/>
+                       <treecell label="?comment"/>
+                     </treerow>
+                   </treeitem>
+                  </treechildren>
+                </action>
+              </rule>
+              
+              <rule>
+              <!-- POVINNY ATRIBUT SIMPLE-->
+                <conditions>
+                  <content uri="?types"/>
+                  <member container="?types" child="?type"/>
+                  <triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#name"
+                          object="?name"/>
+                  <triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#req"
+                          object='true'/>
+                  <triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#comment"
+                          object='?comment'/>
+                </conditions>
+                 
+                <action>
+                  <treechildren>
+                   <treeitem uri="?type">
+                     <treerow properties="required">
+                       <treecell label="?name"/>
+                       <treecell label="?comment"/>
+                     </treerow>
+                   </treeitem>
+                  </treechildren>
+                </action>
+              </rule>
+              
+              <rule>
+              <!-- Default ATRIBUT SIMPLE -->
+                <conditions>
+                  <content uri="?types"/>
+                  <member container="?types" child="?type"/>
+                  <triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#name"
+                          object="?name"/>
+                  <triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#def"
+                          object='true'/>
+                  <triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#comment"
+                          object='?comment'/>
+                </conditions>
+                 
+                <action>
+                  <treechildren>
+                   <treeitem uri="?type">
+                     <treerow properties="default">
+                       <treecell label="?name"/>
+                       <treecell label="?comment"/>
+                     </treerow>
+                   </treeitem>
+                  </treechildren>
+                </action>
+              </rule>
+             
+              <rule>
+                <conditions>
+                  <content uri="?types"/>
+                  <member container="?types" child="?type"/>
+                  <triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#name"
+                          object="?name"/>
+                  <triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#comment"
+                          object='?comment'/>
+                </conditions>
+                 
+                <action>
+                  <treechildren>
+                   <treeitem uri="?type">
+                     <treerow properties="simple">
+                       <treecell label="?name"/>
+                       <treecell label="?comment"/>
+                     </treerow>
+                   </treeitem>
+                  </treechildren>
+                </action>
+              </rule>
+              
+            </template>
+          </tree>
+          
+          <vbox pack="start" align="start" width="19">
+            <image id="aeRemoveAttributeButton"
+              hidden="true"
+              onclick="annotationExtensionChrome.attributes.deleteAttributeButtonHandler();"
+              tooltiptext="&annotationextension.attributes.delAttr.label;"/>
+            <spacer flex="1"/>
+            <!-- TLACITKO NA PRIDANI ATRIBUTU DO VYBRANEHO TYPU ANOTACE(atributu) VE STROMU ATRIBUTU-->
+            <image id="aeAddAttributeToAttrButton"
+              hidden="true"
+              onclick="annotationExtensionChrome.attributes.openAddAttributeWindowAttr();"
+              tooltiptext="&annotationextension.annotationWindow.addAttributeToAttr;"/>
+            <!-- TLACITKO NA PRIDANI ATRIBUTU DO VYBRANEHO TYPU ANOTACE Z "HLAVNIHO OKNA"-->
+            <image id="aeAddAttributeButton"
+              hidden="true"
+              onclick="annotationExtensionChrome.attributes.openAddAttributeWindowRoot();"
+              tooltiptext="&annotationextension.annotationWindow.addAttribute;"/>
+          </vbox>
+        </hbox>
+        <splitter/>
+        <vbox flex="1">
+          <hbox id='aeAttrUserInterface' flex="1" align="start" pack="start">
+           <!-- Zde se pripojuji jednotlive UI pro atributy -->
+          </hbox>
+          <!-- Default a required checkbox -->
+          <hbox id="aeDefAndReqCheckboxBox"
+             hidden="true">
+            <button id="aeChangeAttrSetting"
+                    label="&annotationextension.attributes.changeAttrSettings;"
+                    oncommand="annotationExtensionChrome.attributes.changeAttrSettingHandler();"/>
+          </hbox>
+          <!-- Konec default a required checkbox -->
+         </vbox>
+      </hbox>
+    </hbox>
+    <!-- Konec atributy -->
+  </vbox>
+  <!-- KONEC ANOTACNIHO OKNA -->
+</overlay>

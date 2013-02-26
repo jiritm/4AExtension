@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+
+<!--
+ - Soubor: addColorsDialog.xul
+ -  Autor: Jiri Trhlik
+ -  Datum: 14.11.2011
+ -  Popis: Dialog pro pridani nove barvy anotace.
+ -  Posledni uprava: 5.6.2012
+ -->
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+<?xml-stylesheet type="text/css"
+  href="chrome://annotationextension/skin/annotationExtension.css" ?>
+
+<!DOCTYPE overlay SYSTEM
+  "chrome://annotationextension/locale/annotationExtension.dtd">
+  
+<dialog id="aeNewColorDialog" title="&annotationextension.Window.title; - &annotationextension.addColorDialog.title;"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  buttons="accept,cancel"
+  ondialogaccept="return doAccept();"
+  ondialogcancel="return doCancel();">
+  
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/namespace.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/typesColors.js" />
+  <script type="application/x-javascript">
+    Components.utils.import("resource://annotationextension/namespace.jsm");
+    Components.utils.import("resource://annotationextension/constants.jsm");
+    
+    function doAccept()
+    {
+      var settingName = document.getElementById("aeNewColorTypeName").value;
+      window.arguments[0].out = {name:settingName,
+                                 newValue:document.getElementById("aeNewColorValue").value};
+       
+      return true;
+    };
+    
+    function doCancel()
+    {
+      return true;
+    };
+    
+    function colorSelected(hColor)
+    {
+      var rgba = annotationExtensionChrome.typesColors.hexColorToRgbaColor(hColor, 1);
+      document.getElementById('aeNewColorValue').value = rgba;
+    };
+    
+    function openTypesWindow()
+    {
+      var params = {out:null};
+      window.arguments[0].inn.mainWindow.openDialog("chrome://annotationextension/content/annotCreation/typesWindow.xul", "annotationextension:typesWindow", "resizable,chrome,centerscreen,modal,height=400,width=600", params);
+      if (params.out)
+      {
+        var typeTextbox = document.getElementById("aeNewColorTypeName");
+        typeTextbox.value = params.out.typeName;
+      }
+      
+      window.focus();
+    };
+
+  </script>  
+
+  <grid>
+    <columns>
+      <column/>
+      <column flex="1"/>
+      <column/>
+    </columns>
+    <rows>
+      <row>
+        <label value="&annotationextension.addColorDialog.type;"/>
+        <vbox flex="1">
+          <textbox class="textboxForType" id="aeNewColorTypeName"/>
+        </vbox>
+        <hbox flex="1">
+          <button id="aeOpenTypesWinButtonAddColorDialog"
+                  style="padding:0px; margin:0px"
+                  label="&annotationextension.choose.button.label;"
+                  tooltiptext="&annotationextension.annotationWindow.choose.tooltip;"
+                  oncommand="openTypesWindow();"/>
+        </hbox>
+      </row>
+      <row>
+        <label value="&annotationextension.addColorDialog.color;"/>
+        <textbox id="aeNewColorValue"
+          flex="1"
+          oninput="return(true);"
+          onpaste="return(true);"/>
+        <hbox flex="1">
+          <colorpicker flex="1" type="button" onchange="colorSelected(this.color);"/>
+        </hbox>
+      </row>
+    </rows>
+  </grid>
+        
+</dialog>

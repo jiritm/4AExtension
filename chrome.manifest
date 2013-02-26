@@ -1,0 +1,15 @@
+content   annotationextension              chrome/content/
+resource  annotationextension              modules/
+skin      annotationextension  classic/1.0 chrome/skin/boomy
+
+locale    annotationextension  en       chrome/locale/en-US/
+locale    annotationextension  cs       chrome/locale/cs/
+
+style   chrome://global/content/customizeToolbar.xul chrome://annotationextension/skin/annotationExtension.css
+
+overlay chrome://browser/content/browser.xul  chrome://annotationextension/content/annotCreation/browserOverlay.xul
+overlay chrome://browser/content/browser.xul  chrome://annotationextension/content/annotDisplay/browserOverlay.xul
+overlay chrome://browser/content/browser.xul  chrome://annotationextension/content/annotCreation/browserOverlayFF3.xul appversion<=4.0b6
+
+component {f6e0cbb4-bb21-426c-a73a-eefdf807ab32} components/autocomplete.js
+contract @mozilla.org/autocomplete/search;1?name=aeautocomplete {f6e0cbb4-bb21-426c-a73a-eefdf807ab32}

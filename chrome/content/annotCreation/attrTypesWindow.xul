@@ -1,0 +1,226 @@
+<?xml version="1.0"?>
+
+<!--
+ - Soubor: attrTypesWindow.xul
+ - Autor: Jiri Trhlik
+ - Datum: 3.9.2011
+ - Popis: Uzivatelske rozhrani pro vyber typu atributu.
+ - Posledni uprava: 5.6.2012
+ --> 
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+<?xml-stylesheet type="text/css"
+  href="chrome://annotationextension/skin/annotationExtension.css" ?>
+
+<!DOCTYPE overlay SYSTEM
+  "chrome://annotationextension/locale/annotationExtension.dtd">
+<!-- Okno pro zobrazeni pridani atributu anotaci-->
+<window
+    id="annotationextension-attrTypesWindow-window"
+    title="&annotationextension.Window.title; - &annotationextension.attrTypesWindow.title;"
+    orient="horizontal"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    onload="annotationExtensionChrome.attrTypesWindow.init();"
+    onunload="annotationExtensionChrome.attrTypesWindow.destroy();">
+  
+  <script type="application/x-javascript"
+    src="chrome://annotationextension/content/annotCreation/namespace.js" />
+  <script type="application/x-javascript"
+    src="chrome://annotationextension/content/annotCreation/treeDatasource.js" />
+  <script type="application/x-javascript"
+    src="chrome://annotationextension/content/annotCreation/datasource.js" />
+  <script type="application/x-javascript"
+    src="chrome://annotationextension/content/annotCreation/attrTypesWindow.js" />
+  <script type="application/x-javascript"
+    src="chrome://annotationextension/content/annotCreation/type.js" />
+  
+  <vbox flex="1">
+    <hbox flex="1">
+      <!-- JEDNODUCHE TYPY -->
+      <tree flex="1"
+            id="aeSimpAttrTypesTree"
+            class="plain aeTree"
+            hidecolumnpicker="true"
+            onselect="annotationExtensionChrome.attrTypesWindow.onselectSimp();"
+            ondblclick="annotationExtensionChrome.attrTypesWindow.selectType();">
+        
+        <treecols>
+          <treecol id="aeNameSimple" class="labelBox" hideheader="true" label="&annotationextension.addAttributesWindow.columnTitle.simple;" primary="true" flex="1"/>
+        </treecols>
+      
+        <treechildren>
+          <treeitem>
+            <treerow>
+              <treecell label="&annotationextension.attribute.type.boolean;"/>
+            </treerow>
+          </treeitem>
+          <treeitem>
+            <treerow>
+              <treecell label="&annotationextension.attribute.type.decimal;"/>
+            </treerow>
+          </treeitem>
+          <treeitem>
+            <treerow>
+              <treecell label="&annotationextension.attribute.type.integer;"/>
+            </treerow>
+          </treeitem>
+
+          <treeitem>
+            <treerow>
+              <treecell label="&annotationextension.attribute.type.date; and &annotationextension.attribute.type.time;"/>
+            </treerow>
+          </treeitem>
+          <treeitem>
+            <treerow>
+              <treecell label="&annotationextension.attribute.type.date;"/>
+            </treerow>
+          </treeitem>
+          <treeitem>
+            <treerow>
+              <treecell label="&annotationextension.attribute.type.duration;"/>
+            </treerow>
+          </treeitem>
+          <treeitem>
+            <treerow>
+              <treecell label="&annotationextension.attribute.type.time;"/>
+            </treerow>
+          </treeitem>
+          
+          <treeitem>
+            <treerow>
+              <treecell label="&annotationextension.attribute.type.string;"/>
+            </treerow>
+          </treeitem>
+          <treeitem>
+            <treerow>
+              <treecell label="&annotationextension.attribute.type.text;"/>
+            </treerow>
+          </treeitem>
+
+          <treeitem>
+            <treerow>
+              <treecell label="&annotationextension.attribute.type.anyannotation;"/>
+            </treerow>
+          </treeitem>
+
+          <treeitem>
+            <treerow>
+              <treecell label="&annotationextension.attribute.type.binary;"/>
+            </treerow>
+          </treeitem>
+          
+          <treeitem>
+            <treerow>
+              <treecell label="&annotationextension.attribute.type.geoPoint;"/>
+            </treerow>
+          </treeitem>
+
+          <treeitem>
+            <treerow>
+              <treecell label="&annotationextension.attribute.type.image;"/>
+            </treerow>
+          </treeitem>
+      
+          <treeitem>
+            <treerow>
+              <treecell label="&annotationextension.attribute.type.uri;"/>
+            </treerow>
+          </treeitem>
+        </treechildren>
+      </tree>
+      <!-- KONEC JEDNODUCHE TYPY -->
+      <spacer width="1"/>
+      <!-- ROZSIRENE TYPY(TYPY ANOTACE) -->
+      <tree flex="5"
+            id="aeExtAttrTypesTree"
+            class="plain aeTree"
+            seltype="single"
+            hidecolumnpicker="true"
+            datasources="rdf:null" ref=""
+            flags="dont-build-content"
+            onselect="annotationExtensionChrome.attrTypesWindow.onselectExt();"
+            ondblclick="annotationExtensionChrome.attrTypesWindow.selectType();">
+        
+        <treecols>
+          <treecol id="aeNameExt" class="labelBox" hideheader="true" label="&annotationextension.addAttributesWindow.columnTitle.structured;" primary="true" flex="1" sortActive="true" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
+          <treecol id="comment" flex="1" hideheader="true"/>
+        </treecols>
+        
+ 
+        <template>
+          <rule>
+             <conditions>
+              <content uri="?types"/>
+              <member container="?types" child="?type"/>
+              <triple subject="?type"
+                      predicate="chrome://annotationextension/rdf#name"
+                      object="?name"/>
+              <triple subject="?type"
+                      predicate="chrome://annotationextension/rdf#comment"
+                      object="?comment"/>
+            </conditions>
+             
+            <action>
+              <treechildren>
+               <treeitem uri="?type">
+                 <treerow>
+                   <treecell label="?name"/>
+                   <treecell label="?comment"/>
+                 </treerow>
+               </treeitem>
+              </treechildren>
+            </action>
+          </rule>
+          
+        </template>
+      </tree>
+      
+      <!-- KONEC ROZSIRENE TYPY(TYPY ANOTACE) -->
+    </hbox>
+
+    <!-- PRIDANI NOVEHO TYPU -->
+    <vbox>
+      <hbox>
+        <label value="&annotationextension.typesWindow.addAsSubtype.label;"/>
+        <spacer flex="1"/>
+        <vbox>
+          <image id="aeRemoveType"
+              onclick="annotationExtensionChrome.attrTypesWindow.removeType();"
+              tooltiptext="&annotationextension.typesWindow.removeType;"/>
+        </vbox>
+      </hbox>
+      <hbox>
+        <vbox>
+          <textbox id="aeNewTypeNameTextbox"/>
+        </vbox>
+        <vbox>
+          <spacer flex="1"/>
+          <hbox>
+            <!-- Pridat novy podtyp -->
+            <button class="aeAddTypeButtonLeft" tooltiptext="&annotationextension.typesWindow.addType;" onclick="annotationExtensionChrome.attrTypesWindow.addNewType('root');">
+              <image id="aeAddType"/>
+            </button>
+            <!-- Pridat novy typ -->
+            <button class="aeAddSubtypeButtonRight" tooltiptext="&annotationextension.typesWindow.addSubtype;" onclick="annotationExtensionChrome.attrTypesWindow.addNewType('subtype');">
+              <image id="aeAddSubtype"/>
+            </button>
+          </hbox>
+          <spacer flex="1"/>
+        </vbox>
+        
+        <spacer flex="1"/>
+      </hbox>
+    </vbox>
+    <!-- KONEC PRIDANI NOVEHO TYPU -->
+    
+    <hbox align="end" pack="end">
+      <checkbox id="aeChangeTypeInTemplateCheckbox"
+        hidden="true"
+        label="&annotationextension.attributes.changeTypeInTemplate;"/>
+      <spacer flex="1"/>
+      <button id="aeSelectAttrTypeButton" label="&annotationextension.typesWindow.selectButton.label;"
+        oncommand='annotationExtensionChrome.attrTypesWindow.selectType();'/>
+    </hbox>
+  </vbox>
+</window>

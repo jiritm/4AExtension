@@ -1,0 +1,179 @@
+<!ENTITY annotationextension.ViewMenu.label       "Anotační okno">
+<!ENTITY annotationextension.Toolbar.label        "Anotace">
+<!ENTITY annotationextension.Toolbar.tooltiptext  "Otevře anotační okno">
+<!ENTITY annotationextension.aeSelectedText.selectedText.wholeDocument  "Anotace celého dokumentu...">
+
+<!ENTITY annotationextension.Window.title                 "Anotační doplněk">
+<!ENTITY annotationextension.Window.close                 "Zavřít">
+<!ENTITY annotationextension.Window.annotateDocument      "Anotace celého dokumentu">
+<!ENTITY annotationextension.Window.logout                "Odhlásit se">
+<!ENTITY annotationextension.Window.suggest               "Zapnout nabízení anotací">
+<!ENTITY annotationextension.Window.suggestEnd            "Vypnout nabízení anotací">
+<!ENTITY annotationextension.Window.aeControlPanel.label  "Anotace">
+<!ENTITY annotationextension.config.button.label          "Nastavení">
+<!ENTITY annotationextension.choose.button.label          "Vybrat">
+<!ENTITY annotationextension.clear.button.label           "Smazat všechna pole">
+<!ENTITY annotationextension.save.button.label            "Uložit">
+<!ENTITY annotationextension.annotationWindow.Attributes          "Atributy:">
+<!ENTITY annotationextension.annotationWindow.addAttribute        "Přidat atribut">
+<!ENTITY annotationextension.annotationWindow.addAttributeToAttr  "Přidat atribut k vybranému atributu">
+
+<!ENTITY annotationextension.annotationWindow.selectedText.tooltip  "Text je vybrán na stránce pomocí myši">
+<!ENTITY annotationextension.annotationWindow.contentText.tooltip   "Textová poznámka">
+<!ENTITY annotationextension.annotationWindow.selectedType.tooltip  "Zobrazí typy anotací pomocí funkce autocomplete. Pokud je zadán neexistující typ, po zmáčknutí klávesy enter bude tento typ vytvořen.">
+<!ENTITY annotationextension.annotationWindow.choose.tooltip        "Zobrazí strom typů pro výběr typu anotace">
+
+<!ENTITY annotationextension.annotationWindow.chooseUser.tooltip    "Zobrazí uživatele">
+<!ENTITY annotationextension.annotationWindow.chooseGroup.tooltip   "Zobrazí uživatelské skupiny">
+
+<!ENTITY annotationextension.annotationWindow.sidebar               "Zobrazí boční panel s anotacemi dokumentu">
+
+<!ENTITY annotationextension.aeSelectedText.selectedText.label      "Vybraný text:">
+<!ENTITY annotationextension.aeContentText.annotationText.label     "Anotace:">
+<!ENTITY annotationextension.aeTypeSelect.typeAnnotation.label      "Typ:">
+<!ENTITY annotationextension.aeTypeSelect.confirmType.label         "Výběr typu potvrď klávesou enter.">
+
+<!ENTITY annotationextension.aeSelectedText.selectedText.next.tooltip      "Další výběr">
+<!ENTITY annotationextension.aeSelectedText.selectedText.previous.tooltip  "Předchozí výběr">
+<!ENTITY annotationextension.aeSelectedText.selectedText.delete.tooltip    "Zrušit výběr(y)">
+
+<!ENTITY annotationextension.aeLoginPrompt.username.label      "Přihlašovací jméno:">
+<!ENTITY annotationextension.aeLoginPrompt.password.label      "Heslo:">
+<!ENTITY annotationextension.aeLoginPrompt.loginButton.label   "Přihlásit se">
+<!ENTITY annotationextension.aeLoginPrompt.savePassword.label  "Uložit heslo">
+<!ENTITY annotationextension.aeLoginPrompt.deleteUser.label    "Zapomenout mé údaje po odhlášení">
+<!ENTITY annotationextension.aeLoginPrompt.autoLogin.label     "Automaticky přihlásit">
+<!ENTITY annotationextension.aeLoginPrompt.badLogin.label      "Chybné přihlašovací údaje">
+
+<!ENTITY annotationextension.config.server.address             "Adresa serveru:">
+<!ENTITY annotationextension.config.server.port                "Port serveru:">
+
+<!ENTITY annotationextension.config.title                   "Nastavení anotačního doplňku">
+<!ENTITY annotationextension.config.tab.serverOption        "Server" >
+<!ENTITY annotationextension.config.tab.windowOption        "Okno">
+<!ENTITY annotationextension.config.caption.consoleHeight   "Výška při otevření okna">
+<!ENTITY annotationextension.config.heightMode.previous     "Obnov výšku okna při otevření">
+<!ENTITY annotationextension.config.caption.startupMode     "Při spuštění Firefoxu">
+<!ENTITY annotationextension.config.startupMode.open        "Otevři anotační okno">
+<!ENTITY annotationextension.config.startupMode.close       "Anotační okno zůstane zavřené">
+<!ENTITY annotationextension.config.startupMode.restore     "Otevři anotační okno, pouze pokud bylo otevřené při zavření okna Firefoxu">
+<!ENTITY annotationextension.config.tab.aeTextSelectOption  "Výběr textu">
+<!ENTITY annotationextension.config.showRange.all           "Všechny výběry a poté si zvolit výběr">
+<!ENTITY annotationextension.config.showRange.first         "První výběr a poté si zvolit výběr">
+<!ENTITY annotationextension.config.caption.separateMode    "Při výběru více rozsahů, zobrazit rozsahy oddělené">
+<!ENTITY annotationextension.config.separate.space          "Mezerou">
+<!ENTITY annotationextension.config.separate.newLine        "Novým řádkem">
+<!ENTITY annotationextension.config.separate.noSepar        "Nijak">
+
+<!ENTITY annotationextension.config.notAvailable            "Nastavení bude přístupné po přihlášení.">
+
+<!ENTITY annotationextension.config.tab.aeGroupOption       "Skupiny">
+<!ENTITY annotationextension.config.groups.join             "Přihlásit ke skupině">
+<!ENTITY annotationextension.config.groups.leave            "Odhlásit ze skupiny">
+<!ENTITY annotationextension.config.groups.actualGroup      "Přihlášen ke skupině:">
+<!ENTITY annotationextension.config.groups.defaultUserGroup           "Defaultní skupina uživatele:">
+<!ENTITY annotationextension.config.groups.defaultUserGroup.tooltip   "Nastaví defaultní skupinu uživatele">
+<!ENTITY annotationextension.config.groups.selectDefaultButton.label  "Vybrat">
+
+<!ENTITY annotationextension.config.tab.aeOtherOption       "Různé">
+<!ENTITY annotationextension.config.tab.aeColorsOption      "Barvy anotací">
+<!ENTITY annotationextension.config.others.add              "Přidat nové nastavení">
+<!ENTITY annotationextension.config.colors.add              "Přidat novou barvu">
+
+<!ENTITY annotationextension.config.tab.aeSubscription      "Odběr anotací">
+<!ENTITY annotationextension.config.subscriptions.add       "Přidat nový odběr anotací">
+<!ENTITY annotationextension.config.subscriptions.listCol.label       "List">
+<!ENTITY annotationextension.config.subscriptions.URICol.label        "URI">
+<!ENTITY annotationextension.config.subscriptions.userCol.label       "Uživatel">
+<!ENTITY annotationextension.config.subscriptions.typeCol.label       "Typ">
+<!ENTITY annotationextension.config.subscriptions.saveSubscriptions.label              "Uložit aktuální odběr anotací">
+<!ENTITY annotationextension.config.subscriptions.loadDefaultSubscriptions.label       "Načíst defaultní odběr anotací">
+
+<!ENTITY annotationextension.typesWindow.title                     "Výběr typu">
+<!ENTITY annotationextension.typesWindow.selectButton.label        "Vybrat">
+<!ENTITY annotationextension.typesWindow.addAsSubtype.label        "Přidat nový typ:">
+<!ENTITY annotationextension.typesWindow.addType                   "Jako kořenový typ.">
+<!ENTITY annotationextension.typesWindow.addSubtype                "Jako podtyp výběru.">
+<!ENTITY annotationextension.typesWindow.removeType                "Smazat vybraný typ">
+
+<!ENTITY annotationextension.groupsWindow.title                "Výběr skupiny">
+<!ENTITY annotationextension.groupsWindow.selectButton.label   "Vybrat">
+
+<!ENTITY annotationextension.usersWindow.title                "Výběr uživatele">
+<!ENTITY annotationextension.usersWindow.selectButton.label   "Vybrat">
+
+<!ENTITY annotationextension.addAttributesWindow.title                   "Přidat atribut">
+<!ENTITY annotationextension.addAttributesWindow.tabTitle.basic          "Základní">  
+<!ENTITY annotationextension.addAttributesWindow.tabTitle.ontology       "Ontologie">
+<!ENTITY annotationextension.addAttributesWindow.nameCol                 "Jméno">
+<!ENTITY annotationextension.addAttributesWindow.commentCol              "Komentář">
+<!ENTITY annotationextension.addAttributesWindow.typeCol                 "Typ">
+<!ENTITY annotationextension.addAttributesWindow.name.label              "Jméno:">
+<!ENTITY annotationextension.addAttributesWindow.columnTitle.simple      "Základní typ">
+<!ENTITY annotationextension.addAttributesWindow.columnTitle.structured  "Strukturovaný typ">
+<!ENTITY annotationextension.attribute.type.binary                       "Binary">
+<!ENTITY annotationextension.attribute.type.text                         "Text">
+<!ENTITY annotationextension.attribute.type.image                        "Image">
+<!ENTITY annotationextension.attribute.type.duration                     "Duration">
+<!ENTITY annotationextension.attribute.type.anyannotation                "AnyAnnotation">
+<!ENTITY annotationextension.attribute.type.string                       "String">
+<!ENTITY annotationextension.attribute.type.uri                          "URI">
+<!ENTITY annotationextension.attribute.type.integer                      "Integer">
+<!ENTITY annotationextension.attribute.type.decimal                      "Decimal">
+<!ENTITY annotationextension.attribute.type.date                         "Date">
+<!ENTITY annotationextension.attribute.type.time                         "Time">
+<!ENTITY annotationextension.attribute.type.boolean                      "Boolean">
+<!ENTITY annotationextension.attribute.type.person                       "Person">
+<!ENTITY annotationextension.attribute.type.geoPoint                     "GeoPoint">
+<!ENTITY annotationextension.addAttributesWindow.defAttr.label           "Přidej k základním atributům">
+
+<!ENTITY annotationextension.attributes.defAttr.label           "Základní atribut">
+<!ENTITY annotationextension.attributes.reqAttr.label           "Povinný atribut">
+<!ENTITY annotationextension.attributes.delAttr.label           "Smazat atribut">
+<!ENTITY annotationextension.attributes.changeAttrSettings      "Změnit nastavení atributu">
+<!ENTITY annotationextension.attributes.deleteAttrDialog        "Smazat atribut">
+<!ENTITY annotationextension.attributes.deleteAttrLabel         "Opravdu chcete atribut smazat?">
+<!ENTITY annotationextension.attributes.delDefAttr.label        "Smazat i ze šablony atributů">
+<!ENTITY annotationextension.attributes.changeTypeInTemplate    "Změnit typ atributu v šabloně atributů">
+
+<!ENTITY annotationextension.attrTypesWindow.title             "Výběr typu atributu">
+
+<!ENTITY openDocumentAnnotationsSideBar.title           "Anotační doplněk">
+<!ENTITY viewAnnotationsSidebar.commandkey      "A">
+<!ENTITY viewAnnotationsSidebar.modifierskey    "alt accel">
+<!ENTITY viewAnnotationWindow.commandkey        "R">
+<!ENTITY viewAnnotationWindow.modifierskey      "alt accel">
+<!ENTITY annotationextension.saveAnnotations.commandkey        "S">
+<!ENTITY annotationextension.saveAnnotations.modifierskey      "accel shift">
+
+<!ENTITY annotationextension.sidebar.annotationContent.label  "Anotace:">
+
+<!ENTITY annotationextension.addSettingsDialog.title         "Přidat nové nastavení">
+<!ENTITY annotationextension.addSettingsDialog.name          "Jméno:">
+<!ENTITY annotationextension.addSettingsDialog.value         "Nová Hodnota:">
+
+<!ENTITY annotationextension.addColorDialog.title         "Přidat novou barvu anotace">
+<!ENTITY annotationextension.addColorDialog.type          "Název typu:">
+<!ENTITY annotationextension.addColorDialog.color         "Barva:">
+
+<!ENTITY annotationextension.editSettingsDialog.title     "Uprav nastavení">
+<!ENTITY annotationextension.editSettingsDialog.newValue  "Nová hodnota:">
+
+<!ENTITY annotationextension.editColorDialog.title     "Změň barvu">
+<!ENTITY annotationextension.editColorDialog.newColor  "Nová barva:">
+
+<!ENTITY annotationextension.addSubscriptionDialog.title         "Přidat nový odběr anotací">
+<!ENTITY annotationextension.addSubscriptionDialog.type          "Typ:">
+<!ENTITY annotationextension.addSubscriptionDialog.user          "Uživatel:">
+<!ENTITY annotationextension.addSubscriptionDialog.URI           "URI:">
+<!ENTITY annotationextension.addSubscriptionDialog.type.tooltip  "Identifikuje typ anotace a všechny jeho podtypy, nepovinná položka.">
+<!ENTITY annotationextension.addSubscriptionDialog.user.tooltip  "Identifikuje uživatele, nepovinná položka.">
+<!ENTITY annotationextension.addSubscriptionDialog.URI.tooltip   "URI skupiny nebo jiný generický zdroj anotací, nepovinná položka.">
+<!ENTITY annotationextension.addSubscriptionDialog.whitelist     "Whitelist">
+<!ENTITY annotationextension.addSubscriptionDialog.blacklist     "Blacklist">
+<!ENTITY annotationextension.addSubscriptionDialog.whitelist.tooltip     "Whitelist">
+<!ENTITY annotationextension.addSubscriptionDialog.blacklist.tooltip     "Blacklist">
+
+<!ENTITY annotationextension.suggestAnnotation.selection.document     "Celý dokument">
+<!ENTITY annotationextension.suggestAnnotation.type.all               "Všechny typy">
+<!ENTITY annotationextension.suggestAnnotation.type.all.tooltip       "Vybere všechny typy pro nabídky anotací">

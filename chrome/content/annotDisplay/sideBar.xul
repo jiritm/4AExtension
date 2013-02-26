@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<!--
+ - Soubor: browserOverlay.xul
+ -  Autor: Jiri Trhlik
+ -  Datum: 5.6.2012
+ -  Popis: Pridava uzivatelske rozhrani bocniho panelu.
+ -         Zpristupneni vsech skriptu pro zobrazeni anotaci v bocnim panelu.
+ - Posledni uprava: 5.6.2012
+ --> 
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+<?xml-stylesheet type="text/css"
+  href="chrome://annotationextension/skin/annotationExtension.css" ?>
+
+<!DOCTYPE overlay SYSTEM "chrome://annotationextension/locale/annotationExtension.dtd">
+
+<page id="aeDocumentAnnotationSB" title="&openDocumentAnnotationsSideBar.title;"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+         onload="annotationExtensionChrome.sideBar.init();">
+  
+  <script type="application/javascript" src="chrome://annotationextension/content/jquery-1.5.js"/>
+  
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/namespace.js"/>
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotDisplay/sideBar.js"/>
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotDisplay/panelsDocumentAnnotations.js" />
+
+  <vbox flex="1" id="aeDocumentAnnotationsBox" style="overflow-y:scroll"> 
+  </vbox>
+  
+</page>

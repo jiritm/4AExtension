@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ - Soubor: browserOverlay.xul
+ - Autor: Jiri Trhlik
+ - Datum: 5.6.2012
+ - Popis: Pridava uzivatelske rozhrani pro zobrazeni anotaci do Firefoxu.
+ -        Zpristupneni vsech skriptu pro zobrazeni anotaci.
+ - Posledni uprava: 5.6.2012
+ --> 
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+<?xml-stylesheet type="text/css"
+  href="chrome://annotationextension/skin/annotationExtension.css" ?>
+
+<!DOCTYPE overlay SYSTEM
+  "chrome://annotationextension/locale/annotationExtension.dtd">
+
+<overlay id="realtimeanot-overlay" 
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  
+  <!-- JS STRINGS -->
+  <stringbundleset id="stringbundleset">
+    <stringbundle 
+    	id="realtimeanot-strings" 
+    	src="chrome://annotationextension/locale/overlay.properties"/>
+  </stringbundleset>
+  
+	<script type="application/javascript" src="chrome://annotationextension/content/jquery-1.5.js"/>
+
+	<script type="application/javascript" src="chrome://annotationextension/content/annotDisplay/structures.js"/>
+	<script type="application/javascript" src="chrome://annotationextension/content/annotDisplay/AnnotParser.js"/>
+	<script type="application/javascript" src="chrome://annotationextension/content/annotDisplay/communication.js"/>
+	<script type="application/javascript" src="chrome://annotationextension/content/annotDisplay/panels.js"/>
+	<script type="application/javascript" src="chrome://annotationextension/content/annotDisplay/domManipulation.js"/>
+	<script type="application/javascript" src="chrome://annotationextension/content/annotDisplay/sidePanel.js"/>
+	<script type="application/javascript" src="chrome://annotationextension/content/annotDisplay/browserOverlay.js"/>
+	<script type="application/javascript" src="chrome://annotationextension/content/annotDisplay/panelsDocumentAnnotations.js"/>
+	
+	<!-- K aePanels se pripojuji panely s anotacemi, ktere se pozdeji zobrazi nad anotovanym textem
+	  Drive:
+		<statusbar id="status-bar">
+      <popupset id='aePanels'/>
+		</statusbar> -->
+	
+	<box id="aeBottomWindow">
+		 <popupset id='aePanels'/>
+	</box>
+
+	<!-- SideBar
+	<menupopup id="viewSidebarMenu">
+    <menuitem key="keyOpenDocumentAnnotationsSidebar" observes="viewDocumentAnnotationsSidebar"  />
+  </menupopup>-->
+</overlay>

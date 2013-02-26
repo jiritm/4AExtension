@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+
+<!--
+ - Soubor: addSettingsDialog.xul
+ -  Autor: Jiri Trhlik
+ -  Datum: 14.11.2011
+ -  Popis: Dialog pro pridani noveho nastaveni.
+ -  Posledni uprava: 5.6.2012
+ -->
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+<?xml-stylesheet type="text/css"
+  href="chrome://annotationextension/skin/annotationExtension.css" ?>
+
+<!DOCTYPE overlay SYSTEM
+  "chrome://annotationextension/locale/annotationExtension.dtd">
+  
+<dialog id="aeNewSettDialog" title="&annotationextension.Window.title; - &annotationextension.addSettingsDialog.title;"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  buttons="accept,cancel"
+  ondialogaccept="return doAccept();"
+  ondialogcancel="return doCancel();">
+  
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/namespace.js" />
+  <script type="application/x-javascript">
+    Components.utils.import("resource://annotationextension/namespace.jsm");
+    Components.utils.import("resource://annotationextension/constants.jsm");
+    
+    function doAccept()
+    {
+      window.arguments[0].out = {name:document.getElementById("aeNewSettingName").value,
+                                 newValue:document.getElementById("aeNewSettingValue").value};
+                                 
+      return true;
+    };
+    
+    function doCancel()
+    {
+      return true;
+    };
+
+  </script>  
+    
+
+  <grid>
+    <columns>
+      <column/>
+      <column flex="1"/>
+    </columns>
+    <rows>
+      <row>
+        <label value="&annotationextension.addSettingsDialog.name;"/>
+        <textbox id="aeNewSettingName"/>
+      </row>
+      <row>
+        <label value="&annotationextension.addSettingsDialog.value;"/>
+        <textbox id="aeNewSettingValue"/>
+      </row>
+    </rows>
+  </grid>
+      
+</dialog>

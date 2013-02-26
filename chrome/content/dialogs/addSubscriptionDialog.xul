@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+
+<!--
+ - Soubor: addSubscriptionDialog.xul
+ -  Autor: Jiri Trhlik
+ -  Datum: 14.11.2011
+ -  Popis: Dialog pro pridani noveho odeberu anotaci.
+ -  Posledni uprava: 5.6.2012
+ -->
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+<?xml-stylesheet type="text/css"
+  href="chrome://annotationextension/skin/annotationExtension.css" ?>
+
+<!DOCTYPE overlay SYSTEM
+  "chrome://annotationextension/locale/annotationExtension.dtd">
+  
+<dialog id="aeNewSubscriptionDialog" title="&annotationextension.Window.title; - &annotationextension.addSubscriptionDialog.title;"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  buttons="accept,cancel"
+  ondialogaccept="return doAccept();"
+  ondialogcancel="return doCancel();">
+  
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/namespace.js" />
+  <script type="application/x-javascript">
+    Components.utils.import("resource://annotationextension/namespace.jsm");
+    Components.utils.import("resource://annotationextension/constants.jsm");
+    
+    function doAccept()
+    {
+      var userValue = document.getElementById("aeSubscriptionUser").value;
+      var typeValue = document.getElementById("aeSubscriptionType").value;
+      var uriValue = document.getElementById("aeSubscriptionURI").value;
+      var listValue = document.getElementById("aeSubscriptionList").selectedItem.value;
+      
+      userValue = userValue.replace(/;/g,"");
+      typeValue = typeValue.replace(/;/g,"");
+      uriValue = uriValue.replace(/;/g,"");
+      
+      userValue = userValue.replace(/\s/g, "");
+      typeValue = typeValue.replace(/\s/g, "");
+      uriValue = uriValue.replace(/\s/g, "");
+  
+      window.arguments[0].out = {user:userValue,
+                                 type:typeValue,
+                                 uri:uriValue,
+                                 list:listValue};
+       
+      return true;
+    };
+    
+    function doCancel()
+    {
+      return true;
+    };
+    
+    function openTypesWindow()
+    {
+      var params = {out:null};
+      window.arguments[0].inn.mainWindow.openDialog("chrome://annotationextension/content/annotCreation/typesWindow.xul", "annotationextension:typesWindow", "resizable,chrome,centerscreen,modal,height=400,width=600", params);
+      if (params.out)
+      {
+        var typeTextbox = document.getElementById("aeSubscriptionType");
+        typeTextbox.value = params.out.typeURI;
+      }
+      
+      window.focus();
+    };
+    
+    function openUsersWindow()
+    {
+      var params = {out:null};
+      window.arguments[0].inn.mainWindow.openDialog("chrome://annotationextension/content/windows/usersWindow.xul", "annotationextension:usersWindow", "resizable,chrome,centerscreen,modal,height=400,width=600", params);
+      if (params.out)
+      {
+        var userTextbox = document.getElementById("aeSubscriptionUser");
+        userTextbox.value = params.out.userURI;
+      }
+      
+      window.focus();
+    };
+    
+    function openGroupsWindow()
+    {
+      var params = {out:null};
+      window.arguments[0].inn.mainWindow.openDialog("chrome://annotationextension/content/windows/groupsWindow.xul", "annotationextension:groupsWindow", "resizable,chrome,centerscreen,modal,height=400,width=600", params);
+      if (params.out)
+      {
+        var groupTextbox = document.getElementById("aeSubscriptionURI");
+        groupTextbox.value = params.out.groupURI;
+      }
+      
+      window.focus();
+    };
+    
+  </script>  
+
+  <grid>
+    <columns>
+      <column flex="1"/>
+      <column flex="1"/>
+      <column flex="1"/>
+    </columns>
+    <rows>
+      <!-- SUBSCRIPTION TYPE -->
+      <row>
+        <label value="&annotationextension.addSubscriptionDialog.type;"
+          tooltiptext="&annotationextension.addSubscriptionDialog.type.tooltip;"/>
+        <vbox flex="1">
+          <textbox class="textboxForURI" id="aeSubscriptionType"/>
+        </vbox>
+        <hbox flex="1">
+          <button id="aeOpenTypesWinButtonAddSubscriptionDialog"
+                  style="padding:0px; margin:0px"
+                  label="&annotationextension.choose.button.label;"
+                  tooltiptext="&annotationextension.annotationWindow.choose.tooltip;"
+                  oncommand="openTypesWindow();"/>
+        </hbox>
+      </row>
+      <!-- SUBSCRIPTION USER -->
+      <row>
+        <label value="&annotationextension.addSubscriptionDialog.user;"
+          tooltiptext="&annotationextension.addSubscriptionDialog.user.tooltip;"/>
+        <vbox flex="1">
+          <textbox class="textboxForURI" id="aeSubscriptionUser"/>
+        </vbox>
+        <hbox flex="1">
+          <button id="aeOpenUsersWinButtonAddSubscriptionDialog"
+                  style="padding:0px; margin:0px"
+                  label="&annotationextension.choose.button.label;"
+                  tooltiptext="&annotationextension.annotationWindow.chooseUser.tooltip;"
+                  oncommand="openUsersWindow();"/>
+        </hbox>
+      </row>
+      <!-- SUBSCRIPTION URI -->
+      <row>
+        <label value="&annotationextension.addSubscriptionDialog.URI;"
+          tooltiptext="&annotationextension.addSubscriptionDialog.URI.tooltip;"/>
+        <vbox flex="1">
+          <textbox class="textboxForURI" id="aeSubscriptionURI"/>
+        </vbox>
+        <hbox flex="1">
+          <button id="aeOpenGroupsWinButtonAddSubscriptionDialog"
+                  style="padding:0px; margin:0px"
+                  label="&annotationextension.choose.button.label;"
+                  tooltiptext="&annotationextension.annotationWindow.chooseGroup.tooltip;"
+                  oncommand="openGroupsWindow();"/>
+        </hbox>
+      </row>
+    </rows>
+  </grid>
+  
+  <!-- WHITELIST/BLACKLIST -->
+  <hbox flex="1">
+    <spacer flex="1"/>
+    <radiogroup id="aeSubscriptionList" orient="horizontal">
+      <radio selected="true"
+        label="&annotationextension.addSubscriptionDialog.whitelist;" value="+"
+        tooltiptext="&annotationextension.addSubscriptionDialog.whitelist.tooltip;"/>
+      <radio
+        label="&annotationextension.addSubscriptionDialog.blacklist;" value="-"
+        tooltiptext="&annotationextension.addSubscriptionDialog.blacklist.tooltip;"/>
+    </radiogroup>
+  </hbox>
+        
+</dialog>

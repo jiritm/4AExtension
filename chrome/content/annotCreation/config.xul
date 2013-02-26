@@ -1,0 +1,468 @@
+<?xml version="1.0"?>
+
+<!--
+ - Soubor: config.xul
+ - Autor: Jiri Trhlik
+ - Datum: 3.9.2011
+ - Popis: Uzivatelske rozhrani nastaveni doplnku.
+ - Posledni uprava: 5.6.2012
+ --> 
+
+<?xml-stylesheet type="text/css" href="chrome://annotationextension/skin/annotationExtension.css" ?>
+<?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+
+<!DOCTYPE prefwindow SYSTEM
+  "chrome://annotationextension/locale/annotationExtension.dtd">
+
+<prefwindow
+  id="ae_config_window"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  title="&annotationextension.config.title;"
+  onunload="annotationExtensionChrome.config.destroy()">
+  <!-- onpaneload="aeConfigWindow.init();" -->
+   
+  <stringbundleset id="stringbundleset">
+    <stringbundle id="annotationextension-string-bundle"
+      src="chrome://annotationextension/locale/annotationExtension.properties" />
+  </stringbundleset>
+    
+  <!-- NASTAVENI OKNA -->
+  <prefpane id="windowOption" label="&annotationextension.config.tab.windowOption;"
+    image="chrome://annotationextension/skin/oxygen/window.png">
+
+    <preferences>
+      <preference id="extensions.annotationextension.defaultHeight"
+        name="extensions.annotationextension.defaultHeight"
+        type="int" />
+
+      <preference id="extensions.annotationextension.heightMode"
+        name="extensions.annotationextension.heightMode"
+        type="string" />
+
+      <preference id="extensions.annotationextension.startupMode"
+        name="extensions.annotationextension.startupMode"
+        type="string" />
+    </preferences>
+
+    <groupbox>
+      <caption label="&annotationextension.config.caption.consoleHeight;" />
+      <radiogroup orient="vertical"
+        id="extensions.annotationextension.heightMode-radiogroup"
+        preference="extensions.annotationextension.heightMode">
+
+        <hbox align="center">
+          <radio value="default" />
+          <textbox id="extensions.annotationextension.defaultHeight-textbox"
+            preference="extensions.annotationextension.defaultHeight"
+            style="width: 5em;" type="number"
+            maxlength="4" size="4" max="9999" increment="10" />
+          <label value="px" />
+        </hbox>
+        <radio label="&annotationextension.config.heightMode.previous;" value="previous" />
+      </radiogroup>
+    </groupbox>
+
+    <groupbox>
+      <caption label="&annotationextension.config.caption.startupMode;" />
+      <radiogroup orient="vertical"
+        id="extensions.annotationextension.startupMode-radiogroup"
+        preference="extensions.annotationextension.startupMode">
+
+        <radio label="&annotationextension.config.startupMode.open;" value="open" />
+        <radio label="&annotationextension.config.startupMode.close;" value="close" />
+        <radio label="&annotationextension.config.startupMode.restore;" value="restore" />
+      </radiogroup>
+    </groupbox>
+
+  </prefpane>
+  
+  <!-- NASTAVENI PRI VYBERU TEXTU -->
+  <prefpane id="aeTextSelectOption" label="&annotationextension.config.tab.aeTextSelectOption;"
+    image="chrome://annotationextension/skin/oxygen/edit.png">
+    
+    <preferences>           
+      <preference id="extensions.annotationextension.separateMode"
+        name="extensions.annotationextension.separateMode"
+        type="string" />
+    </preferences>
+    
+    <groupbox>
+      <caption label="&annotationextension.config.caption.separateMode;" />
+      <radiogroup orient="vertical"
+        id="extensions.annotationextension.separateMode-radiogroup"
+        preference="extensions.annotationextension.separateMode">
+
+        <radio label="&annotationextension.config.separate.noSepar;" value="nosepar" />
+        <radio label="&annotationextension.config.separate.newLine;" value="newline" />
+        <radio label="&annotationextension.config.separate.space;" value="space" />
+      </radiogroup>
+    </groupbox>
+    
+  </prefpane>
+  
+  <!-- NASTAVENI SERVERU -->
+  <prefpane id="serverOption" label="&annotationextension.config.tab.serverOption;"
+    image="chrome://annotationextension/skin/oxygen/server.png"
+    onpaneload="annotationExtensionChrome.config.initServerSettings()">
+    
+    <preferences>     
+      <preference id="extensions.annotationextension.server.serverAddress"
+        name="extensions.annotationextension.server.serverAddress"
+        type="string"/>
+      
+      <preference id="extensions.annotationextension.server.serverPort"
+        name="extensions.annotationextension.server.serverPort"
+        type="int" />
+    </preferences>
+    
+    <grid>
+      <columns>
+        <column/>
+        <column/>
+      </columns>
+      <rows>
+        <row>
+          <label value="&annotationextension.config.server.address;"/>
+          <textbox id="extensions.annotationextension.serverAddress-textbox"
+             preference="extensions.annotationextension.server.serverAddress"
+             style="width: 9em;"/>
+        </row>
+        <row>
+          <label value="&annotationextension.config.server.port;"/>
+          <textbox id="extensions.annotationextension.serverPort-textbox"
+             preference="extensions.annotationextension.server.serverPort"
+             style="width: 5em;" type="number" max="65536"
+             maxlength="5" size="5" increment="1" />
+        </row>
+      </rows>
+    </grid>
+  </prefpane>
+  
+  <!-- NASTAVENI SKUPINY -->
+  <prefpane id="aeGroupOption" label="&annotationextension.config.tab.aeGroupOption;"
+    image="chrome://annotationextension/skin/oxygen/group.png"
+    onpaneload="annotationExtensionChrome.config.initGroups()">
+    
+    <deck id="aeGroupDeck" selectedIndex="1" flex="1">
+      <vbox>
+        <tree id="aeGroupTree"
+          flex="1"
+          class="plain aeTree"
+          editable="true"
+          hidecolumnpicker="true"
+          seltype="single"
+          datasources="rdf:null" ref="chrome://annotationextension/groups"
+          ondblclick="annotationExtensionChrome.config.joinOrLeaveGroup()"
+          sort="chrome://annotationextension/rdf#name"
+          sortDirection="ascending">
+          
+          <treecols>
+            <treecol id="aeGroupCheckTreeCol" width="20" hideheader="true" editable="true" type="checkbox"/>
+            <treecol id="aeGroupNameTreeCol" flex="1" hideheader="true" sortActive="true" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
+            <treecol id="aeGroupURITreeCol" flex="1" hideheader="true"/>
+          </treecols>
+          
+          <template>
+            <rule>
+              <conditions>
+                <content uri="?groups"/>
+                <member container="?groups" child="?group"/>
+                <triple subject="?group"
+                        predicate="chrome://annotationextension/rdf#name"
+                        object="?name"/>
+                <triple subject="?group"
+                        predicate="chrome://annotationextension/rdf#logged"
+                        object="?logged"/>
+              </conditions>
+               
+              <action>
+                <treechildren>
+                 <treeitem uri="?group">
+                   <treerow>
+                     <treecell value="?logged" editable="false"/>
+                     <treecell label="?name" editable="false"/>
+                     <treecell label="?group" editable="false"/>
+                   </treerow>
+                 </treeitem>
+                </treechildren>
+              </action>
+            </rule>
+            
+          </template>
+        </tree>
+        
+        <hbox id="aeDefaultGroupAndSelectGroupBox" align="center" pack="center">
+          <label id="aeDefaultUserGroupLabel" value="&annotationextension.config.groups.defaultUserGroup;"
+             tooltiptext="&annotationextension.config.groups.defaultUserGroup.tooltip;"
+             control="aeDefaultUserGroupTextbox"/>
+          <textbox id="aeDefaultUserGroupTextbox"
+            readonly="true"/>
+          <button id="aeSelectDefaultGroupButton" label="&annotationextension.config.groups.selectDefaultButton.label;"
+            tooltiptext="&annotationextension.annotationWindow.chooseGroup.tooltip;"
+            oncommand='annotationExtensionChrome.config.selectDefaultGroup();'/>
+          <spacer flex="1"/>
+          <image id="aeJoinGroupButton" tooltiptext="&annotationextension.config.groups.join;"
+            onclick="annotationExtensionChrome.config.joinGroup();"/>
+          <image id="aeLeaveGroupButton" tooltiptext="&annotationextension.config.groups.leave;"
+            onclick="annotationExtensionChrome.config.leaveGroup();"/>
+        </hbox>
+      </vbox>
+      <vbox pack="center" align="center">
+        <label value="&annotationextension.config.notAvailable;"/>
+      </vbox>
+    </deck>
+    
+  </prefpane>
+  
+  <!-- OSTATNI NASTAVENI SERVERU -->
+  <prefpane id="aeOtherOption" label="&annotationextension.config.tab.aeOtherOption;"
+    image="chrome://annotationextension/skin/oxygen/misc.png"
+    onpaneload="annotationExtensionChrome.config.initOtherOption()">
+    
+    <deck id="aeSettingsDeck" selectedIndex="1" flex="1">
+      <vbox>        
+        <tree id="aeOtherOptionTree"
+          flex="1"
+          class="plain aeTree"
+          hidecolumnpicker="true"
+          seltype="single"
+          datasources="rdf:null" ref=""
+          onclick="annotationExtensionChrome.config.aeOtherOptionTreeSelected(event);"
+          sort="chrome://annotationextension/rdf#name"
+          sortDirection="ascending">
+          
+          <treecols>
+            <treecol id="aeOtherOptionNameTreeCol" flex="2" hideheader="true" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
+            <treecol id="aeOtherOptionColonTreeCol" hideheader="true"/>
+            <treecol id="aeOtherOptionValueTreeCol" flex="1" hideheader="true"/>
+          </treecols>
+          
+          <template>
+            <rule>
+              <conditions>
+                <content uri="?settings"/>
+                <member container="?settings" child="?setting"/>
+                <triple subject="?setting"
+                        predicate="chrome://annotationextension/rdf#name"
+                        object="?name"/>
+                <triple subject="?setting"
+                        predicate="chrome://annotationextension/rdf#value"
+                        object="?value"/>
+              </conditions>
+               
+              <action>
+                <treechildren>
+                 <treeitem uri="?setting">
+                   <treerow>
+                     <treecell label="?name"/>
+                     <treecell label="="/>
+                     <treecell label="?value"/>
+                   </treerow>
+                 </treeitem>
+                </treechildren>
+              </action>
+            </rule>
+            
+          </template>
+        </tree>
+        
+        <hbox>
+          <spacer flex="1"/>
+          <image id="aeAddNewConfig" tooltiptext="&annotationextension.config.others.add;"
+            onclick="annotationExtensionChrome.config.addNewConfig();"/>
+        </hbox>
+      </vbox>
+      <vbox pack="center" align="center">
+        <label value="&annotationextension.config.notAvailable;"/>
+      </vbox>
+    </deck>
+    
+  </prefpane>
+  
+  <!-- NASTAVENI BAREV TYPU ANOTACI -->
+  <prefpane id="aeColorsOption" label="&annotationextension.config.tab.aeColorsOption;"
+    image="chrome://annotationextension/skin/oxygen/colors.png"
+    onpaneload="annotationExtensionChrome.config.initColorsOption()">
+    
+    <deck id="aeColorsDeck" selectedIndex="1" flex="1">
+      <vbox>               
+        <listbox
+          id="aeColorsOptionListbox"
+          class="plain aeListbox"
+          datasources="rdf:null"
+          seltype="single"
+          ref=""
+          flex="1"
+          style="border-width: 0px; -moz-border-radius: 10px;"
+          onclick="annotationExtensionChrome.config.aeColorsListboxSelected(event);"
+          sort="chrome://annotationextension/rdf#name"
+          sortDirection="ascending">
+          
+          <listcols>
+            <listcol id="aeColorsOptionValueListCol"/>
+            <listcol id="aeColorsOptionNameListCol" flex="1" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
+          </listcols>
+          
+          <template>
+            <rule>
+              <conditions>
+                <content uri="?colors"/>
+                <member container="?colors" child="?color"/>
+                <triple subject="?color"
+                        predicate="chrome://annotationextension/rdf#name"
+                        object="?name"/>
+                <triple subject="?color"
+                        predicate="chrome://annotationextension/rdf#value"
+                        object="?value"/>
+              </conditions>
+              <action>
+                <listitem uri="?color" crop="end">
+                  <listcell style="background-color: ?value ;" label=" "/>
+                  <listcell crop="end" label="?name"/>
+                </listitem>
+              </action>
+            </rule>
+          </template>
+        </listbox>
+        
+        <hbox>
+          <spacer flex="1"/>
+          <image id="aeAddNewColor" tooltiptext="&annotationextension.config.colors.add;"
+            onclick="annotationExtensionChrome.config.addNewColor();"/>
+        </hbox>
+          
+      </vbox>
+      <vbox pack="center" align="center">
+        <label value="&annotationextension.config.notAvailable;"/>
+      </vbox>
+    </deck>
+    
+  </prefpane>
+  
+  <!-- ODEBIRANI ANOTACI -->
+  <prefpane id="aeSubscriptions" label="&annotationextension.config.tab.aeSubscription;"
+    image="chrome://annotationextension/skin/oxygen/subscript.png"
+    onpaneload="annotationExtensionChrome.config.initSubscriptions()">
+    
+    <deck id="aeSubscriptionsDeck" selectedIndex="1" flex="1">
+      <vbox>        
+        <tree id="aeSubscriptionsTree"
+          flex="1"
+          class="plain aeTree"
+          seltype="single"
+          datasources="rdf:null" ref=""
+          enableColumnDrag="true"
+          flags="dont-build-content"
+          onclick="annotationExtensionChrome.config.aeSubscriptionTreeSelected(event);"
+          >
+          
+          <treecols>
+            <!--<treecol label="&annotationextension.config.subscriptions.listCol.label; " id="aeSubscriptionListTyTreeCol" sort="chrome://annotationextension/rdf#list"/>-->
+            <treecol label="&annotationextension.config.subscriptions.URICol.label;" id="aeSubscriptionURITreeCol" flex="1" sortDirection="ascending" sortActive="true" sort="chrome://annotationextension/rdf#subsURI"/>
+            <treecol label="&annotationextension.config.subscriptions.userCol.label;" id="aeSubscriptionUserTreeCol" flex="1" sort="chrome://annotationextension/rdf#user"/>
+            <treecol label="&annotationextension.config.subscriptions.typeCol.label;" id="aeSubscriptionTypeTreeCol" flex="1" sort="chrome://annotationextension/rdf#type"/>
+          </treecols>
+          
+          <template>
+            <!-- WHITELIST -->
+            <rule>
+              <conditions>
+                <content uri="?subscriptions"/>
+                <member container="?subscriptions" child="?subscription"/>
+                <triple subject="?subscription"
+                        predicate="chrome://annotationextension/rdf#list"
+                        object="+"/>
+                <triple subject="?subscription"
+                        predicate="chrome://annotationextension/rdf#serializedUser"
+                        object="?user"/>
+                <triple subject="?subscription"
+                        predicate="chrome://annotationextension/rdf#serializedType"
+                        object="?type"/>
+                <triple subject="?subscription"
+                        predicate="chrome://annotationextension/rdf#serializedSubsURI"
+                        object="?subsURI"/>
+              </conditions>
+               
+              <action>
+                <treechildren>
+                 <treeitem uri="?subscription">
+                   <treerow properties="whitelist">
+                     <!--<treecell label=""/>-->
+                     <treecell label="?subsURI"/>
+                     <treecell label="?user"/>
+                     <treecell label="?type"/>
+                   </treerow>
+                 </treeitem>
+                </treechildren>
+              </action>
+            </rule>
+            
+            <!-- BLACKLIST -->
+            <rule>
+              <conditions>
+                <content uri="?subscriptions"/>
+                <member container="?subscriptions" child="?subscription"/>
+                <triple subject="?subscription"
+                        predicate="chrome://annotationextension/rdf#list"
+                        object="-"/>
+                <triple subject="?subscription"
+                        predicate="chrome://annotationextension/rdf#serializedUser"
+                        object="?user"/>
+                <triple subject="?subscription"
+                        predicate="chrome://annotationextension/rdf#serializedType"
+                        object="?type"/>
+                <triple subject="?subscription"
+                        predicate="chrome://annotationextension/rdf#serializedSubsURI"
+                        object="?subsURI"/>
+              </conditions>
+               
+              <action>
+                <treechildren>
+                 <treeitem uri="?subscription">
+                   <treerow properties="blacklist">
+                     <!--<treecell label=""/>-->
+                     <treecell label="?subsURI"/>
+                     <treecell label="?user"/>
+                     <treecell label="?type"/>
+                   </treerow>
+                 </treeitem>
+                </treechildren>
+              </action>
+            </rule>
+            
+          </template>
+        </tree>
+        <spacer height="5px"/>
+        <hbox>
+          <button id="aeSaveSubscriptions" label="&annotationextension.config.subscriptions.saveSubscriptions.label;"
+            oncommand="annotationExtensionChrome.config.saveSubscriptions();"/>
+          <button id="aeLoadDefaultSubscriptions" label="&annotationextension.config.subscriptions.loadDefaultSubscriptions.label;"
+            oncommand="annotationExtensionChrome.config.loadDefaultSubscriptions();"/>
+          <spacer flex="1"/>
+          <vbox>
+            <image id="aeAddNewSubscription" tooltiptext="&annotationextension.config.subscriptions.add;"
+              onclick="annotationExtensionChrome.config.addNewSubscription();"/>
+          </vbox>
+        </hbox>
+      </vbox>
+      <vbox pack="center" align="center">
+        <label value="&annotationextension.config.notAvailable;"/>
+      </vbox>
+    </deck>
+    
+  </prefpane>
+  
+  <script type="application/x-javascript"
+    src="chrome://annotationextension/content/annotCreation/namespace.js" />
+  <script type="application/x-javascript"
+    src="chrome://annotationextension/content/annotCreation/config.js" />
+  <script type="application/x-javascript"
+    src="chrome://annotationextension/content/annotCreation/datasource.js" />
+  <script type="application/x-javascript"
+    src="chrome://annotationextension/content/annotCreation/treeDatasource.js" />
+  <script type="application/x-javascript"
+    src="chrome://annotationextension/content/annotCreation/listboxDatasource.js" />
+  <script type="application/x-javascript"
+    src="chrome://annotationextension/content/annotCreation/subscription.js" />
+
+</prefwindow>
