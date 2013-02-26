@@ -1,7 +1,9 @@
-4AExtension
+﻿4AExtension
 ====================
 
 4A Framework - Annotation Extension for Mozilla Firefox
+
+JiriTM@gmail.com
 
 Downloads a direction fo use: 
 http://knot09.fit.vutbr.cz/annotations/firefox-extension/
