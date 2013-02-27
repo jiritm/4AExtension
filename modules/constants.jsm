@@ -14,10 +14,14 @@ const Ci = Components.interfaces;
 
 Components.utils.import("resource://annotationextension/namespace.jsm");
 
+annotationExtension.ANNOTATION_EXTENSION = 'annotationExtension: ';
+
 annotationExtension.NAMESPACE = 'chrome://annotationextension/rdf#';
 annotationExtension.BASE_URI = 'chrome://annotationextension/';
 annotationExtension.EXTENSION_DIRECTORY = 'annotationExtension';
 annotationExtension.ANNOTATION_NODE_CLASS = 'annotationExtension';
+
+annotationExtension.DATABASE = 'annotationExtension.sqlite';
 
 annotationExtension.SUGGESTED_ANNOTATION = 'aeSuggestedAnnotation';
 annotationExtension.SUGGESTED_BORDER_COLOR = '#d2ef0c';
