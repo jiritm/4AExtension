@@ -1,0 +1,31 @@
+textbox {
+  -moz-appearance: none;
+  cursor: text;
+  /*margin: 2px 4px;*/
+  border: 1px solid rgba(221, 221, 221, 0.9);
+  border-radius: 4px;
+  padding: 2px 2px 3px;
+  -moz-padding-start: 2px;
+  background-color: #ffffff;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+}
+
+.aeTypeTextbox, .aeNotConfirmed {
+  min-width: 300px;
+}
+
+.aeNotConfirmed {
+  background-color: #fb7373;
+}
+
+[anonid="confirm-box"] {
+  height: 2em;
+}
+
+[anonid="confirm-label"]{
+  color : #fb7373;
+}

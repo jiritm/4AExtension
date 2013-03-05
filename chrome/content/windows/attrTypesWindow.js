@@ -17,13 +17,14 @@ annotationExtensionChrome.attrTypesWindow =
    */
   init : function()
   {
+		annotationExtensionChrome.mainAEChrome = window.arguments[0].input.mainAEChrome;
     //Vytvoreni a pripojeni datasource ke stromu
     annotationExtensionChrome.attrTypesDatasource = new annotationExtensionChrome.TreeDatasource('aeExtAttrTypesTree',                                                                                          
       'types',
-      opener.annotationExtensionChrome.typesDatasource,
+      annotationExtensionChrome.mainAEChrome.typesDatasource,
       null);
 
-    if (opener.annotationExtensionChrome.attributes.attributeIsDefault(window.arguments[0]))
+    if (annotationExtensionChrome.mainAEChrome.attributes.attributeIsDefault(window.arguments[0].input.attrId))
       var setTypeToTempCheck = document.getElementById('aeChangeTypeInTemplateCheckbox').hidden = false;
   },
   
@@ -104,7 +105,7 @@ annotationExtensionChrome.attrTypesWindow =
     //newTypeName = newTypeName.replace(/[ ]{2,}/ig, ' ');
     //if(!this.checkTypeName(newTypeName))
     //{
-    //  let stringBundle = opener.document.getElementById("annotationextension-string-bundle");
+    //  let stringBundle = document.getElementById("annotationextension-string-bundle");
     //  var alertLabel = stringBundle.getString("annotationextension.typesWindow.badTypeName.alert");
     //  alert(alertLabel);
     //  return;
@@ -120,8 +121,8 @@ annotationExtensionChrome.attrTypesWindow =
     //Vytvoreni typu a pridani do pole pro klienta.
     var newType = new annotationExtensionChrome.type(newTypeName, parentURI, uri, "", null, "");
     
-    opener.annotationExtensionChrome.createdTypes.addNew(newType);
-    opener.annotationExtensionChrome.client.addTypes();
+    annotationExtensionChrome.mainAEChrome.createdTypes.addNew(newType);
+    annotationExtensionChrome.mainAEChrome.client.addTypes(annotationExtensionChrome.mainAEChrome.createdTypes);
   },
   
   /**
@@ -136,9 +137,9 @@ annotationExtensionChrome.attrTypesWindow =
       //Neni vybran typ ke smazani
       return;
     
-    if (!opener.annotationExtensionChrome.typesDatasource.containerIsEmpty(typeURI))
+    if (!annotationExtensionChrome.mainAEChrome.typesDatasource.containerIsEmpty(typeURI))
     {//Je kontejner a neni prazdny, nemaz.
-      let stringBundle = opener.document.getElementById("annotationextension-string-bundle");
+      let stringBundle = document.getElementById("annotationextension-string-bundle");
       var alertLabel = stringBundle.getString("annotationextension.typesWindow.notEmpty.alert");
       alert(alertLabel);
       return;
@@ -150,8 +151,8 @@ annotationExtensionChrome.attrTypesWindow =
     //Vytvoreni typu a pridani do pole pro klienta.
     var newType = new annotationExtensionChrome.type(typeName, typeAncestor, typeURI, "", null, "");
     
-    opener.annotationExtensionChrome.deleteTypes.addNew(newType);
-    opener.annotationExtensionChrome.client.removeTypes();
+    annotationExtensionChrome.mainAEChrome.deleteTypes.addNew(newType);
+    annotationExtensionChrome.mainAEChrome.client.removeTypes();
   },
   
   /**
@@ -187,8 +188,10 @@ annotationExtensionChrome.attrTypesWindow =
       
       var setTypeInTemplate = document.getElementById('aeChangeTypeInTemplateCheckbox').checked;
       
-      opener.annotationExtensionChrome.attributes.setTypeToAttribute(type, window.arguments[0], true, true, true, setTypeInTemplate);
-      
+			window.arguments[0].out = {typeURI:type,
+                                 typeName:annotationExtensionChrome.mainAEChrome.attributes.getTypeStringToTextbox(type),
+																 additionalAttrs:{setTypeInTemplate : setTypeInTemplate}};
+			
       window.close();
     }
     catch(ex)

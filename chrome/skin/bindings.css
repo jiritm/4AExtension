@@ -1,23 +1,15 @@
-box.suggestAnnotation {
-    -moz-binding: url('chrome://annotationextension/content/bindings/suggestAnnotation.xml#aeSuggestPanel');
+box[type="aeTypeSelect"] {
+  -moz-binding: url('chrome://annotationextension/content/bindings/typeSelect.xml#typeSelect');
 }
 
-.aeSuggestAnnotationSelectionBox {
-  /*margin : 1px;
-  padding : 1px;
-  margin-top: 3px;
-  margin-bottom: 3px;*/
-  border-radius: 4px 4px 0 0;
-  background-color: #BBBBBB;
+box[type="aeTypeSelectLabel"] {
+  -moz-binding: url('chrome://annotationextension/content/bindings/typeSelect.xml#typeSelectLabel');
 }
 
-.aeSuggestAnnotationSelectionBoxForDocument {
-  background-color: #DDDDDD;
+box[type="aeTypeSelectButton"] {
+  -moz-binding: url('chrome://annotationextension/content/bindings/typeSelect.xml#typeSelectButton');
 }
 
-.aeSuggestAnnotationTypeBox {
-  /*margin : 1px;
-  padding : 1px;*/ 
-  background-color: #BBBBBB;
-  border-radius: 0 0 4px 4px;
+box[type="suggestAnnotation"] {
+  -moz-binding: url('chrome://annotationextension/content/bindings/suggestAnnotation.xml#aeSuggestPanel');
 }

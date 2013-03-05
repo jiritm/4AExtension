@@ -40,13 +40,11 @@ annotationExtensionChrome.attributes =
   },
   
   /**
-   * Pro tlacitko vybrani typu atributu
-   * @param {string} id, ID UI atributu, pro ktery se nastavuje novy typ
+   * Handler pro vybrani noveho typu atributu
    */
-  selectAttrType : function(id)
+  newTypeSelectedHandler : function(typeBox)
   {
-    window.openDialog("chrome://annotationextension/content/windows/attrTypesWindow.xul", "annotationextension:attrTypeWindow", "resizable,chrome,centerscreen,modal,height=400,width=600",
-      id);
+    annotationExtensionChrome.attributes.setTypeToAttribute(typeBox.aeSelectedTypeURI, typeBox.aeAttrId, true, true, true, typeBox.aeAdditionalAttrs.setTypeInTemplate);
   },
   
   /**
@@ -98,7 +96,7 @@ annotationExtensionChrome.attributes =
       {//Neco je vybrano
         var res = annotationExtensionChrome.attrDatasource.getRowResource(selection);
         if (res == null) return;
-        //ID UI(DOM elementu), ktere se urci z URI atributu(je unikatni pro atribut typu anotace)
+        //ID UI(DOM elementu), ktere se urci z URI atributu
         var id = res.ValueUTF8;
         //Typ atributu pro zobrazeni pozadovaneho UI
         var type = annotationExtensionChrome.attrDatasource.getResourceProp(res, 'type');
@@ -247,7 +245,7 @@ annotationExtensionChrome.attributes =
         attrsUIsBox.appendChild(aui);
         
         //Nastaveni jmena typu do textboxu
-        document.getElementById(id+'-typeTextbox-'+this.getCurrentTabID()).value = this.getTypeStringToTextbox(type);
+        document.getElementById(id+'-typeBox-'+this.getCurrentTabID()).aeSetType(type, this.getTypeStringToTextbox(type));
       }
       else
       {//Pokud existuje zobraz ho
@@ -303,11 +301,11 @@ annotationExtensionChrome.attributes =
       var uiID = uri;
       var parentURI = uri;
       
-      var attrUITextbox = document.getElementById(uiID+'-typeTextbox-'+this.getCurrentTabID());
-      if (attrUITextbox != null)
+      var attrUITypebox = document.getElementById(uiID+'-typeBox-'+this.getCurrentTabID());
+      if (attrUITypebox != null)
       {//ATRIBUT MA ZOBRAZENE(VYTVORENE) UI, ZMEN HO
         var name = this.getTypeStringToTextbox(type);
-        attrUITextbox.value = name;
+        attrUITypebox.aeSetType(type, name);
   
         /*********Smazani souvisejicich atributu*******************/
         if (!this.attributeIsEdited(uri))
@@ -1213,48 +1211,31 @@ annotationExtensionChrome.attributes =
   {
     try
     {
-      let stringBundle = document.getElementById("annotationextension-string-bundle");
-          
-      var typeLabelText = stringBundle.getString("annotationextension.annotationWindow.attLabel.type");
-      var typeButtonText = stringBundle.getString("annotationextension.choose.button.label");
-      var typeLabelTooltipText = stringBundle.getString("annotationextension.annotationWindow.selectedType.tooltip");
-      var typeButtonTooltipText = stringBundle.getString("annotationextension.annotationWindow.choose.tooltip");
-      
       var typeRow = document.createElement('row');
         typeRow.setAttribute('id', id+'-selectTypeRow-'+this.getCurrentTabID());
       
-      var typeLabel = document.createElement('label');
-        typeLabel.setAttribute('value', typeLabelText);
-        typeLabel.setAttribute('tooltiptext', typeLabelTooltipText);
-      var typeTextbox = document.createElement('textbox');
-        typeTextbox.setAttribute('class', 'plain');
-        typeTextbox.setAttribute('autocompletepopup', 'aeRichPopup');
-        typeTextbox.setAttribute('flex', '1');
-        typeTextbox.setAttribute('id', id+'-typeTextbox-'+this.getCurrentTabID());
-        typeTextbox.setAttribute("autocompletesearchparam", "attrType");
-        typeTextbox.setAttribute("type", "autocomplete");
-        typeTextbox.setAttribute("autocompletesearch", "aeautocomplete");
-        //TODO: OPRAVIT ID (asi na id zalozky)
-        typeTextbox.setAttribute("ontextentered", "annotationExtensionChrome.bottomAnnotationWindow.autocompleteAttrSelected('"+id+"');");
-      var rowTextboxBox = document.createElement('hbox');
-          rowTextboxBox.setAttribute("class", "textboxBox");
-          rowTextboxBox.setAttribute('flex', '1');
-          rowTextboxBox.appendChild(typeTextbox);               
-      var typeButton = document.createElement('button');
-        typeButton.setAttribute('class', 'aeAttributeTypeSelect');
-        typeButton.setAttribute('label', typeButtonText);
-        typeButton.setAttribute('tooltiptext', typeButtonTooltipText);
-        //TODO: OPRAVIT ID
-        typeButton.setAttribute('oncommand', "annotationExtensionChrome.attributes.selectAttrType('"+id+"');");
-       
-      var boxForSecondColumn = document.createElement('hbox');
-      var spacerForBoxForSecondColumn = document.createElement('spacer');
-        spacerForBoxForSecondColumn.setAttribute("flex", "0");
-      boxForSecondColumn.appendChild(rowTextboxBox);
-      boxForSecondColumn.appendChild(spacerForBoxForSecondColumn); 
+      var typeBox = document.createElement('box');
+        typeBox.setAttribute('aeConfirmTextHidden', 'true');
+        typeBox.setAttribute('aeShowSimple', 'true');
+        typeBox.setAttribute('id', id+'-typeBox-'+this.getCurrentTabID());
+        typeBox.setAttribute("type", "aeTypeSelect");
+        typeBox.aeOnTypeSelect = this.newTypeSelectedHandler;
+        typeBox.aeMainAEChrome = annotationExtensionChrome;
+        typeBox.aeContext = annotationExtensionChrome.attributes;
+        typeBox.setAttribute('aeAttrId', id);
+      
+      var typeLabel = document.createElement('box');
+        typeLabel.setAttribute("type", "aeTypeSelectLabel");
+        typeLabel.setAttribute("control", id+'-typeBox-'+this.getCurrentTabID());
+        typeLabel.setAttribute("id", id+'-typeLabel-'+this.getCurrentTabID());
+      
+      var typeButton = document.createElement('box');
+        typeButton.setAttribute("type", "aeTypeSelectButton");
+        typeButton.setAttribute("aeTypeSelect", id+'-typeBox-'+this.getCurrentTabID());
+        typeButton.setAttribute("id", id+'-typeButton-'+this.getCurrentTabID());
       
       typeRow.appendChild(typeLabel);
-      typeRow.appendChild(boxForSecondColumn);
+      typeRow.appendChild(typeBox);
       typeRow.appendChild(typeButton);
       
       return typeRow;
@@ -1277,15 +1258,15 @@ annotationExtensionChrome.attributes =
     {
       var data = [];
 
-      var typeTextbox = document.getElementById(id+'-typeTextbox-'+this.getCurrentTabID());
+      var typeBox = document.getElementById(id+'-typeBox-'+this.getCurrentTabID());
       var firstTextbox = document.getElementById(id+'-textbox1-'+this.getCurrentTabID());
       var secondTextbox = document.getElementById(id+'-textbox2-'+this.getCurrentTabID());
       
-      if (typeTextbox == null || firstTextbox == null)
+      if (typeBox == null || firstTextbox == null)
         return data;
       
-      if (typeTextbox.value.length > 0)
-        data.push(typeTextbox.value);
+      if (typeBox.aeSelectedTypeName != "")
+        data.push(typeBox.aeSelectedTypeName);
       
       if (firstTextbox.value != undefined && firstTextbox.value != null)
         if (firstTextbox.value.length > 0)
@@ -1336,11 +1317,11 @@ annotationExtensionChrome.attributes =
     try
     {
       //TODO: TEST_1001 otestovat zda tato funkce pracuje spravne
-      var typeTextbox = document.getElementById(id+'-typeTextbox-'+this.getCurrentTabID());      
-      if (typeTextbox == null)
+      var typeBox = document.getElementById(id+'-typeBox-'+this.getCurrentTabID());      
+      if (typeBox == null)
         throw 'ATTRIBUTE_UI_NOT_FOUND';
     
-      if (typeTextbox.value == null || typeTextbox.value == undefined || typeTextbox == "")
+      if (typeBox.aeSelectedTypeName == "")
         return false;
       
       var type = annotationExtensionChrome.attrDatasource.getResourceProp(id, 'type');
@@ -1556,36 +1537,6 @@ annotationExtensionChrome.attributes =
   {
     return annotationExtensionChrome.bottomAnnotationWindow.getCurrentTabID();
   },
-
-  /**
-  <!-- Uzivatelske rozhrani pro typy atributu -->
-  <grid id ="ID">
-    <columns>
-      <column class="attrLabelColumn"/>
-      <column/>
-      <column/>
-    </columns>
-    
-    <!--Vytvori kazda fce createInterface -->
-    <!-- Priklad pro typ atributu string -->
-    <rows>
-      <row>
-        <label value="&annotationExtension.annotationWindow.attLabel.type;"/>
-        <textbox/>
-        <button class="aeAttributeTypeSelect"
-            label="&annotationextension.choose.button.label;"
-            oncommand=""/>
-      </row>
-      <row>
-        <label value="&annotationExtension.annotationWindow.attLabel.string;"/>
-        <textbox/>
-      </row>
-      <row>
-      </row>
-    </rows>
-    
-  </grid>
-  **/
   
   /**
    * Vybere do stromu atributu atributy prave vybraneho typu
@@ -2268,7 +2219,7 @@ annotationExtensionChrome.attributes =
     attrsUIsBox.appendChild(aui);
     aui.setAttribute("hidden", "true");
     //Nastaveni jmena typu do textboxu
-    document.getElementById(uri+'-typeTextbox-'+this.getCurrentTabID()).value = this.getTypeStringToTextbox(type);
+    document.getElementById(uri+'-typeBox-'+this.getCurrentTabID()).aeSetType(type, this.getTypeStringToTextbox(type));
     //alert(uri);
     
     //////////////////////////

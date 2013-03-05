@@ -113,59 +113,32 @@
             
             <!-- Vyber typu anotace aj. -->
             <hbox flex="1">
-              <grid flex="1" id="typeGrid">
-                <columns>
-                  <column/>
-                  <column flex="1"/>
-                  <column/>
-                </columns>
-                <rows>
-                  <row id="typeGridRow" class="typeGridRow" align="center">
-                    <hbox class="labelBox">
-                      <label value="&annotationextension.aeTypeSelect.typeAnnotation.label;"
-                        tooltiptext="&annotationextension.annotationWindow.selectedType.tooltip;"
-                        control="aeTypeSelect"/>
-                    </hbox>
-                    <hbox id="typeTextboxBox" flex="1">
-                      <panel id="aeRichPopup" type="autocomplete-richlistbox" noautofocus="true"/>
-                      <textbox id="aeTypeSelect" class="plain" rows="1" flex="1"
-                        height="25px" 
-                        type="autocomplete"
-                        autocompletepopup="aeRichPopup"
-                        showcommentcolumn="true"
-                        autocompletesearch="aeautocomplete"
-                        ontextentered="annotationExtensionChrome.bottomAnnotationWindow.autocompleteTypeSelected();"
-                        onpaste="return(false);"
-                        oninput="annotationExtensionChrome.bottomAnnotationWindow.autocompleteTypeInput(this);"/>
-                        
-                    </hbox>
-                    <button id="aeOpenTypesWinButton"
-                      label="&annotationextension.choose.button.label;"
-                      tooltiptext="&annotationextension.annotationWindow.choose.tooltip;"
-                      oncommand="annotationExtensionChrome.bottomAnnotationWindow.openTypesWindow();"/>
-                  </row>
-                  <row>
-                    <spacer/>
-                    <hbox flex="1">
-                      <label id="aeConfirmTypeLabel" value="&annotationextension.aeTypeSelect.confirmType.label;" hidden="true"/>
-                    </hbox>
-                    <hbox>
-                      <hbox flex="1" align="center" pack="center">
-                        <image id="aeClearButton" tooltiptext="&annotationextension.clear.button.label;"
-                          onclick="annotationExtensionChrome.bottomAnnotationWindow.clearWindow();"/>
-                      </hbox>
-                      <hbox flex="1" align="center" pack="center">
-                        <deck id="aeSaveButtonDeck" selectedIndex="1">
-                          <image id="aeSaveButton"
-                            tooltiptext="&annotationextension.save.button.label; (Ctrl+Shift+S)"
-                            onclick="annotationExtensionChrome.bottomAnnotationWindow.saveAnnotations();"/>
-                          <image id="aeSaveButtonRed"/>
-                        </deck>
-                      </hbox>
-                    </hbox>
-                  </row>
-                </rows>
-              </grid>
+							<!-- SELECTION OF TYPE + AUTOCOMPLETE -->
+							<box id="aeTypeLabel"
+								class="labelBox"
+							  type="aeTypeSelectLabel"
+								control="aeTypeSelect"/>
+							<box id="aeTypeSelect"
+								type="aeTypeSelect"
+								aeConfirmTextHidden="false"
+								aeShowSimple="false"/>
+						  <box id="aeTypeButton"
+								type="aeTypeSelectButton"
+								aeTypeSelect="aeTypeSelect"
+								orient="vertical">
+								<!-- Ulozeni anotace a smazani anotacniho okna -->
+								<hbox id="aeSaveDeleteAnnot-box" flex="1" align="center">
+									<spacer flex="1"/>
+									<image id="aeClearButton" tooltiptext="&annotationextension.clear.button.label;"
+										onclick="annotationExtensionChrome.bottomAnnotationWindow.clearWindow();"/>
+									<deck id="aeSaveButtonDeck" selectedIndex="1">
+										<image id="aeSaveButton"
+											tooltiptext="&annotationextension.save.button.label; (Ctrl+Shift+S)"
+											onclick="annotationExtensionChrome.bottomAnnotationWindow.saveAnnotations();"/>
+										<image id="aeSaveButtonRed"/>
+									</deck>
+								</hbox>
+							</box>
             </hbox>
             <!-- Konec vyber typu anotace aj. -->
           </hbox>

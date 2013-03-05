@@ -577,8 +577,9 @@ annotationExtensionChrome.client.processLogoutMessage =  function(ev)
  * @param {responseXML} responseXML, odpoved od serveru
  * @param {String} functionName, pro kterou funkci(ktery pozadavek) se zpracovava odpoved
  * @param {Array} additionalParams
+ * @param {Function} callback, pokud je uveden zavola se s prislusnymi parametry
  */
-annotationExtensionChrome.client.processResponseMessage =  function(responseXML, functionName, additionalParams)
+annotationExtensionChrome.client.processResponseMessage =  function(responseXML, functionName, additionalParams, callback)
 {
 	//var oSerializer = new XMLSerializer();  
 	//var sXML = oSerializer.serializeToString(responseXML);
@@ -628,7 +629,7 @@ annotationExtensionChrome.client.processResponseMessage =  function(responseXML,
 			//var typesElems = messagesElem.getElementsByTagName('types');
 			if (messagesElemChildNode.nodeName == 'types')
 			{
-				if (annotationExtensionChrome.client.processTypesMessage([messagesElemChildNode]) != 0)
+				if (annotationExtensionChrome.client.processTypesMessage([messagesElemChildNode], callback) != 0)
 					throw "badResponse"
 			}
 			
@@ -817,17 +818,22 @@ annotationExtensionChrome.client.queryTypes = function(filter)
 /**
  * Element <types/>
  * @param {elem} message element s typy
+ * @param {Function} callback, ma vyznam pro autocomplete
  * @return {int} 0, pokud se zprava podarila projit
  */   
-annotationExtensionChrome.client.processTypesMessage = function(typesElems)
+annotationExtensionChrome.client.processTypesMessage = function(typesElems, callback)
 {
-  /////////////////////////////
+	//pro callback
+	var addedTypes = [];
+	var removedTypes = [];
+  
+	/////////////////////////////
   ///  ADD a CHANGE types.  ///
   /////////////////////////////
   for (var z = 0; z < 2; z++)
   {
     if (z == 0)
-     var addOrChangeElem = typesElems[0].getElementsByTagName('add');
+      var addOrChangeElem = typesElems[0].getElementsByTagName('add');
     else
       var addOrChangeElem = typesElems[0].getElementsByTagName('change');
 
@@ -950,12 +956,11 @@ annotationExtensionChrome.client.processTypesMessage = function(typesElems)
 					attrComment);
         }			
 				
+				addedTypes.push(type);
         annotationExtensionChrome.types.addNew(type);
       }
-			
-      let observerService = Cc["@mozilla.org/observer-service;1"].
-        getService(Components.interfaces.nsIObserverService);
-      observerService.notifyObservers(null, "annotationextension-client-topic", "addTypes");
+		
+			annotationExtensionChrome.bottomAnnotationWindow.addTypes(callback);
     }
   }
   /////////////////////////////
@@ -983,12 +988,11 @@ annotationExtensionChrome.client.processTypesMessage = function(typesElems)
 				null,
 				"");
 			
+			removedTypes.push(type);
       annotationExtensionChrome.deletedTypes.addNew(type);
     }
 		
-    let observerService = Cc["@mozilla.org/observer-service;1"].
-      getService(Components.interfaces.nsIObserverService);
-    observerService.notifyObservers(null, "annotationextension-client-topic", "deleteTypes");
+		annotationExtensionChrome.bottomAnnotationWindow.deleteTypes();
   }
   
   return 0;
@@ -1170,17 +1174,19 @@ annotationExtensionChrome.client.leaveGroup = function(groupURIP)
  * Element <types>
  *          <add/>
  *         </types>
+ * @param {Array of annotationExtensionChrome.type} types, typy na pridani
+ * @param {Function} callback, ma u autocomplete (musi byt upozornen pote, co byly typy klientem ulozeny)
  */
-annotationExtensionChrome.client.addTypes = function()
+annotationExtensionChrome.client.addTypes = function(types, callback)
 {
-	if (annotationExtensionChrome.createdTypes.count < 0)
+	if (types.length <= 0)
 	//Neni co odeslat
 		return;
 	
   var httpRequest = Cc["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Ci.nsIXMLHttpRequest);
 	httpRequest.onload = function(ev)
 	{
-		annotationExtensionChrome.client.processResponseMessage(ev.target.responseXML);
+		annotationExtensionChrome.client.processResponseMessage(ev.target.responseXML, null, null, callback);
 	}
 	
   var body = this.rootElStart;
@@ -1188,9 +1194,9 @@ annotationExtensionChrome.client.addTypes = function()
 	body += '<types><add>';
   
   //ULOZENE TYPY PROGRAMEM PRO ODESLANI NA SERVER
-  while(annotationExtensionChrome.createdTypes.count > 0)
+  while(types.length > 0)
   {
-    var type = annotationExtensionChrome.createdTypes.shift();
+    var type = types.shift();
     body += '<type ';
     body += 'name="'+type.name+'" ';
     body += 'ancestor="'+type.ancestor+'" ';
@@ -1206,148 +1212,6 @@ annotationExtensionChrome.client.addTypes = function()
   
   //alert(body);
   this.sendMessage(httpRequest, body);
-};
-
-/**
- * --Zprava--
- * pridani noveho typu pomoci z autocomplete textboxu
- */
-annotationExtensionChrome.client.addTypeAutocompleteTextbox = function(textboxId, typeName)
-{
-  var httpRequest = Cc["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Ci.nsIXMLHttpRequest);
-  //////////////////////////////////////////////////////////////////////////////
-  ///////ZPRACOVANI ODPOVEDI////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
-  httpRequest.onload = function(ev)
-  {
-    try
-    {
-      var XMLMessage = ev.target.responseXML;
-      if(XMLMessage == null)
-  	    throw "badResponse";
-			
-      if(annotationExtensionChrome.client.isErrorElInResponse(XMLMessage))
-				throw "error";    
-			
-			var typesElems = XMLMessage.getElementsByTagName('types');
-			if (typesElems.length > 0)
-			{
-				var typesArray = new annotationExtensionChrome.aeArray();
-				var addElem = typesElems[0].getElementsByTagName('add');	
-				
-				if (addElem.length > 0)
-				{    
-					var typeElems = addElem[0].getElementsByTagName('type');
-									
-					for(var i = 0; i < typeElems.length; i++)
-					{
-						if (!typeElems[i].hasAttribute('name') ||
-				  			!typeElems[i].hasAttribute('uri') ||
-								!typeElems[i].hasAttribute('ancestor'))
-								//Typ neobsahuje povinne polozky, preskoc typ
-						;//TODO:chyba pro autocomplete - nelze vytvorit, vybrat typ
-												
-						var group = "";
-												
-						if(typeElems[i].hasAttribute('group'))
-							group = typeElems[i].getAttribute('group');
-							
-						////////////////////////////////////////////////////////////////////////
-						//VICE PREDKU		
-						var ancestors = [];
-						var ancestorsElems = typeElems[i].getElementsByTagName('ancestor');
-						for (var j = 0; j < ancestorsElems.length; j++)
-						{
-							var ancestor = ancestorsElems[j];
-							if (!ancestorsElems[j].hasAttribute('uri'))
-								continue;
-				
-							ancestors.push(ancestorsElems[j].getAttribute('uri'));
-						}
-						//
-						////////////////////////////////////////////////////////////////////////
-						////////////////////////////////////////////////////////////////////////
-						//KOMENTAR
-						var commentElem = typeElems[i].getElementsByTagName('comment');
-						var comment = ""
-						if(commentElem.length > 0)
-						{
-							if(commentElem[0].hasChildNodes)
-							{
-								var childComment = commentElem[0].firstChild;
-								
-								while (childComment != null)
-								{
-									if (childComment.nodeType === 4) //CDATA
-									{
-										comment = (childComment.nodeValue);
-										break;
-									}
-									childComment = childComment.nextSibling;
-								}
-							}
-						}
-						////////////////////////////////////////////////////////////////////////
-									
-						var type = new annotationExtensionChrome.type(
-							typeElems[i].getAttribute('name'),
-							typeElems[i].getAttribute('ancestor'),
-							typeElems[i].getAttribute('uri'),
-							group,
-							null,
-							""
-						);
-			
-			      typesArray.addNew(type);						
-						//TYP NEMA ATRIBUTY...(byl prave vytvoren)											
-					}
-						
-					annotationExtensionChrome.bottomAnnotationWindow.addTypesAndSelectInAutocompleteTextbox(typesArray, typeName, textboxId);
-				}
-				else
-				{//TODO:chyba pro autocomplete - nelze vytvorit, vybrat typ	
-				}
-			}
-			else
-			{//TODO:chyba pro autocomplete - nelze vytvorit, vybrat typ
-			}			
-    }
-		catch(ex)
-		{
-			//Ve zprave od serveru je element s chybou
-			if(ex == "error")
-				annotationExtensionChrome.client.processErrorElemInMessage(XMLMessage);
-			//Chyba formatovani odpovedi
-			else if(ex == "badResponse")
-				annotationExtensionChrome.alerts.alert("badResponse");
-			else
-				alert('client.js : addTypeAutocompleteTextbox: \n' + ex.message);
-		}
-	}
-	//////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////
-	
-	
-	try
-	{
-		var body = this.rootElStart;
-		body += this.sessionEl();
-		body += '<types><add>';
-		body += '<type ';
-		body += 'name="'+typeName+'" ';
-		body += 'ancestor="" ';
-		body += 'uri="" ';
-		body += '>'
-		body += '</type>';
-		body += '</add></types>';
-		body += this.rootElEnd;
-		
-		//alert(body);
-		this.sendMessage(httpRequest, body);
-	}
-	catch(ex)
-	{}
 };
 
 /**

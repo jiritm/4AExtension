@@ -38,11 +38,17 @@ annotationExtensionChrome.bottomAnnotationWindow =
   {
     try
     {
-      annotationExtensionChrome.statusBar.setTextToBar(annotationExtensionChrome.statusBar.annotationText + ' - ' + annotationExtension.user.username);
+			annotationExtension.typesStorageService.init();
+			
+			var typeBox = document.getElementById("aeTypeSelect");
+			typeBox.aeOnTypeSelect = this.newTypeSelectedHandler;
+			typeBox.aeMainAEChrome = annotationExtensionChrome;
+			typeBox.aeContext = annotationExtensionChrome.bottomAnnotationWindow;
+			
+			annotationExtensionChrome.statusBar.setTextToBar(annotationExtensionChrome.statusBar.annotationText + ' - ' + annotationExtension.user.username);
 
       let observerService = Components.classes["@mozilla.org/observer-service;1"].
          getService(Components.interfaces.nsIObserverService);  
-      observerService.addObserver(this, "annotationextension-client-topic", false);
       observerService.addObserver(this, "annotationextension-settingsChange-topic", false);
       observerService.addObserver(this, "annotationextension-textSelected", false);
   
@@ -112,7 +118,6 @@ annotationExtensionChrome.bottomAnnotationWindow =
   {
     let observerService = Components.classes["@mozilla.org/observer-service;1"].
       getService(Components.interfaces.nsIObserverService);  
-    observerService.removeObserver(this, "annotationextension-client-topic");
     observerService.removeObserver(this, "annotationextension-settingsChange-topic");
     observerService.removeObserver(this, "annotationextension-textSelected");
   
@@ -129,6 +134,7 @@ annotationExtensionChrome.bottomAnnotationWindow =
     
     this.clearAll();
     this.destroyDatasources();
+		this.destroyDatabase();
     
     annotationExtensionChrome.annotationsView.turnOff();
     
@@ -172,14 +178,7 @@ annotationExtensionChrome.bottomAnnotationWindow =
    */
   observe : function(aSubject, aTopic, aData)
   {
-    if (aTopic == "annotationextension-client-topic")
-    {
-      if (aData == "addTypes")
-        this.addTypes();
-      else if (aData == "deleteTypes")
-        this.deleteTypes();
-    }
-    else if(aTopic == "annotationextension-docSynchronized-topic")
+    if(aTopic == "annotationextension-docSynchronized-topic")
     {
       if (aData == "ok")
         this.docSynchronized();
@@ -499,7 +498,7 @@ annotationExtensionChrome.bottomAnnotationWindow =
     if (typeName != null)
     {//Nastaveni noveho typu v textboxu.
       var aeTypeSelectTextbox = document.getElementById('aeTypeSelect');
-      aeTypeSelectTextbox.value = typeName;
+      aeTypeSelectTextbox.aeSetType(typeURI, typeName);
     }
     
     var addAttrButton = document.getElementById('aeAddAttributeButton');
@@ -513,9 +512,6 @@ annotationExtensionChrome.bottomAnnotationWindow =
       }
       
       addAttrButton.hidden = false;
-      
-      var confirmLabel = document.getElementById('aeConfirmTypeLabel');
-      confirmLabel.hidden = true;
     }
     else
     {//Neni vybran zadny typ
@@ -560,10 +556,23 @@ annotationExtensionChrome.bottomAnnotationWindow =
   /**
    * Prida typy do datasource.
    * Vola observer, pokud mu prijde zprava, ze jsou ulozeny nove typy.
+   * @param {Function} callback, ma vyznam pro autocomplete
    */
-  addTypes : function()
+  addTypes : function(callback)
   {
-    var cont = true;
+		//////// VYZNAM PRO AUTOCOMPLETE ///////
+		var typesStorageHandler = null;
+		if (callback != null && callback != undefined)
+		{
+			var typesStorageHandler = annotationExtension.typesStorageService.createHandler();
+			typesStorageHandler.handleCompletion = function(aReason)
+			{
+				callback();
+			};
+		}
+		////////////////////////////////////////
+		
+		var cont = true;
       
     while(cont)
     {
@@ -577,9 +586,25 @@ annotationExtensionChrome.bottomAnnotationWindow =
         //Pridani typu do datasource typu.
         var result = annotationExtensionChrome.typesDatasource.addType(type);
         if (result)
-          cont = true;
+				{
+					//Pridani do databaze (pro vyhledavani typu podle jmena)
+					if (annotationExtensionChrome.types.length <= 0)
+					{//pokud pridavas posledni typ do databaze upozorni autocomplete...
+					 //pokud se nepodari pridat vsechny typy - nejaka chyba - nenadelas nic
+
+						annotationExtension.typesStorageService.addTypes([type], typesStorageHandler);
+					}
+					else
+					{
+						annotationExtension.typesStorageService.addTypes([type], null);
+					}
+          
+					cont = true;
+				}
         else
+				{
           annotationExtensionChrome.types.addNew(type);
+				}
         
         //Pridani atributu do datasource atributu.
         annotationExtensionChrome.typeAttrDatasource.addNewObject2(type);
@@ -606,6 +631,8 @@ annotationExtensionChrome.bottomAnnotationWindow =
         //Smazani typu a atributu typu z datasource atributu.
         var typeAttrDatasourceAncestor = annotationExtensionChrome.typeAttrDatasource.baseURI + annotationExtensionChrome.typeAttrDatasource.rootName;
         annotationExtensionChrome.typeAttrDatasource.deleteObject(type.uri, typeAttrDatasourceAncestor);
+				//Smazani typu z databaze
+				annotationExtension.typesStorageService.deleteTypes([type.uri]);
       }
     }
     catch(ex)
@@ -664,25 +691,19 @@ annotationExtensionChrome.bottomAnnotationWindow =
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
   /**
-   * Handler pro tlacitko vybrat typ
+   * Handler pro aeSelectType - vybrani noveho typu
    */
-  openTypesWindow : function()
+  newTypeSelectedHandler : function(typeBox)
   {
-    var params = {out:null};
-    window.openDialog("chrome://annotationextension/content/windows/typesWindow.xul", "annotationextension:typesWindow", "resizable,chrome,centerscreen,modal,height=400,width=600", params);
-    if (params.out)
+    var tab = annotationExtensionChrome.bottomAnnotationWindow.getCurrentTab();  
+    if (tab.loadAttributes == true)
     {
-      var tab = annotationExtensionChrome.bottomAnnotationWindow.getCurrentTab();
-      
-      if (tab.loadAttributes == true)
-      {
-        annotationExtensionChrome.bottomAnnotationWindow.selectNewType(params.out.typeURI, params.out.typeName);
-        tab.loadAttributes = false;
-      }
-      else
-      {
-        annotationExtensionChrome.bottomAnnotationWindow.selectNewType(params.out.typeURI, params.out.typeName, false, false);
-      }
+      annotationExtensionChrome.bottomAnnotationWindow.selectNewType(typeBox.aeSelectedTypeURI, typeBox.aeSelectedTypeName);
+      tab.loadAttributes = false;
+    }
+    else
+    {
+      annotationExtensionChrome.bottomAnnotationWindow.selectNewType(typeBox.aeSelectedTypeURI, typeBox.aeSelectedTypeName, false, false);
     }
   },
   
@@ -880,9 +901,11 @@ annotationExtensionChrome.bottomAnnotationWindow =
   createSuggestAnnotationsPanelContent : function()
   {
     let stringBundle = document.getElementById("annotationextension-string-bundle");
-    
+
     var suggestBox = document.createElement("box");
-    suggestBox.setAttribute("class", "suggestAnnotation");
+		suggestBox.setAttribute("class", "suggestAnnotation");
+    suggestBox.setAttribute("type", "suggestAnnotation");
+		suggestBox.aeMainAEChrome = annotationExtensionChrome;
     
     var sB = document.createElement("button");
     sB.setAttribute("label", stringBundle.getString("annotationextension.suggestAnnotationPanel.confirmButton.label"));
@@ -897,6 +920,8 @@ annotationExtensionChrome.bottomAnnotationWindow =
     var sVB = document.createElement("vbox");
     sVB.appendChild(suggestBox);
     sVB.appendChild(sBB);
+		
+		suggestBox.aeMainAEChrome = annotationExtensionChrome;
   
     return sVB;
   },
@@ -923,7 +948,7 @@ annotationExtensionChrome.bottomAnnotationWindow =
     var panel = annotationExtensionChrome.infoPanel.get('aeSuggestPanel');
     var suggestBox = $(panel).find('.suggestAnnotation').get(0);
     var typeURI = suggestBox.getAttribute('typeURI');
-    if (typeURI == 'null')
+    if (typeURI == 'undefined' || typeURI == 'null' || typeURI == '')
       typeURI = null;
     var suggestionForDoc = suggestBox.getAttribute('isDocumentSelected');
     
@@ -1311,168 +1336,7 @@ annotationExtensionChrome.bottomAnnotationWindow =
       alert('annotationWindow.js : restoreAnnotationRanges:\n' + ex.message);
     }
   },
-  
-  //////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
-  //////      Funkce pro autocomplete textbox (vyber typu anotace)       ///////
-  //////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
-  autocompleteParams : [],
-  typeCreatedInTextbox : false,
-  
-  //Nastaveni typu pro anotaci z autocompletu
-  autocompleteTypeSelected : function()
-  {    
-    var texbox = document.getElementById('aeTypeSelect');
-    var index = annotationExtensionChrome.autocompleteURIs.getIndexByProp('linear', texbox.value);
-    
-    if (index != -1)
-    {//Typ prisel ze serveru a je ulozen v poli
-      var type = annotationExtensionChrome.autocompleteURIs.getAtIndex(index);
-      
-      var tab = annotationExtensionChrome.bottomAnnotationWindow.getCurrentTab();     
-      if (tab.loadAttributes == true)
-      {
-        this.selectNewType(type.uri, texbox.value);          
-        tab.loadAttributes = false;
-      }
-      else
-      {
-        this.selectNewType(type.uri, texbox.value, false, false);
-      }
-      
-      var confirmLabel = document.getElementById('aeConfirmTypeLabel');
-      confirmLabel.hidden = true;
-    }
-    else
-    {
-      //TODO: doimplementovat!!!
-      //this.selectNewType('', '');
-      this.addNewType(texbox.value, texbox.id);
-    }
-  },
-  
-  autocompleteTypeInput : function(textBox)
-  {
-    var confirmLabel = document.getElementById('aeConfirmTypeLabel');
-    if (textBox.value != annotationExtensionChrome.bottomAnnotationWindow.selectedTypeName)
-    {
-      confirmLabel.hidden = false;
-    }
-    else
-      confirmLabel.hidden = true;
-  },
-  
-  //Nastaveni typu pro atribut z autocompletu
-  autocompleteAttrSelected : function(id)
-  {
-    var texbox = document.getElementById(id+'-typeTextbox-'+this.getCurrentTabID());
-    var index = annotationExtensionChrome.autocompleteURIs.getIndexByProp('linear', texbox.value);
-    
 
-    if(annotationExtension.attrConstants.isSimple(texbox.value))
-    {//Jednoduchy typ
-      if (index != -1)
-      {//Muzu vybrat mezi jednoduchym a slozenym
-        var retVals = { struct : false};
-        
-        window.openDialog("chrome://annotationextension/content/dialogs/simpleOrStructuredDialog.xul", "annotationextension:simpleOrStructWindow", "chrome,modal,centerscreen", retVals);
-        
-        if (retVals.struct == false)
-        {//Vyber jednoduchy typ
-          annotationExtensionChrome.attributes.setTypeToAttribute(texbox.value, id);
-        }
-        else
-        {//Vyber strukturovany typ
-          var type = annotationExtensionChrome.autocompleteURIs.getAtIndex(index);
-          annotationExtensionChrome.attributes.setTypeToAttribute(type.uri, id);
-        }
-      }
-      else
-      {
-        annotationExtensionChrome.attributes.setTypeToAttribute(texbox.value, id);
-      }
-    }
-    else if (index != -1)
-    {//Typ anotace
-      var type = annotationExtensionChrome.autocompleteURIs.getAtIndex(index);
-      annotationExtensionChrome.attributes.setTypeToAttribute(type.uri, id); 
-    }
-    else
-    {//ani jedno
-      //TODO: implementovat
-      //annotationExtensionChrome.attributes.setTypeToAttribute('String', id);
-      annotationExtensionChrome.bottomAnnotationWindow.addNewType(texbox.value, id);
-    }
-  },
-  
-  addNewType : function(typeName, textboxId)
-  {
-    annotationExtensionChrome.client.addTypeAutocompleteTextbox(textboxId, typeName);
-  },
-  
-  addTypesAndSelectInAutocompleteTextbox : function(typesArray, typeName, textboxId)
-  {
-    try
-    {
-      var lastTypeName = typeName.replace(/->/g, '/');
-      lastTypeName = lastTypeName.replace(/.*\//, '');
-      //lastTypeName = lastTypeName.replace(/^\s*/, '');
-    
-      
-      var count = typesArray.count;
-      var type;
-  
-      for(var i = 0; i < count; i++)
-      {
-        type = typesArray.shift();
-        //Pridani typu do datasource typu.
-        var resourceTypeName = annotationExtensionChrome.typesDatasource.getResourceProp(type.uri, 'name');
-        if (resourceTypeName != null)
-        //Uz existuje
-          continue;
-        
-        var result = annotationExtensionChrome.typesDatasource.addType(type);
-        //TODO: pokud se result == false zpracovat
-        
-        //Pridani atributu do datasource atributu.
-        annotationExtensionChrome.typeAttrDatasource.addNewObject2(type);
-      }
-      
-      //////////////////////////////////////////////////////////////////////////
-      //////////////////////////////////////////////////////////////////////////
-      //Posledni pridany typ(prijaty typ od serveru) je typ, ktery chci vybrat
-      //TODO: nemusi byt pravda?
-      if (textboxId == 'aeTypeSelect')
-      {//Novy typ pro hlavni anotaci
-        var linearizedURI = annotationExtension.functions.linearTypeURI(type.uri);
-        var tab = annotationExtensionChrome.bottomAnnotationWindow.getCurrentTab();     
-        if (tab.loadAttributes == true)
-        {
-          annotationExtensionChrome.bottomAnnotationWindow.selectNewType(type.uri, linearizedURI);
-          
-          tab.loadAttributes = false;
-        }
-        else
-        {
-          annotationExtensionChrome.bottomAnnotationWindow.selectNewType(type.uri, linearizedURI, false, false);
-        }
-      }
-      else
-      {//Novy typ vyber do atributu
-        annotationExtensionChrome.attributes.setTypeToAttribute(type.uri, textboxId);
-      }
-      //////////////////////////////////////////////////////////////////////////
-      //////////////////////////////////////////////////////////////////////////
-    }
-    catch(ex)
-    {
-      alert('annotationWindow.js : addTypesAndSelectInAutocompleteTextbox:\n' + ex.message);
-    }
-  },
-  
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
@@ -1842,15 +1706,13 @@ annotationExtensionChrome.bottomAnnotationWindow =
       this.selectingNested = false;
       this.nestedAnnotationUIID = null;
       this.documentAnnotation = false;
-      var confirmLabel = document.getElementById('aeConfirmTypeLabel');
-      confirmLabel.hidden = true;
       
       var contentTextbox = document.getElementById('aeContentText');
       var selectedTextTextbox = document.getElementById('aeSelectedText');
       var typeTextbox = document.getElementById('aeTypeSelect');
         selectedTextTextbox.value = "";
         contentTextbox.value = "";
-        typeTextbox.value = "";
+        typeTextbox.aeRestore();
         
       //Skryti tlacitek na pridani atributu
       var button1 = document.getElementById('aeAddAttributeToAttrButton');
@@ -1900,5 +1762,13 @@ annotationExtensionChrome.bottomAnnotationWindow =
     annotationExtensionChrome.typeAttrDatasource = null;
     annotationExtensionChrome.attrDatasource = null;
     annotationExtensionChrome.typesDatasource = null;
-  }
+  },
+	
+	/**
+	 * Smaze data z databaze a odpoji ji
+	 */
+	destroyDatabase : function()
+	{
+		annotationExtension.typesStorageService.destroy();
+	}
 };

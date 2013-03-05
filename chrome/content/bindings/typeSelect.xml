@@ -1,0 +1,372 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://annotationextension/locale/annotationExtension.dtd">
+
+<bindings xmlns="http://www.mozilla.org/xbl"
+          xmlns:html="http://www.w3.org/1999/xhtml"
+          xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+          xmlns:xbl="http://www.mozilla.org/xbl">
+  
+  <binding id="typeSelect">
+    
+    <resources>
+      <stylesheet src="chrome://annotationextension/skin/typeSelect.css"/>
+    </resources>
+    
+    <content>
+      <xul:vbox flex="1">
+        <xul:textbox
+          anonid="type-textbox"
+          class="aeTypeTextbox"
+          type="autocomplete"
+          row="1"
+          flex="1"
+          autocompletepopup="aeRichPopup"
+          showcommentcolumn="true"
+          autocompletesearch="aeautocomplete"
+          ontextentered="document.getBindingParent(this).aeOnTextEntered(this);"
+          onpaste="return(false);"
+          oninput="document.getBindingParent(this).aeOnInput(this);"  
+        />
+        <xul:hbox
+          anonid="confirm-box"
+          hidden="true"
+          flex="1">
+          <xul:label
+            anonid="confirm-label"
+            flex="1"
+            value="&annotationextension.aeTypeSelect.confirmType.label;"
+            hidden="true"/>
+        </xul:hbox>
+      </xul:vbox>
+      <children/>
+    </content>
+    
+    <implementation>
+      <constructor>
+        <![CDATA[
+          Components.utils.import("resource://annotationextension/typesStorageService.jsm");
+          this.setAttribute('flex', '1');
+          this.pack = "center";
+          this.align = "top";
+          
+          this.aeShowSimple = this.getAttribute('aeShowSimple') == 'true' ? true : false;
+          
+          var panel = document.getElementById('aeRichPopup');
+          if (!panel)
+          {
+            panel = document.createElement('panel');
+            panel.id = "aeRichPopup";
+            panel.setAttribute('type', 'autocomplete-richlistbox');
+            panel.setAttribute('noautofocus', 'true');
+            this.appendChild(panel);
+          }
+          
+          var id = this.id;
+          if (id != "")
+          {
+            var textbox = document.getAnonymousElementByAttribute(this, "anonid", "type-textbox");
+            textbox.id = id + '-type-textbox';
+          }
+          
+          var confirmTextHidden = this.getAttribute("aeConfirmTextHidden");
+          if (confirmTextHidden == "false")
+          {
+            var confirmBox = document.getAnonymousElementByAttribute(this, "anonid", "confirm-box");
+            confirmBox.setAttribute("hidden", "false");
+          }
+          
+          this.mAeSelectedTypeName = "";
+          this.mAeSelectedTypeURI = "";
+          
+          this.aeAdditionalAttrs = {};
+        ]]>
+      </constructor>
+      
+      <!-- =================== PUBLIC MEMBERS =================== -->
+      
+      <property name="aeSelectedTypeName"
+        readonly="true"
+        onget="return this.mAeSelectedTypeName;">
+      </property>
+      
+      <property name="aeSelectedTypeURI"
+        readonly="true"
+        onget="return this.mAeSelectedTypeURI;">
+      </property>
+      
+      <property name="aeAttrId"
+        onset="this.setAttribute('aeAttrId');"
+        onget="return this.getAttribute('aeAttrId');">
+      </property>
+      
+      <property name="aeShowSimple"
+        onget="return this.getAttribute('aeShowSimple') == 'true' ? true : false;">
+        <setter>
+          <![CDATA[
+            if (val == true)
+            {
+              var textbox = document.getAnonymousElementByAttribute(this, "anonid", "type-textbox");
+              textbox.searchParam = 'showSimple';
+              this.setAttribute('aeShowSimple', 'true');
+            }
+            else
+            {
+              this.setAttribute('aeShowSimple', 'false');
+            }
+          ]]>
+        </setter>
+      </property>
+      
+      <property name="aeValue"
+        readonly="true"
+        onget="return document.getAnonymousElementByAttribute(this, 'anonid', 'type-textbox').value;">
+      </property>
+      
+      <method name="aeRestore">
+        <body>
+          <![CDATA[
+            this.aeSetType("","");
+					]]>
+        </body>
+      </method>
+      
+      <method name="aeSetType">
+        <parameter name="typeURI"/>
+        <parameter name="typeName"/>
+        <body>
+          <![CDATA[
+            this.mAeSelectedTypeURI = typeURI;
+            this.mAeSelectedTypeName = typeName;
+            this.aeSetTypeTextbox(typeName);
+            this.aeCheckTypeTextboxInput();
+					]]>
+        </body>
+      </method>
+      
+      <method name="aeSetTypeTextbox">
+        <parameter name="typeName"/>
+        <body>
+          <![CDATA[
+            document.getAnonymousElementByAttribute(this, "anonid", "type-textbox").value = typeName;
+					]]>
+        </body>
+      </method>
+      
+      <!-- =================== PRIVATE MEMBERS =================== -->
+      
+      <method name="aeOnInput">
+        <parameter name="textbox"/>
+        <body>
+          <![CDATA[
+            this.aeCheckTypeTextboxInput(); 
+					]]>
+        </body>
+      </method>
+      
+      <method name="aeOnTextEntered">
+        <parameter name="textbox"/>
+        <body>
+          <![CDATA[
+            var newTypeName = this.aeValue.replace(/\s+$/g, "");
+            this.aeSetTypeTextbox(newTypeName);
+            
+            if (this.aeShowSimple && newTypeName.search(/ - SIMPLE TYPE$/) != -1)
+            {
+              newTypeName = newTypeName.replace(/ - SIMPLE TYPE$/, "")
+              this.aeSelectNewType(newTypeName, newTypeName);
+            }
+            else
+            {
+              var resultFound = this.aeTrySetType(newTypeName);
+              
+              if (!resultFound)
+              {//Nenalezena odpovidajici hodnota, pridej novy typ
+                var thisObj = this;
+                var newType = new this.aeMainAEChrome.type(newTypeName, "", "", "", null, "");
+                var selectWhenNewTypes = function()
+                {//Odpoved od serveru
+                  var resultFound = thisObj.aeTrySetType(newTypeName);
+                }
+                this.aeMainAEChrome.client.addTypes([newType], selectWhenNewTypes);
+              }
+            }
+					]]>
+        </body>
+      </method>
+      
+      <method name="aeTrySetType">
+        <parameter name="typeName"/>
+        <body>
+          <![CDATA[
+          try
+          {
+            var found = false;
+            var getTypesStatement = annotationExtension.typesStorageService.createGetTypesStatetment();
+            
+            getTypesStatement.params.filter = typeName.toLowerCase();
+            getTypesStatement.params.limit = 1;
+            
+            //XXX nenadelas nic, je potreba volat synchrone
+            //1. nehleda se ve velke datab. a pouze jeden vysledek
+            //2. u asynchroniho volani nelze poznat, jestli se neco vratilo??? - problem
+            while(getTypesStatement.executeStep())
+            {
+              let urivalue = getTypesStatement.row.uri;
+              let serializedvalue = getTypesStatement.row.serialized;
+              
+              this.aeSelectNewType(urivalue, serializedvalue);
+            
+              found = true;
+              break;
+            }
+          }
+          finally
+          {
+            getTypesStatement.finalize();
+            return found;
+          }
+					]]>
+        </body>
+      </method>
+      
+      <method name="aeSelectNewType">
+        <parameter name="typeURI"/>
+        <parameter name="typeName"/>
+        <body>
+          <![CDATA[
+            this.aeSetTypeTextbox(typeName);
+              
+            this.mAeSelectedTypeURI = typeURI;
+            this.mAeSelectedTypeName = typeName;
+            var id = this.id;             
+            if (this.aeOnTypeSelect)
+              this.aeOnTypeSelect(this, this.aeContext);
+              
+            this.aeCheckTypeTextboxInput();
+					]]>
+        </body>
+      </method>
+      
+      <method name="aeCheckTypeTextboxInput">
+        <body>
+          <![CDATA[
+            var confirmLabel = document.getAnonymousElementByAttribute(this, "anonid", "confirm-label");    
+            var textboxBox = document.getAnonymousElementByAttribute(this, "anonid", "type-textbox");
+            
+            if (this.aeValue != this.aeSelectedTypeName)
+            {
+              confirmLabel.hidden = false;
+              textboxBox.className = "aeNotConfirmed";
+            }
+            else
+            {
+              confirmLabel.hidden = true;
+              textboxBox.className = "aeTypeTextbox";
+            }
+					]]>
+        </body>
+      </method>
+       
+    </implementation>
+    
+  </binding>
+  
+  <binding id="typeSelectButton">
+    
+    <resources>
+      <stylesheet src="chrome://annotationextension/skin/typeSelect.css"/>
+    </resources>
+    
+    <content>
+      <xul:hbox>
+        <xul:button
+              anonid="type-button"
+              id="aeOpenTypesWinButton"
+              label="&annotationextension.choose.button.label;"
+              tooltiptext="&annotationextension.annotationWindow.choose.tooltip;"
+              oncommand="document.getBindingParent(this).aeOpenTypesWindow();"/>
+      </xul:hbox>
+      <children/>
+    </content>
+    
+    <implementation>
+      
+      <property name="aeTypeSelect"
+        onset="this.setAttribute('aeTypeSelect');"
+        onget="return this.getAttribute('aeTypeSelect');">
+      </property>
+      
+      <property name="aeTypeSelectNode"
+        onset="this.mAeTypeSelectNode = val;"
+        onget="return this.mAeTypeSelectNode;">
+      </property>
+
+      <method name="aeOpenTypesWindow">
+        <body>
+          <![CDATA[
+            var typeSelectBox;
+            if (this.mAeTypeSelectNode)
+              typeSelectBox = this.mAeTypeSelectNode;
+            else
+              typeSelectBox = document.getElementById(this.aeTypeSelect);
+              
+            if (typeSelectBox)
+            {
+              var params = {out:null, input: {id : typeSelectBox.id,
+                                              mainAEChrome : typeSelectBox.aeMainAEChrome,
+                                              attrId : typeSelectBox.aeAttrId}};
+              
+              if (!typeSelectBox.aeShowSimple)
+                window.openDialog("chrome://annotationextension/content/windows/typesWindow.xul", "annotationextension:typesWindow", "resizable,chrome,centerscreen,modal,height=400,width=600", params);
+              else
+                window.openDialog("chrome://annotationextension/content/windows/attrTypesWindow.xul", "annotationextension:attrTypeWindow", "resizable,chrome,centerscreen,modal,height=400,width=600", params);
+  
+              if (params.out)
+              {
+                if (params.out.additionalAttrs)
+                  typeSelectBox.aeAdditionalAttrs.setTypeInTemplate = params.out.additionalAttrs.setTypeInTemplate;
+                
+                typeSelectBox.aeSelectNewType(params.out.typeURI, params.out.typeName);
+              }
+            }
+					]]>
+        </body>
+      </method>
+      
+    </implementation>
+    
+  </binding>
+  
+  
+  
+  <binding id="typeSelectLabel">
+    
+    <resources>
+      <stylesheet src="chrome://annotationextension/skin/typeSelect.css"/>
+    </resources>
+    
+    <content>
+      <xul:label
+        anonid="type-label"
+        value="&annotationextension.aeTypeSelect.typeAnnotation.label;"
+        tooltiptext="&annotationextension.annotationWindow.selectedType.tooltip;"/>
+      <children/>
+    </content>
+    
+    <implementation>
+      <constructor>
+        <![CDATA[
+          var aControl = this.getAttribute('control');
+          if (aControl)
+          {
+            var label = document.getAnonymousElementByAttribute(this, "anonid", "type-label");
+            label.control = aControl + '-type-textbox';
+          }
+        ]]>
+      </constructor>
+    </implementation>
+    
+  </binding>
+
+</bindings>

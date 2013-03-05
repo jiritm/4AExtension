@@ -11,8 +11,8 @@
 <?xml-stylesheet type="text/css" href="chrome://annotationextension/skin/annotationExtension.css" ?>
 <?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
 
-<!DOCTYPE overlay SYSTEM
-  "chrome://annotationextension/locale/annotationExtension.dtd">
+<!DOCTYPE overlay SYSTEM "chrome://annotationextension/locale/annotationExtension.dtd">
+
 <!-- Okno pro zobrazeni typu anotaci-->
 <window
     id="annotationextension-types-window"
@@ -22,6 +22,10 @@
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
     onload="annotationExtensionChrome.typesWindow.init();"
     onunload="annotationExtensionChrome.typesWindow.destroy();">
+  
+  <stringbundleset id="stringbundleset">
+    <stringbundle id="annotationextension-string-bundle" src="chrome://annotationextension/locale/annotationExtension.properties" />
+  </stringbundleset>
   
   <script type="application/x-javascript"
     src="chrome://annotationextension/content/annotCreation/namespace.js" />

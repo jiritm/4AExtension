@@ -23,6 +23,7 @@ function aeSearch()
 {
   Components.utils.import("resource://annotationextension/namespace.jsm");
   Components.utils.import("resource://annotationextension/constants.jsm");
+	Components.utils.import("resource://annotationextension/typesStorageService.jsm");
 };
 
 aeSearch.prototype =
@@ -40,112 +41,50 @@ aeSearch.prototype =
    */	
   startSearch: function(searchString, searchParam, previousResult, listener)
   {
-    var windowMediator = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-      .getService(Components.interfaces.nsIWindowMediator);
-    //Oznacene okno - ziskani kodu okna
-    let topWindow = windowMediator.getMostRecentWindow(null);
-		
     var results = [];   
     var comments = [];
-     
-    //Ve funkci onSearchResult nelze prime dosazeni this
+		
     var thisObject = this;
-    
-    var httpRequest = C.classes["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(Ci.nsIXMLHttpRequest);
-    httpRequest.onload = function()
-    {
-      var len = topWindow.annotationExtensionChrome.bottomAnnotationWindow.autocompleteParams.length;
-      topWindow.annotationExtensionChrome.bottomAnnotationWindow.autocompleteParams.splice(0, len);
-			
-      //TODO:
-      //SPRAVNE NAPARSOVAT A ZISKAT TYPY
-      var suggestion = httpRequest.responseXML.getElementsByTagName('type');
-      
-      //var min = Math.min(10, suggestion.length);
-      var min = suggestion.length;
-      
-      for (var i = 0; i < min; i++)
-      {
-				var uri = suggestion[i].getAttribute('uri');
-				var linear = topWindow.annotationExtension.functions.linearTypeURI(uri);
-				
-				if (annotationExtension.attrConstants.isSimple(linear))
-				{//Structured typ je taky jednoduchy - uz je do autocomplete pridan z jednoduchych typu
-					//TODO:
-					//Zmen ale ikonku jednoducheho typu na structured
-				}
-				//else
-				{
-					results.push(linear);
-					var typeComment = suggestion[i].getElementsByTagName('comment');
-					if(typeComment.length > 0)
-					{
-						var commentOK = false;
-						if(typeComment[0].hasChildNodes)
-						{
-							var childComment = typeComment[0].firstChild;
-							
-							while (childComment != null)
-							{
-								if (childComment.nodeType === 4) //CDATA
-								{
-									comments.push(childComment.nodeValue);
-									commentOK = true;
-									break;
-								}
-								childComment = childComment.nextSibling;
-							}
-						}
-						if (commentOK == false)
-							comments.push("");
-					}
-					else
-					{
-					  comments.push("");
-				  }
-				}
-				
-				topWindow.annotationExtensionChrome.autocompleteURIs.addNew({linear : linear, uri : uri});
-      }      
-    
-      //Upozorneni "listenera" na vysledek ze serveru
-      var newResult = new aeSearchResult(searchString, 4, 0, "", results, comments);
-      listener.onSearchResult(thisObject, newResult);
-    };
-		
-    //TODO:
-    //spravne filtrovani!!
-    var body = '<?xml version="1.0" encoding="utf-8" ?><messages>';
-    body += '<session id="'+topWindow.annotationExtensionChrome.client.sessionID+'"/>'
-    body += '<queryTypes filter="' + '*' + searchString + '*' + '"/>';
-    body += '</messages>';
-
-    httpRequest.open('POST', topWindow.annotationExtensionChrome.client.address , true);
-    httpRequest.setRequestHeader('Content-Type', 'application/xml');
-    httpRequest.send(body);
-		
-    //////////////////////////////////////////////////////////////////////
-    //////////////    AUTOCOMPLETE PRO ATRIBUTY            ////////////////
-    /////////////////////////////////////////////////////////////////////
-    if (searchParam == "attrType")
+		 //var  consoleService = Components.classes["@mozilla.org/consoleservice;1"].getService(Components.interfaces.nsIConsoleService);
+		 //consoleService.logStringMessage('search param: ' + searchParam);
+		//Pokud chci v autocomplete typu zobrazit i jednoduche typy atributu
+		if (searchParam == "showSimple")
     {
       var lowerCaseSearchString = searchString.toLowerCase();
     
-      var simpleTypes = [ 'String', 'URI', 'DateTime', 'Integer', 'Decimal', 'Date', 'Time', 'Boolean', 'Person', 'GeoPoint'];
+      var simpleTypes = annotationExtension.attrConstants.simpleTypesArray;
       for (var i = 0; i < simpleTypes.length; i++)
       {
-    	var lowerCaseSimpleType = simpleTypes[i].toLowerCase();
-    			
-    	if(lowerCaseSimpleType.search(lowerCaseSearchString) != -1)
-    	{//Pokud se hledany vyraz nachazi v jednom ze simpleType, zobraz dany simple type v autocomplete
-    	  results.push(simpleTypes[i]);
-    	  comments.push("Simple");
-    	}
+				var lowerCaseSimpleType = simpleTypes[i].toLowerCase();
+						
+				if(lowerCaseSimpleType.search(lowerCaseSearchString) != -1)
+				{//Pokud se hledany vyraz nachazi v jednom ze simpleType, zobraz dany simple type v autocomplete
+					results.push(simpleTypes[i] + ' - SIMPLE TYPE');
+					comments.push("Simple");
+				}
       }
-    }
-    ////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////
+    }		
+		
+		var resultHandler  = annotationExtension.typesStorageService.createHandler();
+		resultHandler.handleResult = function(aResultSet)
+		{
+    
+			for (let row = aResultSet.getNextRow(); row;	row = aResultSet.getNextRow())
+			{
+				let urivalue = row.getResultByName("uri");
+				let serializedvalue = row.getResultByName("serialized");
+				let commentvalue = row.getResultByName("comment");
+					
+				results.push(serializedvalue);
+				comments.push(commentvalue);
+			}
+				
+			var newResult = new aeSearchResult(searchString, 4, 0, "", results, comments);
+			//Nalezene typu jsou pripravene, upozorni
+			listener.onSearchResult(thisObject, newResult);
+		};
+		
+		annotationExtension.typesStorageService.getTypes("%"+searchString+"%", 5, resultHandler);		
   },
   
   /**

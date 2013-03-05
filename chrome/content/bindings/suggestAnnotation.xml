@@ -4,17 +4,25 @@
 
 <bindings xmlns="http://www.mozilla.org/xbl"
   xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  
   <binding id="aeSuggestPanel">
+    
+    <resources>
+      <stylesheet src="chrome://annotationextension/skin/suggestAnnotation.css"/>
+    </resources>
     
     <content>
       <xul:vbox flex="1">
         <!-- VYBRANY TEXT -->
-        <xul:vbox class="aeSuggestAnnotationSelectionBox" flex="1">
+        <xul:vbox anonid="aeSuggestAnnotationSelectionBox" flex="1">
           <xul:label value="&annotationextension.aeSelectedText.selectedText.label;"
               tooltiptext="&annotationextension.annotationWindow.selectedText.tooltip;"/>
-          <xul:hbox class="aeSuggestAnnotationSelectionBoxForDocument" pack="center" align="center" flex="1">
-            <xul:deck selectedIndex="1" flex="1">
+          <xul:hbox anonid="selectedText-box"
+            class="aeSuggestAnnotationSelectionBoxForDocument" pack="center" align="center" flex="1">
+            <xul:deck anonid="selectedText-deck"
+              selectedIndex="1" flex="1">
               <xul:textbox
+                anonid="selectedText-textbox"
                 tooltiptext="&annotationextension.annotationWindow.selectedText.tooltip;"
                 multiline="true" rows="2" readonly="true" flex="1"/>
               <xul:hbox flex="1" pack="center" align="center">
@@ -24,23 +32,20 @@
           </xul:hbox>
         </xul:vbox>
         <!-- TYP -->
-        <xul:vbox class="aeSuggestAnnotationTypeBox" flex="1">
-          <xul:label value="&annotationextension.aeTypeSelect.typeAnnotation.label;"
-            tooltiptext="&annotationextension.annotationWindow.selectedType.tooltip;"/>
-          <xul:hbox align="center">
-            <xul:hbox flex="1">
-              <xul:textbox rows="1" flex="1"
-                class="textboxForType"
-                value="&annotationextension.suggestAnnotation.type.all;"
-                annotationExtensionAllTypes="&annotationextension.suggestAnnotation.type.all;"
-                height="25px"
-                onpaste="return(false);"/>              
-            </xul:hbox>
+        <xul:vbox anonid="aeSuggestAnnotationTypeBox" flex="1">
+          <xul:box id="aeTypeLabel"
+            type="aeTypeSelectLabel"/>
+          <xul:hbox anonid="selectedType-box"
+              align="center">
+            <xul:box anonid="selectedType"
+              type="aeTypeSelect"
+							aeConfirmTextHidden="true"
+							aeShowSimple="false"
+              annotationExtensionAllTypes="&annotationextension.suggestAnnotation.type.all;"/>
+            <xul:box anonid="selectedType-button"
+              type="aeTypeSelectButton"/>
             <xul:button
-              label="&annotationextension.choose.button.label;"
-              tooltiptext="&annotationextension.annotationWindow.choose.tooltip;"
-              oncommand="document.getBindingParent(this).openTypesWindow();"/>
-            <xul:button
+              anonid="aeAllTypesButton"
               label="&annotationextension.suggestAnnotation.type.all;"
               tooltiptext="&annotationextension.suggestAnnotation.type.all.tooltip;"
               oncommand="document.getBindingParent(this).setAllTypes();"/>
@@ -52,13 +57,34 @@
     <implementation>
       
       <constructor>
-        this.setAttribute('isDocumentSelected', 'true');
-        this.setAttribute('typeURI', 'null');
+        <![CDATA[
+          this.setAttribute('isDocumentSelected', 'true');
+          this.setAttribute('typeURI', 'null');
+          
+          var typeButton = document.getAnonymousElementByAttribute(this, "anonid", "selectedType-button");
+          var typeSelect = document.getAnonymousElementByAttribute(this, "anonid", "selectedType");
+          typeButton.aeTypeSelectNode = typeSelect;
+          
+          typeSelect.aeSetTypeTextbox(typeSelect.getAttribute('annotationExtensionAllTypes'));
+          
+          typeSelect.aeOnTypeSelect = this.aeTypeSelectHandler;
+          typeSelect.aeMainAEChrome = this.aeMainAEChrome;
+          typeSelect.aeContext = this;
+        ]]>
       </constructor>
       
       <property name="typeURI"
         onget="return this.getAttribute('typeURI');"
         onset="this.setAttribute('typeURI', val);">
+      </property>
+      
+      <property name="aeMainAEChrome"
+        onget="return this.mAeMainAEChrome;">
+        <setter>
+          this.mAeMainAEChrome = val;
+          var typeSelect = document.getAnonymousElementByAttribute(this, "anonid", "selectedType");
+          typeSelect.aeMainAEChrome = val;
+        </setter>
       </property>
       
       <property name="isDocumentSelected"
@@ -69,70 +95,60 @@
       <method name="annotateDocument">
         <parameter name="adbool"/>
         <body>
-          var main = document.getAnonymousNodes(this)[0];
-          var selectionBox = main.childNodes[1];
-          var selectionBoxInner = selectionBox.childNodes[1];
-          var deck = selectionBoxInner.childNodes[0];
-          
-          if (adbool == 'true')
-          {
-            this.setAttribute('isDocumentSelected', 'true');
-            deck.selectedIndex = 1;
-            selectionBoxInner.className = "aeSuggestAnnotationSelectionBoxForDocument";
-          }
-          else
-          {
-            this.setAttribute('isDocumentSelected', 'false');
-            deck.selectedIndex = 0;
-            selectionBoxInner.className = "";
-          }
-        </body>
-      </method>
-      <method name="openTypesWindow">
-        <body>
-          var params = {out:null};
-          openDialog("chrome://annotationextension/content/windows/typesWindow.xul", "annotationextension:typesWindow", "resizable,chrome,centerscreen,modal,height=400,width=600", params);
-          if (params.out)
-          {
-            var main = document.getAnonymousNodes(this)[0];
-            var typeBox = main.childNodes[3];
-            var typeInnerBox = typeBox.childNodes[1];
-            var typeTextboxBox = typeInnerBox.childNodes[0];
-            var typeTextbox = typeTextboxBox.childNodes[0];
+          <![CDATA[
+            var deck = document.getAnonymousElementByAttribute(this, "anonid", "selectedText-deck");
+            var box = document.getAnonymousElementByAttribute(this, "anonid", "selectedText-box");
             
-            typeTextbox.value = params.out.typeName;
-            this.setAttribute('typeURI', params.out.typeURI);
-          }
+            if (adbool == 'true')
+            {
+              this.isDocumentSelected = true;
+              deck.selectedIndex = 1;
+              box.className = "aeSuggestAnnotationSelectionBoxForDocument";
+            }
+            else
+            {
+              this.isDocumentSelected = false;
+              deck.selectedIndex = 0;
+              box.className = "";
+            }
+          ]]>
         </body>
       </method>
+
       <method name="setText">
         <parameter name="text"/>
         <body>
-          if (text.length > 0)
-            this.annotateDocument('false');
-          else
-            this.annotateDocument('true');
-            
-          var main = document.getAnonymousNodes(this)[0];
-          var selectionBox = main.childNodes[1];
-          var selectionBoxInner = selectionBox.childNodes[1];
-          var deck = selectionBoxInner.childNodes[0];
-          var textbox = deck.childNodes[0];
-          
-          textbox.value = text;          
+          <![CDATA[
+            if (text.length > 0)
+              this.annotateDocument('false');
+            else
+              this.annotateDocument('true');
+              
+            var textbox = document.getAnonymousElementByAttribute(this, "anonid", "selectedText-textbox");
+            textbox.value = text;
+          ]]>
         </body>
       </method>
+      
       <method name="setAllTypes">
         <body>
-          this.setAttribute('typeURI', 'null');
+          <![CDATA[
+            var typeSelect = document.getAnonymousElementByAttribute(this, "anonid", "selectedType");
+            typeSelect.aeRestore();
+            typeSelect.aeSetTypeTextbox(typeSelect.getAttribute('annotationExtensionAllTypes'));
           
-          var main = document.getAnonymousNodes(this)[0];
-          var typeBox = main.childNodes[3];
-          var typeInnerBox = typeBox.childNodes[1];
-          var typeTextboxBox = typeInnerBox.childNodes[0];
-          var typeTextbox = typeTextboxBox.childNodes[0];
-            
-          typeTextbox.value = typeTextbox.getAttribute('annotationExtensionAllTypes');
+            this.typeURI = null;
+          ]]>
+        </body>
+      </method>
+      
+      <method name="aeTypeSelectHandler">
+        <parameter name="typeBox"/>
+        <parameter name="thisObj"/>
+        <body>
+          <![CDATA[
+            thisObj.typeURI = typeBox.aeSelectedTypeURI;
+          ]]>
         </body>
       </method>
       

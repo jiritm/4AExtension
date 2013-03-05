@@ -72,6 +72,25 @@ annotationExtension.attrConstants =
   SIMPLE_BINARY : 'Binary',
   SIMPLE_PERSON : 'Person',  // Deprecated
   
+  simpleTypesArray :
+  [
+    'String',
+    'URI',
+    'DateTime',
+    'Integer',
+    'Decimal',
+    'Date',
+    'Time',
+    'Boolean',
+    'GeoPoint',
+    'Duration',
+    'Image',
+    'Text',
+    'AnyAnnotation',
+    'Binary',
+    'Person'
+  ],
+  
   /**
    * Je typ simple?
    * @param {string} type jmeno typu
@@ -79,18 +98,17 @@ annotationExtension.attrConstants =
    */
   isSimple : function(type)
   {
-    if (type == null)
+    if (type == null || type == undefined)
       return false;
     
     type = type.toLowerCase();
-
-    if (type == this.SIMPLE_STRING.toLowerCase() || type == this.SIMPLE_URI.toLowerCase() || type == this.SIMPLE_DATETIME.toLowerCase() ||
-        type == this.SIMPLE_INTEGER.toLowerCase() || type == this.SIMPLE_DECIMAL.toLowerCase() || type == this.SIMPLE_DATE.toLowerCase() ||
-        type == this.SIMPLE_TIME.toLowerCase() || type == this.SIMPLE_BOOLEAN.toLowerCase() || type == this.SIMPLE_DURATION.toLowerCase() ||
-        type == this.SIMPLE_GEOPOINT.toLowerCase() || type == this.SIMPLE_IMAGE.toLowerCase() || type == this.SIMPLE_TEXT.toLowerCase()
-        || type == this.SIMPLE_ANYANNOTATION.toLowerCase() || type == this.SIMPLE_BINARY.toLowerCase() || type == this.SIMPLE_PERSON.toLowerCase())
-      return true;
     
+    for (var i = 0; i < this.simpleTypesArray.length; ++i)
+    {
+      if (type == this.simpleTypesArray[i].toLowerCase())
+        return true;
+    }
+
     return false;
   }
 };

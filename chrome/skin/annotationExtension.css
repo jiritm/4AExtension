@@ -40,6 +40,31 @@ toolbar[iconsize="small"] #aeButton {
   border-radius: 0px 0px 4px 4px;
 }
 
+#aeTypeSelect {
+  margin: 3px;
+  margin-right: 0;
+  padding: 3px;
+  background-color: #DDDDDD;
+  border-radius: 4px 0 0 4px;
+}
+
+#aeTypeButton {
+  margin: 3px;
+  margin-left: 0;
+  padding: 3px;
+  background-color: #DDDDDD;
+  border-radius: 0 4px 4px 0;
+}
+
+#aeTypeButton button {
+  margin: 0;
+  padding: 0;
+}
+
+#aeSaveDeleteAnnot-box{
+  margin-top: 5px;
+}
+
 /** Box pro label */
 .labelBox {
   padding : 3px;
@@ -85,16 +110,7 @@ toolbar[iconsize="small"] #aeButton {
   border-radius: 4px 4px 4px 4px;
 }
 
-#typeTextboxBox {
-  background-color: #FFFFFF;
-  border-radius: 4px 4px 4px 4px;
-}
-
 .textboxForURI {
-  min-width: 300px;
-}
-
-.textboxForType {
   min-width: 300px;
 }
 
@@ -103,19 +119,6 @@ toolbar[iconsize="small"] #aeButton {
   border-radius: 4px 4px 4px 4px;
   -webkit-box-shadow: 5px 5px 5px #777777;
   box-shadow: 5px 5px 5px #777777;
-}
-
-.typeGridRow {
-  background-color: #DDDDDD;
-  border-radius: 4px 4px 4px 4px;
-}
-
-#typeGridRow {
-  margin-bottom : 5px;
-}
-
-#typeGrid {
-  margin : 3px;
 }
 
 /* Tlacitko dalsi vyber(vyber=oznaceny text ve Firefoxu) */
@@ -314,13 +317,9 @@ toolbar[iconsize="small"] #aeButton {
   list-style-image: url("chrome://annotationextension/skin/boomy/suggestAnnotationsEnd22light.png");
 }
 
-/** LABEL PRO POTVRZENI VYBRANEHO TEXTU **/
-#aeConfirmTypeLabel {
-  color : #FF2222;
-}
-
 /* CLEAR BUTTON */
 #aeClearButton {
+  margin-right: 6px;
   -webkit-box-shadow: 5px 5px 5px #777777;
   box-shadow: 5px 5px 5px #777777;
   list-style-image: url("chrome://annotationextension/skin/boomy/clear22.png");
@@ -336,6 +335,11 @@ toolbar[iconsize="small"] #aeButton {
   -webkit-box-shadow: 5px 5px 5px #AAAAAA;
   box-shadow: 5px 5px 5px #AAAAAA;
   list-style-image: url("chrome://annotationextension/skin/boomy/clear22light.png");
+}
+
+/* SAVE BUTTON DECK*/
+#aeSaveButtonDeck {
+  margin-right: 6px;
 }
 
 /* SAVE BUTTON */
@@ -399,16 +403,6 @@ toolbar[iconsize="small"] #aeButton {
   border: 1px solid #000000;*/
 }
 
-#aeOpenTypesWinButton {
-  width: 70px;
-  min-width: 70px;
-  max-width: 70px;
-  
-  max-height: 28px;
-  min-height: 28px; 
-  height: 28px;
-}
-
 /* TLACITKO PRO VYBER TYPU ATRIBUTU */
 .aeAttributeTypeSelect {
   width: 70px;
@@ -423,17 +417,15 @@ toolbar[iconsize="small"] #aeButton {
 
 /* TLACITKO PRO VYBER VNORENE ANOTACE */
 .aeSelectNestedAnnotButton {
-  width: 70px;
-  min-width: 70px;
-  max-width: 70px;
+  margin: 3px 0 0 0;
+  padding: 0;
   color : green;
 }
 
 /* TLACITKO PRO VYBER VNORENE ANOTACE */
 .aeSelectNestedAnnotButtonActive {
-  width: 110px;
-  min-width: 110px;
-  max-width: 110px;
+  margin: 3px 0 0 0;
+  padding: 0;
   color : red;
 }
 

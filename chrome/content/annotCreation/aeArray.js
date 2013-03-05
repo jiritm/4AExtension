@@ -47,6 +47,11 @@ annotationExtensionChrome.aeArray.prototype =
   /**
    * @returns {int} pocet ulozenych prvku
    */
+  get length() { return this.arrayOfObjs.length; },
+  
+  /**
+   * @returns {int} pocet ulozenych prvku
+   */
   get size() { return this.arrayOfObjs.length; },
   
   /**
@@ -109,6 +114,3 @@ annotationExtensionChrome.groups = new annotationExtensionChrome.aeArray();
 annotationExtensionChrome.removedAnnotations = [];
 //Odtud bere "program" atributy z ontologie
 annotationExtensionChrome.attrsFromOntology = [];
-
-//Pro nalezeni uri, pokud se zada text - pomocne "pole"
-annotationExtensionChrome.autocompleteURIs = new annotationExtensionChrome.aeArray();

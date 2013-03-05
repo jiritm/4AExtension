@@ -334,7 +334,7 @@ annotationExtensionChrome.addAttributeWindow =
     var newType = new annotationExtensionChrome.type(newTypeName, parentURI, uri, "", null, "");
 
     opener.annotationExtensionChrome.createdTypes.addNew(newType);
-    opener.annotationExtensionChrome.client.addTypes();
+    opener.annotationExtensionChrome.client.addTypes(opener.annotationExtensionChrome.createdTypes);
   },
   
   /**

@@ -17,8 +17,9 @@ annotationExtensionChrome.typesWindow =
    */
   init : function()
   {
+    annotationExtensionChrome.mainAEChrome = window.arguments[0].input.mainAEChrome;
     //Vytvoreni a pripojeni datasource ke stromu
-    annotationExtensionChrome.treeTypesDatasource = new annotationExtensionChrome.TreeDatasource('aeTypesTree', 'types', opener.annotationExtensionChrome.typesDatasource, null);
+    annotationExtensionChrome.treeTypesDatasource = new annotationExtensionChrome.TreeDatasource('aeTypesTree', 'types', annotationExtensionChrome.mainAEChrome.typesDatasource, null);
   },
   
   /**
@@ -99,8 +100,8 @@ annotationExtensionChrome.typesWindow =
     //Vytvoreni typu a pridani do pole pro klienta.
     var newType = new annotationExtensionChrome.type(newTypeName, parentURI, uri, "", null, "");
 
-    opener.annotationExtensionChrome.createdTypes.addNew(newType);
-    opener.annotationExtensionChrome.client.addTypes();
+    annotationExtensionChrome.mainAEChrome.createdTypes.addNew(newType);
+    annotationExtensionChrome.mainAEChrome.client.addTypes(annotationExtensionChrome.mainAEChrome.createdTypes);
   },
   
   /**
@@ -115,9 +116,9 @@ annotationExtensionChrome.typesWindow =
       //Neni vybran typ ke smazani
       return;
     
-    if (!opener.annotationExtensionChrome.typesDatasource.containerIsEmpty(typeURI))
+    if (!annotationExtensionChrome.mainAEChrome.typesDatasource.containerIsEmpty(typeURI))
     {//Je kontejner a neni prazdny, nemaz.
-      let stringBundle = opener.document.getElementById("annotationextension-string-bundle");
+      let stringBundle = document.getElementById("annotationextension-string-bundle");
       var alertLabel = stringBundle.getString("annotationextension.typesWindow.notEmpty.alert");
       alert(alertLabel);
       return;
@@ -129,8 +130,8 @@ annotationExtensionChrome.typesWindow =
     //Vytvoreni typu a pridani do pole pro klienta.
     var deleteType = new annotationExtensionChrome.type(typeName, typeAncestor, typeURI, "", null, "");
     
-    opener.annotationExtensionChrome.deleteTypes.addNew(deleteType);
-    opener.annotationExtensionChrome.client.removeTypes();
+    annotationExtensionChrome.mainAEChrome.deleteTypes.addNew(deleteType);
+    annotationExtensionChrome.mainAEChrome.client.removeTypes();
   },
   
   /**

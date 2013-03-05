@@ -391,9 +391,10 @@ annotationExtensionChrome.config =
     var params = {inn: {mainWindow : opener},
                   out:null}; 
     window.openDialog("chrome://annotationextension/content/dialogs/addSubscriptionDialog.xul", "annotationextension:addSubscriptionWindow", "chrome,centerscreen,modal", params).focus();  
-  
+  try{
     if (params.out)
     {//Pridan novy odber
+     
       if (params.out.user != "" || params.out.uri != "" || params.out.type != "")
       {
         //value="list;user;type;uri"
@@ -405,10 +406,12 @@ annotationExtensionChrome.config =
                           false,
                           null, null, null);
         
-        newSubscription.serializedUser = opener.annotationExtensionChrome.usersDatasource.getResourceProp(newSubscription.user, 'name');
+        if (newSubscription.user != "")
+          newSubscription.serializedUser = opener.annotationExtensionChrome.usersDatasource.getResourceProp(newSubscription.user, 'name');
         newSubscription.serializedType = annotationExtension.functions.linearTypeURI(newSubscription.type);
-        newSubscription.serializedSubsURI = opener.annotationExtensionChrome.groupsDatasource.getResourceProp(newSubscription.subsURI, 'name');
-        
+        if (newSubscription.subsURI != "")
+          newSubscription.serializedSubsURI = opener.annotationExtensionChrome.groupsDatasource.getResourceProp(newSubscription.subsURI, 'name');
+
         if (newSubscription.serializedUser == null)
           newSubscription.serializedUser = newSubscription.user;
         if (newSubscription.serializedSubsURI == null)
@@ -427,6 +430,7 @@ annotationExtensionChrome.config =
     else
     {//Kliknuto na cancel
     }
+  }catch(ex){alert(ex.message);}
   },
   
   saveSubscriptions : function()

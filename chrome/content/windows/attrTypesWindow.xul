@@ -24,6 +24,10 @@
     onload="annotationExtensionChrome.attrTypesWindow.init();"
     onunload="annotationExtensionChrome.attrTypesWindow.destroy();">
   
+  <stringbundleset id="stringbundleset">
+    <stringbundle id="annotationextension-string-bundle" src="chrome://annotationextension/locale/annotationExtension.properties" />
+  </stringbundleset>
+  
   <script type="application/x-javascript"
     src="chrome://annotationextension/content/annotCreation/namespace.js" />
   <script type="application/x-javascript"

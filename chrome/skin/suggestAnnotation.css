@@ -1,0 +1,23 @@
+[anonid="aeAllTypesButton"] {
+  margin: 0 3px 0 3px;
+  padding: 0;
+}
+
+[anonid="aeSuggestAnnotationSelectionBox"] {
+  padding-top: 4px;
+  border-radius: 4px 4px 0 0;
+  background-color: #BBBBBB;
+}
+
+.aeSuggestAnnotationSelectionBoxForDocument {
+  background-color: #DDDDDD;
+}
+
+[anonid="aeSuggestAnnotationTypeBox"] {
+  background-color: #BBBBBB;
+  border-radius: 0 0 4px 4px;
+}
+
+[anonid="selectedType-box"] {
+  padding-bottom: 4px;
+}

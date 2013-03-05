@@ -17,3 +17,5 @@ const Ci = Components.interfaces;
 if ("undefined" == typeof(annotationExtension)) {
   var annotationExtension = {};
 };
+
+annotationExtension.windowCount = 0;

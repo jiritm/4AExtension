@@ -14,6 +14,7 @@ Components.utils.import("resource://annotationextension/users.jsm");
 Components.utils.import("resource://annotationextension/user.jsm");
 Components.utils.import("resource://annotationextension/constants.jsm");
 Components.utils.import("resource://annotationextension/functions.jsm");
+Components.utils.import("resource://annotationextension/typesStorageService.jsm");
 
 annotationExtensionChrome.browserOverlay = {
 
@@ -22,6 +23,8 @@ annotationExtensionChrome.browserOverlay = {
    */
   init : function()
   {
+    annotationExtension.windowCount++;
+    
     //Nacteni meho nastaveni
     this.preferences = Components.classes["@mozilla.org/preferences-service;1"].
       getService(Components.interfaces.nsIPrefService).
@@ -75,7 +78,7 @@ annotationExtensionChrome.browserOverlay = {
     }
       
     this.setShowingStatus(status);
-
+    
     annotationExtensionChrome.alerts.init();
     annotationExtensionChrome.user.init();
     annotationExtensionChrome.statusBar.init();
@@ -198,6 +201,8 @@ annotationExtensionChrome.browserOverlay = {
    */
   destroy : function()
   {
+    annotationExtension.windowCount--;
+    
     //Uloz velikost anotacniho okna
     var h = document.getElementById('aeBottomWindow').getAttribute('height');
     this.preferences.setIntPref("previousHeight", h);
@@ -214,6 +219,11 @@ annotationExtensionChrome.browserOverlay = {
     
     annotationExtensionChrome.user.destroy();
     annotationExtensionChrome.alerts.destroy();
+    
+    if (annotationExtension.windowCount == 0)
+    {//Zavreno posledni okno
+      annotationExtension.typesStorageService.destroy();
+    }
   }
 };
 
