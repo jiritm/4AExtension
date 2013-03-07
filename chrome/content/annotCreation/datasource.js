@@ -212,10 +212,6 @@ annotationExtensionChrome.Datasource.prototype =
         //Pokud byl kontejner, potomci smazani
         //Smaz element z kontejneru a jeho zaznam
         this.deleteObject(child.ValueUTF8, resourceURI);
-
-        //Protoze se smazal objekt, zavolej tuto funcki znovu pro
-        //korektni vysledky
-        childElems = theSectionContainer.GetElements();
         
         //TODO: smaz kontejner
       }
@@ -286,7 +282,7 @@ annotationExtensionChrome.Datasource.prototype =
       
       if (theSectionContainer.IndexOf(theSubject) != -1)
       {
-        theSectionContainer.RemoveElement(theSubject,true); 
+        theSectionContainer.RemoveElement(theSubject,false); 
       }
       
       return true;

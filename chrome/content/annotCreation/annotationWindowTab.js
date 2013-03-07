@@ -98,7 +98,7 @@ annotationExtensionChrome.annotationWindowTab.prototype =
 
       aeWindowObj.setContent(this.annotation.content);
 
-      aeWindowObj.selectNewType(this.typeURI, this.typeName, false,  false);
+      aeWindowObj.selectNewType(this.typeURI, this.typeName, false,  false, false);
     }
     catch(ex)
     {

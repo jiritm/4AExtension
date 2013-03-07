@@ -181,6 +181,20 @@ annotationExtensionChrome.attributes =
   },
   
   /**
+   * Zda je atribut typu anotace
+   * @param {String} id, id atributu(uri v attrDatasource)
+   * @returns {bool} true, pokud je strukturovany, jinak false
+   */
+  attributeIsStruct : function(id)
+  {
+    var struct = annotationExtensionChrome.attrDatasource.getResourceProp(id, 'struct');
+    if (struct == true || struct == "true")
+      return true;
+    else
+      return false;
+  },
+  
+  /**
    * Zda je atribut typu anotace a je aLink
    * @param {String} id, id atributu(uri v attrDatasource)
    * @returns {bool} true, pokud je aLink, jinak false
@@ -306,10 +320,7 @@ annotationExtensionChrome.attributes =
       {//ATRIBUT MA ZOBRAZENE(VYTVORENE) UI, ZMEN HO
         var name = this.getTypeStringToTextbox(type);
         attrUITypebox.aeSetType(type, name);
-  
-        /*********Smazani souvisejicich atributu*******************/
-        if (!this.attributeIsEdited(uri))
-          this.deleteAttrInterfaceChilds(uiID);
+
         /**********ZMENA UI ATRIBUTU ******************************/
         //Smazani radku ui a vytvoreni novych
         var rows = document.getElementById(uiID + '-rows-'+this.getCurrentTabID());
@@ -319,11 +330,12 @@ annotationExtensionChrome.attributes =
         var nestedAnnotObj = annotationExtensionChrome.bottomAnnotationWindow.getCurrentTab().getNestedAnnotation(uri);
         var attrIsALink = this.attributeIsALink(uri);
         if (nestedAnnotObj != null && !attrIsALink && !annotationExtension.attrConstants.isSimple(type))
-        {//Pokud se zmenil typ vnorene anotace na jiny typ vnorene anotace, ponechej ulozene hodnoty
-          //Do nothing
+        {//Pokud se zmenil typ vnorene anotace na jiny typ vnorene anotace, ponechej v UI atributu ulozene hodnoty
+          this.deleteNotFilledAttrs(uri);
+          this.setNotDefaultToAttrs(uri);
         }
         else
-        {//Jinak smaz
+        {//Jinak UI atributu smaz
           if (attrIsALink)
           {//Zmenil se typ, aLink by tedy ukazoval na spatny typ...smaz
             deleteALinkFromAttribute(uri);
@@ -340,14 +352,12 @@ annotationExtensionChrome.attributes =
           {
             rows.appendChild(newRows[1]);
           }
+          
+          this.deleteAttrInterfaceChilds(uiID);
+          annotationExtensionChrome.attrDatasource.delAllObjectsInSeq(uri);
         }
         /**********************************************************/
       }
-      
-      /******Smazani souvisejicich atributu**********************/
-      if (!this.attributeIsEdited(uri))
-        annotationExtensionChrome.attrDatasource.delAllObjectsInSeq(uri);
-      /**********************************************************/
       
       /*****Zmena typu v ds attr**************************************/
       if (annotationExtension.attrConstants.isSimple(type))
@@ -370,8 +380,8 @@ annotationExtensionChrome.attributes =
         this.selectedAttrType = type;
       /**********************************************************/
       /****Pokud je vybran strukt. atribut. Nahraj do stromu atributu jeho atributy****/
-      if(loadAttributes && !annotationExtension.attrConstants.isSimple(type) && !this.attributeIsEdited(uri))
-        this.selectAttributes(type, parentURI, false, true, false);
+      if(loadAttributes && !annotationExtension.attrConstants.isSimple(type))
+        this.selectAttributes(type, parentURI, false, true, true);
       /*******************************************************************************/
       /****Pokud byl nastaveny jako aLink, zrus aLink ********************************/
       annotationExtensionChrome.attrDatasource.changeResourceProp(uiID, 'aLink', "");
@@ -2631,6 +2641,95 @@ annotationExtensionChrome.attributes =
         return false;
       else
         return true;
+    }
+  },
+  
+  /**
+   * Smaze ze stromu atributu nevyplnene atributy
+   * Smaze atribut i pokud ma atribut vyplneneho potomka a sam je nevyplneny
+   * @param {String} aParentURI rodice, od ktereho se maji atributy zkontrolovat a smazat
+   * @returns {Bool} aKeepAllNonDefault, pokud je true nevyplnene NEdefaultni atributy se nesmazou
+   *                                    defaultne false
+   */
+  deleteNotFilledAttrs : function(aParentURI, aKeepAllNonDefault)
+  {
+    var keepAllNonDefault = aKeepAllNonDefault || false;
+    
+    var datasource = annotationExtensionChrome.attrDatasource.datasource.getDatasource();
+    if (datasource == null)
+      return;
+    
+    var rdfService = Components.classes["@mozilla.org/rdf/rdf-service;1"].getService(Components.interfaces.nsIRDFService);
+    var theSectionContainer = Components.classes["@mozilla.org/rdf/container;1"].createInstance(Components.interfaces.nsIRDFContainer);
+    var containerTools = Components.classes["@mozilla.org/rdf/container-utils;1"].getService(Components.interfaces.nsIRDFContainerUtils);
+     
+    //Kontejner   
+    var theSectionHeading = rdfService.GetResource(aParentURI);
+    //Neni kontejner...
+    if (!containerTools.IsContainer(datasource, theSectionHeading))
+      return;
+    
+    theSectionContainer.Init(datasource, theSectionHeading);
+    
+    var childElems = theSectionContainer.GetElements();
+    
+    var i = 0;
+    while(childElems.hasMoreElements())
+    {
+      var child = childElems.getNext();
+      child.QueryInterface(Components.interfaces.nsIRDFResource);
+      var uri = child.ValueUTF8;
+      
+      var isSimple = !this.attributeIsStruct(child);
+
+      if (isSimple && keepAllNonDefault)
+      {}
+      else
+      {
+        var isFilled = this.attributeIsFilled(uri);
+        if (!isFilled)
+        {
+          this.deleteAttrInterfaceChilds(uri);
+          this.deleteAttrInterface(uri);
+          annotationExtensionChrome.attrDatasource.deleteObject(uri, aParentURI);
+        }
+      }
+    }
+  },
+  
+  /**
+   * Zrusi vsem atributum ve stromu atributu defaultni hodnotu
+   * @param {String} aParentURI rodice, od ktereho se maji atributy zkontrolovat
+   */
+  setNotDefaultToAttrs : function(aParentURI)
+  {
+    var datasource = annotationExtensionChrome.attrDatasource.datasource.getDatasource();
+    if (datasource == null)
+      return;
+    
+    var rdfService = Components.classes["@mozilla.org/rdf/rdf-service;1"].
+      getService(Components.interfaces.nsIRDFService);
+    var theSectionContainer = Components.classes["@mozilla.org/rdf/container;1"].
+      createInstance(Components.interfaces.nsIRDFContainer);
+    var containerTools = Components.classes["@mozilla.org/rdf/container-utils;1"].
+      getService(Components.interfaces.nsIRDFContainerUtils);
+     
+    //Kontejner   
+    var theSectionHeading = rdfService.GetResource(aParentURI);
+    //Neni kontejner...
+    if (!containerTools.IsContainer(datasource, theSectionHeading))
+      return;
+    
+    theSectionContainer.Init(datasource, theSectionHeading);
+    
+    var childElems = theSectionContainer.GetElements();
+    
+    while(childElems.hasMoreElements())
+    {
+      var child = childElems.getNext();
+      child.QueryInterface(Components.interfaces.nsIRDFResource);
+      annotationExtensionChrome.attrDatasource.changeResourceProp(child, 'def', 'false');
+      this.setNotDefaultToAttrs(child.ValueUTF8);
     }
   }
 };

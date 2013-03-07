@@ -487,10 +487,12 @@ annotationExtensionChrome.bottomAnnotationWindow =
    * Vyber noveho typu anotace
    * @param {String} typeURI  URI vybraneho typu.
    * @param {String} typeName Jmeno vybraneho typu.
-   * @param {Bool} pokud je true, smaze s vyberem typu vsechny aktualne nastavene atributy, defaultne true
-   * @param {Bool} pokud je true, nahraje pro nove vybrany typ def. atributy, defaultne true
+   * @param {Bool} delAttrUI, pokud je true, smaze s vyberem typu vsechny aktualne nastavene atributy, defaultne false
+   * 													(pokud je uveden ma prednost pred nasledujicim atributem)
+   * @param {Bool} delNotFilledAttrUI, pokud je true, smaze s vyberem typu pouze nevyplnene atributy, defaultne true
+   * @param {Bool} loadDefAttrs, pokud je true, nahraje pro nove vybrany typ def. atributy, defaultne true
    */
-  selectNewType : function(typeURI, typeName, delAttrUI, loadDefAttrs)
+  selectNewType : function(typeURI, typeName, delAttrUI, delNotFilledAttrUI, loadDefAttrs)
   {
     if (typeURI == this.selectedTypeURI)
       return;
@@ -525,21 +527,26 @@ annotationExtensionChrome.bottomAnnotationWindow =
     }
     
     //Smaz strom atributu a vsechna uziv. rozhrani pro typ, ktery byl vybran pred novym
-    if (delAttrUI == undefined || (delAttrUI != undefined && delAttrUI == true))
+    if (delAttrUI == true)
     {
-      //Nastaveni stromu atributu pro nove vybrany typ
-      var attrTree = document.getElementById('aeAttrTree');
-      attrTree.view.selection.select(-1);
-      
+			var attrTree = document.getElementById('aeAttrTree');
+			attrTree.view.selection.select(-1);
       annotationExtensionChrome.attrDatasource.delAllObjectsInSeq(this.getCurrentTab().getAttrsURI());
       annotationExtensionChrome.attributes.deleteAttrInterfaces();
     }
+		else if (delNotFilledAttrUI == undefined || (delNotFilledAttrUI != undefined && delNotFilledAttrUI == true))
+		{
+			var attrTree = document.getElementById('aeAttrTree');
+			attrTree.view.selection.select(-1);
+			annotationExtensionChrome.attributes.deleteNotFilledAttrs(this.getCurrentTab().getAttrsURI());
+			annotationExtensionChrome.attributes.setNotDefaultToAttrs(this.getCurrentTab().getAttrsURI());
+		}
     
     //Vytvor strom atributu pro nove vybrany typ
     if (typeURI != '' && typeURI != null)
       if (loadDefAttrs == undefined || (loadDefAttrs != undefined && loadDefAttrs == true))
         annotationExtensionChrome.attributes.selectAttributes(typeURI, annotationExtensionChrome.attrDatasource.baseURI +
-                                  annotationExtensionChrome.attrDatasource.rootName, false, true, false);
+                                  annotationExtensionChrome.attrDatasource.rootName, false, true, true);
       
     
     this.selectedTypeName = typeName;
@@ -591,7 +598,6 @@ annotationExtensionChrome.bottomAnnotationWindow =
 					if (annotationExtensionChrome.types.length <= 0)
 					{//pokud pridavas posledni typ do databaze upozorni autocomplete...
 					 //pokud se nepodari pridat vsechny typy - nejaka chyba - nenadelas nic
-
 						annotationExtension.typesStorageService.addTypes([type], typesStorageHandler);
 					}
 					else
@@ -697,13 +703,13 @@ annotationExtensionChrome.bottomAnnotationWindow =
   {
     var tab = annotationExtensionChrome.bottomAnnotationWindow.getCurrentTab();  
     if (tab.loadAttributes == true)
-    {
-      annotationExtensionChrome.bottomAnnotationWindow.selectNewType(typeBox.aeSelectedTypeURI, typeBox.aeSelectedTypeName);
+    {//Indikuje, ze nejsou nacteny zadne atributy
+      annotationExtensionChrome.bottomAnnotationWindow.selectNewType(typeBox.aeSelectedTypeURI, typeBox.aeSelectedTypeName, false, false, true);
       tab.loadAttributes = false;
     }
     else
     {
-      annotationExtensionChrome.bottomAnnotationWindow.selectNewType(typeBox.aeSelectedTypeURI, typeBox.aeSelectedTypeName, false, false);
+      annotationExtensionChrome.bottomAnnotationWindow.selectNewType(typeBox.aeSelectedTypeURI, typeBox.aeSelectedTypeName, false, true, true);
     }
   },
   

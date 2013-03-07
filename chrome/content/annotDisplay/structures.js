@@ -139,7 +139,7 @@ Annotation.prototype =
             
             //Nastaveni typu
             var typeName = annotationExtension.functions.linearTypeURI(this.type);
-            annotationExtensionChrome.bottomAnnotationWindow.selectNewType(this.type, typeName, true, false);
+            annotationExtensionChrome.bottomAnnotationWindow.selectNewType(this.type, typeName, true, false, false);
             var tab = annotationExtensionChrome.bottomAnnotationWindow.getCurrentTab();
             tab.loadAttributes = false;
             
