@@ -2,6 +2,8 @@
 @import url(chrome://annotationextension/skin/label.css);
 @import url(chrome://annotationextension/skin/tree.css);
 @import url(chrome://annotationextension/skin/listbox.css);
+@import url(chrome://annotationextension/skin/splitter.css);
+@import url(chrome://annotationextension/skin/button.css);
 
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 @namespace html url("http://www.w3.org/1999/xhtml");
@@ -66,6 +68,12 @@ toolbar[iconsize="small"] #aeButton {
 
 #aeSaveDeleteAnnotBox{
   margin-top: 5px;
+}
+
+.aeLightGreyBox {
+  margin: 0;
+  padding: 0;
+  background-color: #e9e9e9;
 }
 
 .redBox, .redBoxHover, .redBoxBlueBorder {

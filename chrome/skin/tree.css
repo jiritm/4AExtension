@@ -243,7 +243,7 @@
 
 .aeTree treecol:hover,
 .aeTree treecolpicker:hover {
-  background-image: linear-gradient(rgb(95, 95, 95) 30%, rgb(65, 65, 65)) !important;
+  background-image: linear-gradient(rgb(136, 136, 136) 30%, rgb(136, 136, 136)) !important;
   color: #ffffff;
   text-shadow: none;
   transition: .2s ease-in;

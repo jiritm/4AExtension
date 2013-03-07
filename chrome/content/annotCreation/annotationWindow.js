@@ -592,11 +592,11 @@ annotationExtensionChrome.bottomAnnotationWindow =
 					{//pokud pridavas posledni typ do databaze upozorni autocomplete...
 					 //pokud se nepodari pridat vsechny typy - nejaka chyba - nenadelas nic
 
-						//annotationExtension.typesStorageService.addTypes([type], typesStorageHandler);
+						annotationExtension.typesStorageService.addTypes([type], typesStorageHandler);
 					}
 					else
 					{
-						//annotationExtension.typesStorageService.addTypes([type], null);
+						annotationExtension.typesStorageService.addTypes([type], null);
 					}
           
 					cont = true;

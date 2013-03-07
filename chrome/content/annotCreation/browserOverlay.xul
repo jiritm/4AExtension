@@ -126,7 +126,7 @@
         flex="1">
     <tabbrowser id="content"/>
 
-    <splitter id="aeBottomSplitter" state="open" 
+    <splitter id="aeBottomSplitter" class="aeSplitter" state="open" 
               resizebefore="farthest" resizeafter="closest"/>
     <!-- Pripni anotacni okynko dolu ve firefoxu -->
     <box id="aeBottomWindow">

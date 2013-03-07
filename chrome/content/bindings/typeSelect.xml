@@ -282,7 +282,7 @@
       <xul:hbox>
         <xul:button
               anonid="type-button"
-              id="aeOpenTypesWinButton"
+              class="aeButton"
               label="&annotationextension.choose.button.label;"
               tooltiptext="&annotationextension.annotationWindow.choose.tooltip;"
               oncommand="document.getBindingParent(this).aeOpenTypesWindow();"/>

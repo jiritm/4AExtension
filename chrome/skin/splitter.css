@@ -1,0 +1,50 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+/* ::::: splitter (vertical) ::::: */
+
+.aeSplitter {
+	-moz-box-align: center;
+	-moz-box-pack: center;
+	cursor: ew-resize;
+	min-width: 4px;
+	min-height: 10px;
+	background: #595959;
+	border-left: 2px solid;
+	border-right: 2px solid;
+	border-top: 0px;
+	border-bottom: 0px;
+	-moz-border-left-colors: #595959 rgba(255, 255, 255, 0.025);
+	-moz-border-right-colors:  #595959 rgba(255, 255, 255, 0.025);
+}
+
+/* ::::: splitter (horizontal) ::::: */
+
+.aeSplitter[orient="vertical"] {
+	cursor: ns-resize;
+	min-height: 4px;
+	min-width: 9px;
+	background: #595959;
+	border-top: 2px solid;
+	border-bottom: 2px solid;
+	border-left: 0px;
+	border-right: 0px;
+	-moz-border-top-colors: #595959 rgba(255, 255, 255, 0.025);
+	-moz-border-bottom-colors: #595959 rgba(255, 255, 255, 0.025);
+}
+
+/* splitter grippy */
+  
+.aeGrippy {
+	cursor: pointer;
+	margin: 0px 1px;
+	min-width: 4px;
+	min-height: 115px;
+	background-color: #c1c1c1;
+	background-repeat: no-repeat;
+}
+
+.aeSplitter[orient="vertical"] > grippy {
+	margin: 1px 0px;
+	min-width: 115px;
+	min-height: 4px;
+} 

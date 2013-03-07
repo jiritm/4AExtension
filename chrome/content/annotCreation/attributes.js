@@ -1158,6 +1158,7 @@ annotationExtensionChrome.attributes =
           annotContentTextboxDeck.setAttribute('flex', '1');
         var aLinkLabel = document.createElement('label');
           aLinkLabel.setAttribute('id', id+'-aLinkLabel-'+this.getCurrentTabID());
+          aLinkLabel.setAttribute('class', 'aeLabel');
           aLinkLabel.setAttribute('value', stringBundle.getString("annotationextension.attributes.annotLink"));
         var aLinkImage = document.createElement('image');
           aLinkImage.setAttribute('id', id+'-aLinkImage-'+this.getCurrentTabID());

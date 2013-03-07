@@ -87,13 +87,13 @@
       </tree>
     </hbox>
   
-    <hbox>
+    <hbox class="aeLightGreyBox">
       <vbox flex="1">
         
         <vbox>
           <vbox>
             <hbox>
-              <label value="&annotationextension.typesWindow.addAsSubtype.label;"/>
+              <label class="aeLabel" value="&annotationextension.typesWindow.addAsSubtype.label;"/>
               <spacer flex="1"/>
               <vbox>
                 <image id="aeRemoveType"
@@ -109,11 +109,11 @@
                 <spacer flex="1"/>
                 <hbox>
                   <!-- Pridat novy podtyp -->
-                  <button class="aeAddTypeButtonLeft" tooltiptext="&annotationextension.typesWindow.addType;" onclick="annotationExtensionChrome.typesWindow.addNewType('root');">
+                  <button class="aeButton aeAddTypeButtonLeft" tooltiptext="&annotationextension.typesWindow.addType;" onclick="annotationExtensionChrome.typesWindow.addNewType('root');">
                     <image id="aeAddType"/>
                   </button>
                   <!-- Pridat novy typ -->
-                  <button class="aeAddSubtypeButtonRight" tooltiptext="&annotationextension.typesWindow.addSubtype;" onclick="annotationExtensionChrome.typesWindow.addNewType('subtype');">
+                  <button class="aeButton aeAddSubtypeButtonRight" tooltiptext="&annotationextension.typesWindow.addSubtype;" onclick="annotationExtensionChrome.typesWindow.addNewType('subtype');">
                     <image id="aeAddSubtype"/>
                   </button>
                 </hbox>
@@ -127,7 +127,7 @@
         
         <hbox align="end" pack="end">
           <spacer flex="1"/>
-          <button id="aeSelectTypeButton" label="&annotationextension.typesWindow.selectButton.label;"
+          <button id="aeSelectTypeButton" class="aeButton" label="&annotationextension.typesWindow.selectButton.label;"
             oncommand='annotationExtensionChrome.typesWindow.selectType();'/>
         </hbox>
         

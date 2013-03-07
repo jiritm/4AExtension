@@ -184,9 +184,9 @@
     </hbox>
 
     <!-- PRIDANI NOVEHO TYPU -->
-    <vbox>
+    <vbox class="aeLightGreyBox">
       <hbox>
-        <label value="&annotationextension.typesWindow.addAsSubtype.label;"/>
+        <label class="aeLabel" value="&annotationextension.typesWindow.addAsSubtype.label;"/>
         <spacer flex="1"/>
         <vbox>
           <image id="aeRemoveType"
@@ -202,11 +202,11 @@
           <spacer flex="1"/>
           <hbox>
             <!-- Pridat novy podtyp -->
-            <button class="aeAddTypeButtonLeft" tooltiptext="&annotationextension.typesWindow.addType;" onclick="annotationExtensionChrome.attrTypesWindow.addNewType('root');">
+            <button class="aeButton aeAddTypeButtonLeft" tooltiptext="&annotationextension.typesWindow.addType;" onclick="annotationExtensionChrome.attrTypesWindow.addNewType('root');">
               <image id="aeAddType"/>
             </button>
             <!-- Pridat novy typ -->
-            <button class="aeAddSubtypeButtonRight" tooltiptext="&annotationextension.typesWindow.addSubtype;" onclick="annotationExtensionChrome.attrTypesWindow.addNewType('subtype');">
+            <button class="aeButton aeAddSubtypeButtonRight" tooltiptext="&annotationextension.typesWindow.addSubtype;" onclick="annotationExtensionChrome.attrTypesWindow.addNewType('subtype');">
               <image id="aeAddSubtype"/>
             </button>
           </hbox>
@@ -218,12 +218,13 @@
     </vbox>
     <!-- KONEC PRIDANI NOVEHO TYPU -->
     
-    <hbox align="end" pack="end">
+    <hbox class="aeLightGreyBox" align="end" pack="end">
       <checkbox id="aeChangeTypeInTemplateCheckbox"
+        class="aeLabel"
         hidden="true"
         label="&annotationextension.attributes.changeTypeInTemplate;"/>
       <spacer flex="1"/>
-      <button id="aeSelectAttrTypeButton" label="&annotationextension.typesWindow.selectButton.label;"
+      <button id="aeSelectAttrTypeButton" class="aeButton" label="&annotationextension.typesWindow.selectButton.label;"
         oncommand='annotationExtensionChrome.attrTypesWindow.selectType();'/>
     </hbox>
   </vbox>

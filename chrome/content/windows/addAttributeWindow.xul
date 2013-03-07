@@ -44,7 +44,7 @@
       <tabpanels flex="1" style="margin : 0px; padding : 0px; border-width : 0px;">
         <tabpanel flex="1">
           <vbox flex="1">
-            <hbox align="center" style="background-color: #CCCCCC;">
+            <hbox align="center" class="aeLightGreyBox">
               <label class="aeLabel" control="aeAttributeNameTextbox" value="&annotationextension.addAttributesWindow.name.label;"/>
               <textbox id="aeAttributeNameTextbox" class="aeTextbox"
                        onkeypress="annotationExtensionChrome.addAttributeWindow.onkeypress(this, event);"/>
@@ -211,11 +211,11 @@
                   <spacer flex="1"/>
                   <hbox>
                     <!-- Pridat novy podtyp -->
-                    <button class="aeAddTypeButtonLeft" tooltiptext="&annotationextension.typesWindow.addType;" onclick="annotationExtensionChrome.addAttributeWindow.addNewType('root');">
+                    <button class="aeButton aeAddTypeButtonLeft" tooltiptext="&annotationextension.typesWindow.addType;" onclick="annotationExtensionChrome.addAttributeWindow.addNewType('root');">
                       <image id="aeAddType"/>
                     </button>
                     <!-- Pridat novy typ -->
-                    <button class="aeAddSubtypeButtonRight" tooltiptext="&annotationextension.typesWindow.addSubtype;" onclick="annotationExtensionChrome.addAttributeWindow.addNewType('subtype');">
+                    <button class="aeButton aeAddSubtypeButtonRight" tooltiptext="&annotationextension.typesWindow.addSubtype;" onclick="annotationExtensionChrome.addAttributeWindow.addNewType('subtype');">
                       <image id="aeAddSubtype"/>
                     </button>
                   </hbox>
@@ -285,20 +285,22 @@
         </tabpanel>
       </tabpanels>
     </tabbox>
-    <hbox>
+    <hbox class="aeLightGreyBox">
       <vbox flex="1">
         <vbox>
           <checkbox id="aeDefAttrCheckbox"
+            class="aeLabel"
             label="&annotationextension.addAttributesWindow.defAttr.label;"
             oncommand="annotationExtensionChrome.addAttributeWindow.defCheckboxHandler()"/>
           <checkbox id="aeReqAttrCheckbox"
+            class="aeLabel"
             label="&annotationextension.attributes.reqAttr.label;"
             oncommand="annotationExtensionChrome.addAttributeWindow.reqCheckboxHandler()"/>
         </vbox>
         
         <hbox align="end" pack="end">
           <spacer flex="1"/>
-          <button id="aeAddAttributeButton2" label="&annotationextension.addAttributesWindow.title;"
+          <button id="aeAddAttributeButton2" class="aeButton" label="&annotationextension.addAttributesWindow.title;"
             oncommand='annotationExtensionChrome.addAttributeWindow.addAttribute();'/>
         </hbox>
       </vbox>

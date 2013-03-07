@@ -353,7 +353,8 @@
               tooltiptext="&annotationextension.annotationWindow.addAttribute;"/>
           </vbox>
         </hbox>
-        <splitter/>
+        <splitter class="aeSplitter">
+				</splitter>
         <vbox flex="1">
           <hbox id='aeAttrUserInterface' flex="1" align="start" pack="start">
            <!-- Zde se pripojuji jednotlive UI pro atributy -->
@@ -362,6 +363,7 @@
           <hbox id="aeDefAndReqCheckboxBox"
              hidden="true">
             <button id="aeChangeAttrSetting"
+										class="aeButton"
                     label="&annotationextension.attributes.changeAttrSettings;"
                     oncommand="annotationExtensionChrome.attributes.changeAttrSettingHandler();"/>
           </hbox>
