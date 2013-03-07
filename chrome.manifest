@@ -1,6 +1,6 @@
 content   annotationextension              chrome/content/
 resource  annotationextension              modules/
-skin      annotationextension  classic/1.0 chrome/skin/boomy
+skin      annotationextension  classic/1.0 chrome/skin/icons
 
 locale    annotationextension  en       chrome/locale/en-US/
 locale    annotationextension  cs       chrome/locale/cs/

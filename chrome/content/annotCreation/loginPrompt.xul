@@ -8,11 +8,9 @@
  - Posledni uprava: 5.6.2012
  --> 
 
-<?xml-stylesheet type="text/css"
-  href="chrome://annotationextension/skin/annotationExtension.css" ?>
+<?xml-stylesheet type="text/css" href="chrome://annotationextension/skin/annotationExtension.css" ?>
 
-<!DOCTYPE overlay SYSTEM
-  "chrome://annotationextension/locale/annotationExtension.dtd">
+<!DOCTYPE overlay SYSTEM "chrome://annotationextension/locale/annotationExtension.dtd">
 
 <!-- Prihlasovaci okno -->
 
@@ -72,6 +70,7 @@
                   <label control="aeUsername" value="&annotationextension.aeLoginPrompt.username.label;"/>
                 </hbox>
                 <textbox id="aeUsername" rows="1" flex="1"
+                  class="aeTextbox"
                   type="autocomplete"
                   autocompletesearch="form-history"
                   autocompletesearchparam="aeusername-form-history"
@@ -86,6 +85,7 @@
                   <label control="aePassword" value="&annotationextension.aeLoginPrompt.password.label;"/>
                 </hbox>
                 <textbox id="aePassword"
+                  class="aeTextbox"
                   type="password"
                   onkeypress="annotationExtensionChrome.user.keypressedHandler(event)"/>
               </row>

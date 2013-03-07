@@ -232,9 +232,9 @@ aeSearchResult.prototype = {
   getImageAt : function(index)
   {
     if (this._comments[index] == "Simple")
-      return "chrome://annotationextension/skin/oxygen/simpleType16.png";
+      return "chrome://annotationextension/skin/icons/simpleType16.png";
     else if (this._comments[index] != "")
-      return "chrome://annotationextension/skin/oxygen/comment16.png";
+      return "chrome://annotationextension/skin/icons/comment16.png";
 		else
 			return null;
   },

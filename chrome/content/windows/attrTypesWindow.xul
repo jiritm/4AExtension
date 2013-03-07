@@ -50,7 +50,7 @@
             ondblclick="annotationExtensionChrome.attrTypesWindow.selectType();">
         
         <treecols>
-          <treecol id="aeNameSimple" class="labelBox" hideheader="true" label="&annotationextension.addAttributesWindow.columnTitle.simple;" primary="true" flex="1"/>
+          <treecol id="aeNameSimple" hideheader="true" label="&annotationextension.addAttributesWindow.columnTitle.simple;" primary="true" flex="1"/>
         </treecols>
       
         <treechildren>
@@ -147,7 +147,7 @@
             ondblclick="annotationExtensionChrome.attrTypesWindow.selectType();">
         
         <treecols>
-          <treecol id="aeNameExt" class="labelBox" hideheader="true" label="&annotationextension.addAttributesWindow.columnTitle.structured;" primary="true" flex="1" sortActive="true" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
+          <treecol id="aeNameExt" hideheader="true" label="&annotationextension.addAttributesWindow.columnTitle.structured;" primary="true" flex="1" sortActive="true" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
           <treecol id="comment" flex="1" hideheader="true"/>
         </treecols>
         
@@ -196,7 +196,7 @@
       </hbox>
       <hbox>
         <vbox>
-          <textbox id="aeNewTypeNameTextbox"/>
+          <textbox id="aeNewTypeNameTextbox" class="aeTextbox"/>
         </vbox>
         <vbox>
           <spacer flex="1"/>

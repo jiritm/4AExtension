@@ -654,16 +654,13 @@ annotationExtensionChrome.attributes =
         /*************/
         var rowLabel = document.createElement('label');
           rowLabel.setAttribute('value', stringBundle.getString("annotationextension.annotationWindow.attLabel.image"));
+          rowLabel.setAttribute('class', 'aeLabel');
         var rowTextbox = document.createElement('textbox');
           rowTextbox.setAttribute('id', id+'-textbox1-'+this.getCurrentTabID());
-          rowTextbox.setAttribute('class', 'plain');
           rowTextbox.setAttribute("flex", "1");
-        var rowTextboxBox = document.createElement('hbox');
-          rowTextboxBox.setAttribute("class", "textboxBox");
-          rowTextboxBox.setAttribute("flex", "1");
-          rowTextboxBox.appendChild(rowTextbox);
+          rowTextbox.setAttribute('class', 'aeTextbox');
         var boxForSecondColumn = document.createElement('hbox');
-        boxForSecondColumn.appendChild(rowTextboxBox);
+        boxForSecondColumn.appendChild(rowTextbox);
         row.appendChild(rowLabel);
         row.appendChild(boxForSecondColumn);
         newRows.push(row);
@@ -677,16 +674,12 @@ annotationExtensionChrome.attributes =
           rowSpacer.setAttribute('flex', '1');
         var rowTextbox = document.createElement('textbox');
           rowTextbox.setAttribute('id', id+'-textbox1-'+this.getCurrentTabID());
-          rowTextbox.setAttribute('class', 'plain');
           rowTextbox.setAttribute("flex", "1");
-        var rowTextboxBox = document.createElement('hbox');
-          rowTextboxBox.setAttribute("class", "textboxBox");
-          rowTextboxBox.setAttribute("flex", "1");
-          rowTextboxBox.appendChild(rowTextbox);
+          rowTextbox.setAttribute('class', 'aeTextbox');
         var boxForSecondColumn = document.createElement('hbox');
         var spacerForBoxForSecondColumn = document.createElement('spacer');
           spacerForBoxForSecondColumn.setAttribute("class", "spacerForAttrSecondColumn");
-        boxForSecondColumn.appendChild(rowTextboxBox);
+        boxForSecondColumn.appendChild(rowTextbox);
         boxForSecondColumn.appendChild(spacerForBoxForSecondColumn);
         row.appendChild(rowSpacer);
         row.appendChild(boxForSecondColumn);
@@ -700,23 +693,20 @@ annotationExtensionChrome.attributes =
         /*************/
         var rowLabel = document.createElement('label');
           rowLabel.setAttribute('value', stringBundle.getString("annotationextension.annotationWindow.attLabel.file"));
+          rowLabel.setAttribute('class', 'aeLabel');
         var rowTextbox = document.createElement('textbox');
           rowTextbox.setAttribute('id', id+'-textbox1-'+this.getCurrentTabID());
-          rowTextbox.setAttribute('class', 'plain');
           rowTextbox.setAttribute('readonly', 'true');
           rowTextbox.setAttribute("flex", "1");
+          rowTextbox.setAttribute('class', 'aeTextbox');
         var fileButton = document.createElement('button');
         fileButton.setAttribute('onclick', 'annotationExtensionChrome.attributes.attrSelectFile("'+id+'", "'+this.getCurrentTabID()+'");');
         fileButton.setAttribute('label', stringBundle.getString('annotationextension.choose.button.label'));
         fileButton.setAttribute('class', 'aeAttributeTypeSelect');
-        var rowTextboxBox = document.createElement('hbox');
-          rowTextboxBox.setAttribute("class", "textboxBox");
-          rowTextboxBox.setAttribute("flex", "1");
-          rowTextboxBox.appendChild(rowTextbox);
         var boxForSecondColumn = document.createElement('hbox');
         var spacerForBoxForSecondColumn = document.createElement('spacer');
           spacerForBoxForSecondColumn.setAttribute("class", "spacerForAttrSecondColumn");
-        boxForSecondColumn.appendChild(rowTextboxBox);
+        boxForSecondColumn.appendChild(rowTextbox);
         row.appendChild(rowLabel);
         row.appendChild(boxForSecondColumn);
         row.appendChild(fileButton);
@@ -729,18 +719,15 @@ annotationExtensionChrome.attributes =
         /*************/
         var rowLabel = document.createElement('label');
           rowLabel.setAttribute('value', stringBundle.getString("annotationextension.annotationWindow.attLabel.duration"));
+          rowLabel.setAttribute('class', 'aeLabel');
         var rowTextbox = document.createElement('textbox');
           rowTextbox.setAttribute('id', id+'-textbox1-'+this.getCurrentTabID());
-          rowTextbox.setAttribute('class', 'plain');
           rowTextbox.setAttribute("flex", "1");
-        var rowTextboxBox = document.createElement('hbox');
-          rowTextboxBox.setAttribute("class", "textboxBox");
-          rowTextboxBox.setAttribute("flex", "1");
-          rowTextboxBox.appendChild(rowTextbox);
+          rowTextbox.setAttribute('class', 'aeTextbox');
         var boxForSecondColumn = document.createElement('hbox');
         var spacerForBoxForSecondColumn = document.createElement('spacer');
           spacerForBoxForSecondColumn.setAttribute("class", "spacerForAttrSecondColumn");
-        boxForSecondColumn.appendChild(rowTextboxBox);
+        boxForSecondColumn.appendChild(rowTextbox);
         boxForSecondColumn.appendChild(spacerForBoxForSecondColumn);
         row.appendChild(rowLabel);
         row.appendChild(boxForSecondColumn);
@@ -753,18 +740,15 @@ annotationExtensionChrome.attributes =
         /*************/
         var rowLabel = document.createElement('label');
           rowLabel.setAttribute('value', stringBundle.getString("annotationextension.annotationWindow.attLabel.string"));
+          rowLabel.setAttribute('class', 'aeLabel');
         var rowTextbox = document.createElement('textbox');
           rowTextbox.setAttribute('id', id+'-textbox1-'+this.getCurrentTabID());
           rowTextbox.setAttribute('multiline', 'true');
           rowTextbox.setAttribute('flex','1');
           rowTextbox.setAttribute('rows', '2');
-          rowTextbox.setAttribute('class', 'plain');
-        var rowTextboxBox = document.createElement('hbox');
-          rowTextboxBox.setAttribute("class", "textboxBox");
-          rowTextboxBox.setAttribute("flex", "1");
-          rowTextboxBox.appendChild(rowTextbox);          
+          rowTextbox.setAttribute('class', 'aeTextbox');
         var boxForSecondColumn = document.createElement('hbox');
-        boxForSecondColumn.appendChild(rowTextboxBox);
+        boxForSecondColumn.appendChild(rowTextbox);
         row.appendChild(rowLabel);
         row.appendChild(boxForSecondColumn);
         newRows.push(row);        
@@ -776,18 +760,15 @@ annotationExtensionChrome.attributes =
         /*************/
         var rowLabel = document.createElement('label');
           rowLabel.setAttribute('value', stringBundle.getString("annotationextension.annotationWindow.attLabel.string"));
+          rowLabel.setAttribute('class', 'aeLabel');
         var rowTextbox = document.createElement('textbox');
           rowTextbox.setAttribute('id', id+'-textbox1-'+this.getCurrentTabID());
-          rowTextbox.setAttribute('class', 'plain');
           rowTextbox.setAttribute("flex", "1");
-        var rowTextboxBox = document.createElement('hbox');
-          rowTextboxBox.setAttribute("class", "textboxBox");
-          rowTextboxBox.setAttribute("flex", "1");
-          rowTextboxBox.appendChild(rowTextbox);
+          rowTextbox.setAttribute('class', 'aeTextbox');
         var boxForSecondColumn = document.createElement('hbox');
         var spacerForBoxForSecondColumn = document.createElement('spacer');
           spacerForBoxForSecondColumn.setAttribute("class", "spacerForAttrSecondColumn");
-        boxForSecondColumn.appendChild(rowTextboxBox);
+        boxForSecondColumn.appendChild(rowTextbox);
         boxForSecondColumn.appendChild(spacerForBoxForSecondColumn);
         row.appendChild(rowLabel);
         row.appendChild(boxForSecondColumn);
@@ -800,16 +781,13 @@ annotationExtensionChrome.attributes =
         /*************/
         var rowLabel = document.createElement('label');
           rowLabel.setAttribute('value', stringBundle.getString("annotationextension.annotationWindow.attLabel.uri"));
+          rowLabel.setAttribute('class', 'aeLabel');
         var rowTextbox = document.createElement('textbox');
           rowTextbox.setAttribute('id', id+'-textbox1-'+this.getCurrentTabID());
-          rowTextbox.setAttribute('class', 'plain');
           rowTextbox.setAttribute("flex", "1");
-        var rowTextboxBox = document.createElement('hbox');
-          rowTextboxBox.setAttribute("class", "textboxBox");
-          rowTextboxBox.setAttribute("flex", "1");
-          rowTextboxBox.appendChild(rowTextbox);
+          rowTextbox.setAttribute('class', 'aeTextbox');
         var boxForSecondColumn = document.createElement('hbox');
-        boxForSecondColumn.appendChild(rowTextboxBox);
+        boxForSecondColumn.appendChild(rowTextbox);
         row.appendChild(rowLabel);
         row.appendChild(boxForSecondColumn);
         newRows.push(row);
@@ -821,6 +799,7 @@ annotationExtensionChrome.attributes =
         /*************/
         var rowLabel = document.createElement('label');
           rowLabel.setAttribute('value', stringBundle.getString("annotationextension.annotationWindow.attLabel.date"));
+          rowLabel.setAttribute('class', 'aeLabel');
         var rowTextbox = document.createElement('datepicker');
           rowTextbox.setAttribute('id', id+'-textbox1-'+this.getCurrentTabID());
           rowTextbox.setAttribute('type', 'popup');
@@ -838,6 +817,7 @@ annotationExtensionChrome.attributes =
         /*************/
         var rowLabel2 = document.createElement('label');
           rowLabel2.setAttribute('value', stringBundle.getString("annotationextension.annotationWindow.attLabel.time"));
+          rowLabel2.setAttribute('class', 'aeLabel');
         var rowTextbox2 = document.createElement('timepicker');
           rowTextbox2.setAttribute('id', id+'-textbox2-'+this.getCurrentTabID());
           rowTextbox2.setAttribute('hideseconds', 'true');
@@ -857,10 +837,12 @@ annotationExtensionChrome.attributes =
         /*************/
         var rowLabel = document.createElement('label');
           rowLabel.setAttribute('value', stringBundle.getString("annotationextension.annotationWindow.attLabel.integer"));
+          rowLabel.setAttribute('class', 'aeLabel');
         var rowTextbox = document.createElement('textbox');
           rowTextbox.setAttribute('id', id+'-textbox1-'+this.getCurrentTabID());
           rowTextbox.setAttribute('type', 'number');
           rowTextbox.setAttribute('min', "-999999999999999999999");
+          rowTextbox.setAttribute('class', 'aeTextbox');
         var boxForSecondColumn = document.createElement('hbox');
         var spacerForBoxForSecondColumn = document.createElement('spacer');
           spacerForBoxForSecondColumn.setAttribute("class", "spacerForAttrSecondColumn");
@@ -877,12 +859,14 @@ annotationExtensionChrome.attributes =
         /*************/
         var rowLabel = document.createElement('label');
           rowLabel.setAttribute('value', stringBundle.getString("annotationextension.annotationWindow.attLabel.decimal"));
+          rowLabel.setAttribute('class', 'aeLabel');
         var rowTextbox = document.createElement('textbox');
           rowTextbox.setAttribute('id', id+'-textbox1-'+this.getCurrentTabID());
           rowTextbox.setAttribute('type', 'number');
           rowTextbox.setAttribute('decimalplaces', 'Infinity');
           rowTextbox.setAttribute('increment', '0.5');
           rowTextbox.setAttribute('min', "-999999999999999999999");
+          rowTextbox.setAttribute('class', 'aeTextbox');
         var boxForSecondColumn = document.createElement('hbox');
         var spacerForBoxForSecondColumn = document.createElement('spacer');
           spacerForBoxForSecondColumn.setAttribute("class", "spacerForAttrSecondColumn");
@@ -899,6 +883,7 @@ annotationExtensionChrome.attributes =
         /*************/
         var rowLabel = document.createElement('label');
           rowLabel.setAttribute('value', stringBundle.getString("annotationextension.annotationWindow.attLabel.date"));
+          rowLabel.setAttribute('class', 'aeLabel');
         var rowTextbox = document.createElement('datepicker');
           rowTextbox.setAttribute('id', id+'-textbox1-'+this.getCurrentTabID());
           rowTextbox.setAttribute('type', 'popup');
@@ -918,6 +903,7 @@ annotationExtensionChrome.attributes =
         /*************/
         var rowLabel = document.createElement('label');
           rowLabel.setAttribute('value', stringBundle.getString("annotationextension.annotationWindow.attLabel.time"));
+          rowLabel.setAttribute('class', 'aeLabel');
         var rowTextbox = document.createElement('timepicker');
           rowTextbox.setAttribute('id', id+'-textbox1-'+this.getCurrentTabID());
           rowTextbox.setAttribute('hideseconds', 'true');
@@ -937,6 +923,7 @@ annotationExtensionChrome.attributes =
         /*************/
         var rowLabel = document.createElement('label');
           rowLabel.setAttribute('value', stringBundle.getString("annotationextension.annotationWindow.attLabel.boolean"));
+          rowLabel.setAttribute('class', 'aeLabel');
         var rowTextbox = document.createElement('listbox');
         var listitemTrue = document.createElement('listitem');
           listitemTrue.setAttribute('label', 'true');
@@ -962,18 +949,15 @@ annotationExtensionChrome.attributes =
         /*************/
         var rowLabel = document.createElement('label');
           rowLabel.setAttribute('value', stringBundle.getString("annotationextension.annotationWindow.attLabel.person"));
+          rowLabel.setAttribute('class', 'aeLabel');
         var rowTextbox = document.createElement('textbox');
           rowTextbox.setAttribute('id', id+'-textbox1-'+this.getCurrentTabID());
-          rowTextbox.setAttribute('class', 'plain');
           rowTextbox.setAttribute("flex", "1");
-        var rowTextboxBox = document.createElement('hbox');
-          rowTextboxBox.setAttribute("class", "textboxBox");
-          rowTextboxBox.setAttribute("flex", "1");
-          rowTextboxBox.appendChild(rowTextbox);
+          rowTextbox.setAttribute('class', 'aeTextbox');
         var boxForSecondColumn = document.createElement('hbox');
         var spacerForBoxForSecondColumn = document.createElement('spacer');
           spacerForBoxForSecondColumn.setAttribute("class", "spacerForAttrSecondColumn");
-        boxForSecondColumn.appendChild(rowTextboxBox);
+        boxForSecondColumn.appendChild(rowTextbox);
         boxForSecondColumn.appendChild(spacerForBoxForSecondColumn);
         row.appendChild(rowLabel);
         row.appendChild(boxForSecondColumn);
@@ -986,6 +970,7 @@ annotationExtensionChrome.attributes =
         /*************/
         var rowLabel = document.createElement('label');
           rowLabel.setAttribute('value', stringBundle.getString("annotationextension.annotationWindow.attLabel.geoLat"));
+          rowLabel.setAttribute('class', 'aeLabel');
         var rowTextbox = document.createElement('textbox');
           rowTextbox.setAttribute('id', id+'-textbox1-'+this.getCurrentTabID());
           rowTextbox.setAttribute('type', 'number');
@@ -993,6 +978,7 @@ annotationExtensionChrome.attributes =
           rowTextbox.setAttribute('increment', '0.5');
           rowTextbox.setAttribute('min', "-90");
           rowTextbox.setAttribute('max', "90");
+          rowTextbox.setAttribute('class', 'aeTextbox');
         var boxForSecondColumn = document.createElement('hbox');
         var spacerForBoxForSecondColumn = document.createElement('spacer');
           spacerForBoxForSecondColumn.setAttribute("class", "spacerForAttrSecondColumn");
@@ -1007,6 +993,7 @@ annotationExtensionChrome.attributes =
         /*************/
         var rowLabel2 = document.createElement('label');
           rowLabel2.setAttribute('value', stringBundle.getString("annotationextension.annotationWindow.attLabel.geoLong"));
+          rowLabel2.setAttribute('class', 'aeLabel');
         var rowTextbox2 = document.createElement('textbox');
           rowTextbox2.setAttribute('id', id+'-textbox2-'+this.getCurrentTabID());
           rowTextbox2.setAttribute('type', 'number');
@@ -1014,6 +1001,7 @@ annotationExtensionChrome.attributes =
           rowTextbox2.setAttribute('increment', '0.5');
           rowTextbox2.setAttribute('min', "-180");
           rowTextbox2.setAttribute('max', "180");
+          rowTextbox2.setAttribute('class', 'aeTextbox');
         var boxForSecondColumn2 = document.createElement('hbox');
         var spacerForBoxForSecondColumn2 = document.createElement('spacer');
           spacerForBoxForSecondColumn2.setAttribute("class", "spacerForAttrSecondColumn");
@@ -1032,8 +1020,7 @@ annotationExtensionChrome.attributes =
         var rowLabel = document.createElement('label');
           rowLabel.setAttribute('value', stringBundle.getString("annotationextension.aeSelectedText.selectedText.label"));
           rowLabel.setAttribute('tooltiptext', stringBundle.getFormattedString("annotationextension.annotationWindow.selectedTextNested.tooltip", [chooseButtonLabel]));
-        var labelBox = document.createElement('hbox');
-          labelBox.appendChild(rowLabel);
+          rowLabel.setAttribute('class', 'aeLabel');
          
         ////////////////////////////////////////////////////////////////////////
         /// VYBER RANGE                                                      ///
@@ -1122,7 +1109,7 @@ annotationExtensionChrome.attributes =
         var aeSelectTextLabelBox = document.createElement('vbox');
           aeSelectTextLabelBox.setAttribute('id', id+'-aeSelectTextLabelBox-'+this.getCurrentTabID());
           aeSelectTextLabelBox.setAttribute('flex','1');
-          aeSelectTextLabelBox.appendChild(labelBox);
+          aeSelectTextLabelBox.appendChild(rowLabel);
           aeSelectTextLabelBox.appendChild(selectRangeBox);
           aeSelectTextLabelBox.appendChild(deleteRangeBox);
           aeSelectTextLabelBox.appendChild(selectRangeBoxAnnot);
@@ -1136,10 +1123,7 @@ annotationExtensionChrome.attributes =
           rowTextbox.setAttribute('flex','1');
           rowTextbox.setAttribute('rows', '2');
           rowTextbox.setAttribute('readonly', 'true');
-          rowTextbox.setAttribute('class', 'plain');
-        var rowTextboxBox = document.createElement('hbox');
-          rowTextboxBox.setAttribute("class", "textboxBoxReadonlyBorder");
-          rowTextboxBox.appendChild(rowTextbox);
+          rowTextbox.setAttribute('class', 'aeTextbox');
         var selectButton = document.createElement('button');
           selectButton.setAttribute('id',id+'selectNestedButton-'+this.getCurrentTabID());
           selectButton.setAttribute('class', 'aeSelectNestedAnnotButton');
@@ -1152,7 +1136,7 @@ annotationExtensionChrome.attributes =
           selectButtonBox.appendChild(selectButton);
           selectButtonBox.appendChild(selectButtonSpacer);
         row.appendChild(aeSelectTextLabelBox);
-        row.appendChild(rowTextboxBox);
+        row.appendChild(rowTextbox);
         row.appendChild(selectButtonBox);
         newRows.push(row);
         
@@ -1162,10 +1146,11 @@ annotationExtensionChrome.attributes =
         var rowLabel2 = document.createElement('label');
           rowLabel2.setAttribute('value', stringBundle.getString("annotationextension.aeContentText.annotationText.label"));
           rowLabel2.setAttribute('tooltiptext', stringBundle.getString("annotationextension.annotationWindow.contentText.tooltip"));
+          rowLabel2.setAttribute('class', 'aeLabel');
         var rowTextbox2 = document.createElement('textbox');
           rowTextbox2.setAttribute('id', id+'-textbox2-'+this.getCurrentTabID());
-          rowTextbox2.setAttribute('class', 'plain');
           rowTextbox2.setAttribute('flex', '1');
+          rowTextbox2.setAttribute('class', 'aeTextbox');
         
         var annotContentTextboxDeck = document.createElement('deck');
           annotContentTextboxDeck.setAttribute('selectedIndex', '0');
@@ -1176,7 +1161,7 @@ annotationExtensionChrome.attributes =
           aLinkLabel.setAttribute('value', stringBundle.getString("annotationextension.attributes.annotLink"));
         var aLinkImage = document.createElement('image');
           aLinkImage.setAttribute('id', id+'-aLinkImage-'+this.getCurrentTabID());
-          aLinkImage.setAttribute('src','chrome://annotationextension/skin/boomy/bubble.png');
+          aLinkImage.setAttribute('src','chrome://annotationextension/skin/icons/bubble.png');
           aLinkImage.setAttribute('width','12');
           aLinkImage.setAttribute('height','12');
         var aLinkLabelBox = document.createElement('hbox');
@@ -1186,17 +1171,17 @@ annotationExtensionChrome.attributes =
           aLinkLabelBox.setAttribute('flex', '1');
           aLinkLabelBox.appendChild(aLinkLabel);
           aLinkLabelBox.appendChild(aLinkImage);
+          
+        var labelBox = document.createElement('hbox');
+          labelBox.setAttribute("class", "redBoxHover");
+          labelBox.setAttribute('id', id+'-labelContentBox-'+this.getCurrentTabID());
+          labelBox.appendChild(aLinkLabelBox); 
                  
         annotContentTextboxDeck.appendChild(rowTextbox2);
-        annotContentTextboxDeck.appendChild(aLinkLabelBox);
-        
-        var rowTextboxBox2 = document.createElement('hbox');
-          rowTextboxBox2.setAttribute("class", "textboxBox");
-          rowTextboxBox2.setAttribute('id', id+'-rowTextboxBox2-'+this.getCurrentTabID());
-          rowTextboxBox2.appendChild(annotContentTextboxDeck);
+        annotContentTextboxDeck.appendChild(labelBox);
         
         row2.appendChild(rowLabel2);
-        row2.appendChild(rowTextboxBox2);
+        row2.appendChild(annotContentTextboxDeck);
         newRows.push(row2);
       }
     }

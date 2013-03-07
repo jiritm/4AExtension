@@ -10,11 +10,9 @@
  --> 
 
 <?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
-<?xml-stylesheet type="text/css"
-  href="chrome://annotationextension/skin/annotationExtension.css" ?>
+<?xml-stylesheet type="text/css" href="chrome://annotationextension/skin/annotationExtension.css" ?>
 
-<!DOCTYPE overlay SYSTEM
-  "chrome://annotationextension/locale/annotationExtension.dtd">
+<!DOCTYPE overlay SYSTEM "chrome://annotationextension/locale/annotationExtension.dtd">
 
 <overlay id="realtimeanot-overlay" 
 	xmlns:html="http://www.w3.org/1999/xhtml"

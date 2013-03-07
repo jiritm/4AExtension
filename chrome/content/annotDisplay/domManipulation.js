@@ -1261,11 +1261,9 @@ function setALinkToUiById(id, annotID)
 		annotSelectBox.value = text;
 		
     var contentDeck = document.getElementById(id+'-contentDeck-'+annotationExtensionChrome.bottomAnnotationWindow.getCurrentTabID());
-		var rowTextboxBox2 = document.getElementById(id+'-rowTextboxBox2-'+annotationExtensionChrome.bottomAnnotationWindow.getCurrentTabID());
 		var aLinkLabelBox = document.getElementById(id+'-aLinkLabelBox-'+annotationExtensionChrome.bottomAnnotationWindow.getCurrentTabID());
     
     contentDeck.selectedIndex = 1;
-    rowTextboxBox2.className = "textboxBoxRed";
 		var onMouseOverText = '';
 		var onMouseOutText = '';
 		for (var i = 0; i < annotID.length; i++)
@@ -1288,20 +1286,20 @@ function setALinkToUiById(id, annotID)
 function aLinkLabelBoxClick(id)
 {
   var aLinkLabelBox = document.getElementById(id+'-aLinkLabelBox-'+annotationExtensionChrome.bottomAnnotationWindow.getCurrentTabID());
-	var rowTextboxBox2 = document.getElementById(id+'-rowTextboxBox2-'+annotationExtensionChrome.bottomAnnotationWindow.getCurrentTabID());
-	var onMouseOutText = aLinkLabelBox.getAttribute('onmouseout');
+	var labelContentBox = document.getElementById(id+'-labelContentBox-'+annotationExtensionChrome.bottomAnnotationWindow.getCurrentTabID());
+  var onMouseOutText = aLinkLabelBox.getAttribute('onmouseout');
 	
 	if (onMouseOutText == "")
 	{
 		var onMouseOutTextSaved = aLinkLabelBox.getAttribute('onmouseoutAeSaved');
 		aLinkLabelBox.setAttribute('onmouseout', onMouseOutTextSaved);
-		rowTextboxBox2.className = 'textboxBoxRed';
-	}
+		labelContentBox.className = 'redBoxHover';
+    }
 	else
 	{
 		aLinkLabelBox.setAttribute('onmouseout', '');
-		rowTextboxBox2.className = 'textboxBoxRedBlueBorder';
-	}
+		labelContentBox.className = 'redBoxBlueBorder';
+  }
 }
 
 /**
@@ -1313,13 +1311,11 @@ function deleteALinkFromUiById(id)
 		try
 		{
 				var contentDeck = document.getElementById(id+'-contentDeck-'+annotationExtensionChrome.bottomAnnotationWindow.getCurrentTabID());
-				var rowTextboxBox2 = document.getElementById(id+'-rowTextboxBox2-'+annotationExtensionChrome.bottomAnnotationWindow.getCurrentTabID());
 				var aLinkLabelBox = document.getElementById(id+'-aLinkLabelBox-'+annotationExtensionChrome.bottomAnnotationWindow.getCurrentTabID());
 				var selectedText = document.getElementById(id+'-textbox1-'+annotationExtensionChrome.bottomAnnotationWindow.getCurrentTabID());		
 						
 				contentDeck.selectedIndex = 0;
 				selectedText.value = "";
-				rowTextboxBox2.className = "textboxBox";
 				aLinkLabelBox.setAttribute('onmouseover', '');
 				aLinkLabelBox.setAttribute('onmouseout', '');
 		}

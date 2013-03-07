@@ -8,8 +8,8 @@
  - Posledni uprava: 5.6.2012
  --> 
 
-<?xml-stylesheet type="text/css" href="chrome://annotationextension/skin/annotationExtension.css" ?>
 <?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
+<?xml-stylesheet type="text/css" href="chrome://annotationextension/skin/annotationExtension.css" ?>
 
 <!DOCTYPE prefwindow SYSTEM
   "chrome://annotationextension/locale/annotationExtension.dtd">
@@ -28,7 +28,7 @@
     
   <!-- NASTAVENI OKNA -->
   <prefpane id="windowOption" label="&annotationextension.config.tab.windowOption;"
-    image="chrome://annotationextension/skin/oxygen/window.png">
+    image="chrome://annotationextension/skin/icons/window.png">
 
     <preferences>
       <preference id="extensions.annotationextension.defaultHeight"
@@ -53,6 +53,7 @@
         <hbox align="center">
           <radio value="default" />
           <textbox id="extensions.annotationextension.defaultHeight-textbox"
+            class="aeTextbox"
             preference="extensions.annotationextension.defaultHeight"
             style="width: 5em;" type="number"
             maxlength="4" size="4" max="9999" increment="10" />
@@ -78,7 +79,7 @@
   
   <!-- NASTAVENI PRI VYBERU TEXTU -->
   <prefpane id="aeTextSelectOption" label="&annotationextension.config.tab.aeTextSelectOption;"
-    image="chrome://annotationextension/skin/oxygen/edit.png">
+    image="chrome://annotationextension/skin/icons/edit.png">
     
     <preferences>           
       <preference id="extensions.annotationextension.separateMode"
@@ -102,7 +103,7 @@
   
   <!-- NASTAVENI SERVERU -->
   <prefpane id="serverOption" label="&annotationextension.config.tab.serverOption;"
-    image="chrome://annotationextension/skin/oxygen/server.png"
+    image="chrome://annotationextension/skin/icons/server.png"
     onpaneload="annotationExtensionChrome.config.initServerSettings()">
     
     <preferences>     
@@ -124,15 +125,17 @@
         <row>
           <label value="&annotationextension.config.server.address;"/>
           <textbox id="extensions.annotationextension.serverAddress-textbox"
-             preference="extensions.annotationextension.server.serverAddress"
-             style="width: 9em;"/>
+            class="aeTextbox"
+            preference="extensions.annotationextension.server.serverAddress"
+            style="width: 9em;"/>
         </row>
         <row>
           <label value="&annotationextension.config.server.port;"/>
           <textbox id="extensions.annotationextension.serverPort-textbox"
-             preference="extensions.annotationextension.server.serverPort"
-             style="width: 5em;" type="number" max="65536"
-             maxlength="5" size="5" increment="1" />
+            class="aeTextbox"
+            preference="extensions.annotationextension.server.serverPort"
+            style="width: 5em;" type="number" max="65536"
+            maxlength="5" size="5" increment="1" />
         </row>
       </rows>
     </grid>
@@ -140,7 +143,7 @@
   
   <!-- NASTAVENI SKUPINY -->
   <prefpane id="aeGroupOption" label="&annotationextension.config.tab.aeGroupOption;"
-    image="chrome://annotationextension/skin/oxygen/group.png"
+    image="chrome://annotationextension/skin/icons/group.png"
     onpaneload="annotationExtensionChrome.config.initGroups()">
     
     <deck id="aeGroupDeck" selectedIndex="1" flex="1">
@@ -196,6 +199,7 @@
              tooltiptext="&annotationextension.config.groups.defaultUserGroup.tooltip;"
              control="aeDefaultUserGroupTextbox"/>
           <textbox id="aeDefaultUserGroupTextbox"
+            class="aeTextbox"
             readonly="true"/>
           <button id="aeSelectDefaultGroupButton" label="&annotationextension.config.groups.selectDefaultButton.label;"
             tooltiptext="&annotationextension.annotationWindow.chooseGroup.tooltip;"
@@ -216,7 +220,7 @@
   
   <!-- OSTATNI NASTAVENI SERVERU -->
   <prefpane id="aeOtherOption" label="&annotationextension.config.tab.aeOtherOption;"
-    image="chrome://annotationextension/skin/oxygen/misc.png"
+    image="chrome://annotationextension/skin/icons/misc.png"
     onpaneload="annotationExtensionChrome.config.initOtherOption()">
     
     <deck id="aeSettingsDeck" selectedIndex="1" flex="1">
@@ -281,7 +285,7 @@
   
   <!-- NASTAVENI BAREV TYPU ANOTACI -->
   <prefpane id="aeColorsOption" label="&annotationextension.config.tab.aeColorsOption;"
-    image="chrome://annotationextension/skin/oxygen/colors.png"
+    image="chrome://annotationextension/skin/icons/colors.png"
     onpaneload="annotationExtensionChrome.config.initColorsOption()">
     
     <deck id="aeColorsDeck" selectedIndex="1" flex="1">
@@ -341,7 +345,7 @@
   
   <!-- ODEBIRANI ANOTACI -->
   <prefpane id="aeSubscriptions" label="&annotationextension.config.tab.aeSubscription;"
-    image="chrome://annotationextension/skin/oxygen/subscript.png"
+    image="chrome://annotationextension/skin/icons/subscript.png"
     onpaneload="annotationExtensionChrome.config.initSubscriptions()">
     
     <deck id="aeSubscriptionsDeck" selectedIndex="1" flex="1">

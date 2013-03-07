@@ -15,18 +15,21 @@
       <xul:vbox flex="1">
         <!-- VYBRANY TEXT -->
         <xul:vbox anonid="aeSuggestAnnotationSelectionBox" flex="1">
-          <xul:label value="&annotationextension.aeSelectedText.selectedText.label;"
-              tooltiptext="&annotationextension.annotationWindow.selectedText.tooltip;"/>
+          <xul:label
+            class="aeLabel"
+            value="&annotationextension.aeSelectedText.selectedText.label;"
+            tooltiptext="&annotationextension.annotationWindow.selectedText.tooltip;"/>
           <xul:hbox anonid="selectedText-box"
             class="aeSuggestAnnotationSelectionBoxForDocument" pack="center" align="center" flex="1">
             <xul:deck anonid="selectedText-deck"
               selectedIndex="1" flex="1">
               <xul:textbox
+                class="aeTextbox"
                 anonid="selectedText-textbox"
                 tooltiptext="&annotationextension.annotationWindow.selectedText.tooltip;"
                 multiline="true" rows="2" readonly="true" flex="1"/>
               <xul:hbox flex="1" pack="center" align="center">
-                <xul:label value="&annotationextension.suggestAnnotation.selection.document;"/>
+                <xul:label class="aeLabel" value="&annotationextension.suggestAnnotation.selection.document;"/>
               </xul:hbox>
             </xul:deck>
           </xul:hbox>

@@ -81,6 +81,7 @@
       <row>
         <label value="&annotationextension.addColorDialog.color;"/>
         <textbox id="aeNewColorValue"
+          class="aeTextbox"
           flex="1"
           oninput="return(true);"
           onpaste="return(true);"/>

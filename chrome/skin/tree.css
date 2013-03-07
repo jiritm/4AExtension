@@ -1,0 +1,368 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+/* ::::: atributy anotace ::::: */
+
+.aeTree treechildren::-moz-tree-row(simple) { background-color: #ddffdd !important; }
+.aeTree treechildren::-moz-tree-row(required) { background-color: #ddffdd !important; border-left: 3px solid #ff2f2f !important; border-radius: 0px !important;}
+.aeTree treechildren::-moz-tree-row(default) { background-color: #ddffdd !important; border-left: 3px solid #0bd738 !important; border-radius: 0px !important;}
+/*.aeTree treechildren::-moz-tree-row(simple, hover) { background-color: #caffca !important; }
+.aeTree treechildren::-moz-tree-row(required, hover) { background-color: #caffca !important;}
+.aeTree treechildren::-moz-tree-row(default, hover) { background-color: #caffca !important;}
+.aeTree treechildren::-moz-tree-row(simple, selected) { background-color: #aaffaa !important; }
+.aeTree treechildren::-moz-tree-row(required, selected) { background-color: #aaffaa !important;}
+.aeTree treechildren::-moz-tree-row(default, selected) { background-color: #aaffaa !important;}*/
+
+.aeTree treechildren::-moz-tree-row(struct) { background-color: #daebfc !important; }
+.aeTree treechildren::-moz-tree-row(requiredStruct) { background-color: #daebfc !important; border-left: 3px solid #ff2f2f !important; border-radius: 0px !important;}
+.aeTree treechildren::-moz-tree-row(defaultStruct) { background-color: #daebfc !important; border-left: 3px solid #519dea !important; border-radius: 0px !important;}
+/*.aeTree treechildren::-moz-tree-row(struct, hover) { background-color: #d0e6fb !important; }
+.aeTree treechildren::-moz-tree-row(requiredStruct, hover) { background-color: #d0e6fb !important;}
+.aeTree treechildren::-moz-tree-row(defaultStruct, hover) { background-color: #d0e6fb !important;}
+.aeTree treechildren::-moz-tree-row(struct, selected) { background-color: #bfdcf9 !important; }
+.aeTree treechildren::-moz-tree-row(requiredStruct, selected) { background-color: #bfdcf9 !important;}
+.aeTree treechildren::-moz-tree-row(defaultStruct, selected) { background-color: #bfdcf9 !important;}*/
+
+/* ::::: odbery ::::: */
+
+.aeTree treechildren::-moz-tree-row(whitelist) { background-color: #c1fab4 !important; }
+.aeTree treechildren::-moz-tree-row(blacklist) { background-color: #fb7373 !important; }
+.aeTree treechildren::-moz-tree-row(whitelist, hover) { background-color: #FFFFCC !important; }
+.aeTree treechildren::-moz-tree-row(blacklist, hover) { background-color: #FFFFCC !important; }
+.aeTree treechildren::-moz-tree-row(whitelist, selected) { background-color: #FFFFAA !important; }
+.aeTree treechildren::-moz-tree-row(blacklist, selected) { background-color: #FFFFAA !important; }
+
+/* ::::: tree ::::: */
+
+.aeTree {
+  margin: 0px;
+  border: 0px;
+  -moz-border-top-colors: rgba(255,255,255,.05) rgb(199, 199, 199) !important;
+  -moz-border-right-colors: rgba(255,255,255,.05) rgb(199, 199, 199) !important;
+  -moz-border-bottom-colors: rgba(255,255,255,.05) rgb(199, 199, 199) !important;
+  -moz-border-left-colors: rgba(255,255,255,.05) rgb(199, 199, 199) !important;
+  border-radius: 0;
+  background: #ffffff;
+  color: #000000;
+  -moz-appearance: none /*listbox*/;
+}
+
+.aeTree treechildren{
+  background-color: #ffffff;
+}
+
+/* ::::: tree focusring ::::: */
+
+.aeTree .focusring > .tree-stack > .tree-rows > .tree-bodybox {
+  border: 1px solid transparent;  
+}
+
+.aeTree .focusring:-moz-focusring > .tree-stack > .tree-rows > .tree-bodybox {
+  border: 1px solid #7c7c7c;
+}
+
+/* ::::: tree rows ::::: */
+
+.aeTree treechildren::-moz-tree-checkbox { list-style-image: none; }
+.aeTree treechildren::-moz-tree-checkbox(checked) { list-style-image: url("chrome://annotationextension/skin/icons/accept16.png"); }
+.aeTree treechildren::-moz-tree-checkbox(disabled) { list-style-image: url("chrome://annotationextension/skin/icons/disabled16.png"); }
+
+.aeTree treechildren::-moz-tree-row {
+  border: 0px;
+  min-height: 20px;
+  height: 1.3em;
+}
+
+.aeTree treechildren::-moz-tree-row(selected) {
+  background-image: none !important;
+  background-color: #FFFFAA !important;
+  -moz-border-top-colors: none !important;
+  -moz-border-right-colors: none !important;
+  -moz-border-left-colors: none !important;
+  -moz-border-bottom-colors: none !important;
+}
+
+.aeTree treechildren::-moz-tree-row(hover){
+  background-image: none !important;
+  background-color: #FFFFCC !important;
+  -moz-border-top-colors: none !important;
+  -moz-border-right-colors: none !important;
+  -moz-border-left-colors: none !important;
+  -moz-border-bottom-colors: none !important;
+}
+
+.aeTree treechildren::-moz-tree-row(selected, focus) {
+  background-image: none !important;
+  background-color: rgba(0,0,0,.1) !important;
+}
+
+.aeTree treechildren::-moz-tree-row(current, focus) {
+  background-image: none !important;
+  background-color: #FFFFAA !important;
+  -moz-border-top-colors: none !important;
+  -moz-border-right-colors: none !important;
+  -moz-border-left-colors: none !important;
+  -moz-border-bottom-colors: none !important;
+}
+
+.aeTree treechildren::-moz-tree-row(selected, current, focus){
+  background-image: none !important;
+  background-color: #FFFFAA !important;
+  -moz-border-top-colors: none !important;
+  -moz-border-right-colors: none !important;
+  -moz-border-left-colors: none !important;
+  -moz-border-bottom-colors: none !important;
+}
+
+.aeTree tree[seltype="cell"] > treechildren::-moz-tree-row,
+.aeTree tree[seltype="text"] > treechildren::-moz-tree-row {
+  border: none;
+  background-color: transparent;
+}
+
+.aeTree treechildren::-moz-tree-row(odd) {
+  background-color: #ffffff;
+}
+
+/* ::::: tree cells ::::: */
+
+.aeTree treechildren::-moz-tree-cell {
+  padding: 0px 2px 0px 2px;
+}
+
+.aeTree[seltype="cell"] > treechildren::-moz-tree-cell-text,
+.aeTree[seltype="text"] > treechildren::-moz-tree-cell-text,
+.aeTree treechildren::-moz-tree-cell-text {
+  color: inherit;
+}
+
+.aeTree treechildren::-moz-tree-cell-text(selected) {
+  color: #000000 !important;
+}
+
+.aeTree[seltype="cell"] > treechildren::-moz-tree-cell {
+  border: 1px solid transparent;
+  padding: 0px 1px 0px 1px;
+}
+
+.aeTree[seltype="text"] > treechildren::-moz-tree-cell-text {
+  border: 1px solid transparent;
+  padding: 0px 1px 0px 1px;
+}
+
+.aeTree[seltype="cell"] > treechildren::-moz-tree-cell(active, selected) {
+  background-color: rgba(0,0,0,.1);
+}
+.aeTree[seltype="cell"] > treechildren::-moz-tree-cell-text(active, selected) {
+  color: #000000;
+}
+
+.aeTree[seltype="text"] > treechildren::-moz-tree-cell-text(active, selected) {
+  background-color: rgba(0,0,0,.1);
+  color: #000000;
+}
+
+.aeTree treechildren::-moz-tree-cell-text(selected, focus) {
+  color: #000000;
+}
+
+.aeTree[seltype="cell"] > treechildren::-moz-tree-cell(active, selected, focus) {
+  background:  rgba(0,0,0,.1);
+}
+
+.aeTree[seltype="text"] > treechildren::-moz-tree-cell-text(active, selected, focus) {
+  background:  rgba(0,0,0,.1);
+}
+
+.aeTree[seltype="cell"] > treechildren::-moz-tree-cell-text(active, selected, focus) {
+  color: #000000;
+}
+
+.aeTree[seltype="text"] > treechildren::-moz-tree-cell-text(active, selected, focus) {
+  color: #000000;
+}
+
+.aeTree[seltype="cell"] > treechildren::-moz-tree-cell(active, current, focus) {
+  border: none;
+}
+
+.aeTree[seltype="text"] > treechildren::-moz-tree-cell-text(active, current, focus) {
+  border: none;
+}
+
+.aeTree[seltype="cell"] > treechildren::-moz-tree-cell(active, selected, current, focus) {
+  border: none;
+}
+
+.aeTree[seltype="text"] > treechildren::-moz-tree-cell-text(active, selected, current, focus) {
+  border: none;
+}
+
+/* ::::: lines connecting cells ::::: */
+
+.aeTree[seltype="cell"] > treechildren::-moz-tree-line,
+.aeTree[seltype="text"] > treechildren::-moz-tree-line,
+.aeTree treechildren::-moz-tree-line {
+  border: 1px dotted ThreeDShadow;
+}
+
+.aeTree[seltype="cell"] > treechildren::-moz-tree-line(active, selected, focus),
+.aeTree treechildren::-moz-tree-line(selected, focus) {
+  border: 1px dotted HighlightText;
+}
+
+/* ::::: tree columns ::::: */
+
+.aeTree treecol,
+.aeTree treecolpicker {
+  -moz-appearance: none;
+  -moz-box-align: center;
+  -moz-box-pack: center;
+  border: none;
+  background-image: none;
+  background-color: rgb(209, 209, 209);
+  color: #000000;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+}
+
+.aeTree .treecol-image {
+  padding: 0px;
+}
+
+.aeTree .treecol-text {
+  padding: 3px !important;
+}
+
+.aeTree treecol[hideheader="true"] {
+  -moz-appearance: none;
+  border: none;
+}
+
+/* ..... internal box ..... */
+
+.aeTree treecol:hover,
+.aeTree treecolpicker:hover {
+  background-image: linear-gradient(rgb(95, 95, 95) 30%, rgb(65, 65, 65)) !important;
+  color: #ffffff;
+  text-shadow: none;
+  transition: .2s ease-in;
+}
+
+.aeTree treecol:hover:active,
+.aeTree treecolpicker:hover:active {
+  text-shadow: none;
+  transition: .2s ease-in;
+}
+
+.aeTree .treecol-image:hover:active {
+  padding-top: 1px;
+  padding-bottom: 0px;
+  -moz-padding-start: 2px;
+  -moz-padding-end: 1px;
+}
+
+/* ::::: column drag and drop styles ::::: */
+
+.aeTree treecol[dragging="true"] {
+  -moz-border-top-colors: ThreeDDarkShadow transparent !important;
+  -moz-border-right-colors: ThreeDDarkShadow transparent!important;
+  -moz-border-bottom-colors: ThreeDDarkShadow transparent !important;
+  -moz-border-left-colors: ThreeDDarkShadow transparent !important;
+  background-color: #00adee !important;
+  color: #ffffff !important;
+}
+
+.aeTree treecol[insertafter="true"]:-moz-locale-dir(ltr),
+.aeTree treecol[insertbefore="true"]:-moz-locale-dir(rtl) {
+  -moz-border-right-colors: ThreeDDarkShadow ThreeDShadow;
+}
+
+.aeTree treecol[insertafter="true"]:-moz-locale-dir(rtl),
+.aeTree treecol[insertbefore="true"]:-moz-locale-dir(ltr) {
+  -moz-border-left-colors: ThreeDDarkShadow ThreeDShadow;
+}
+
+.aeTree treechildren::-moz-tree-column(insertbefore) {
+  -moz-border-start: 1px solid ThreeDShadow;
+}
+
+.aeTree treechildren::-moz-tree-column(insertafter) {
+  -moz-border-end: 1px solid ThreeDShadow;
+}
+
+/* ::::: sort direction indicator :::::  */
+
+.aeTree .treecol-sortdirection {
+  list-style-image: none;
+}
+
+.aeTree treecol:not([hideheader="true"]) > .treecol-sortdirection[sortDirection="ascending"] {
+  list-style-image: url("chrome://global/skin/tree/sort-asc-classic.png");
+}
+
+.aeTree treecol:not([hideheader="true"]) > .treecol-sortdirection[sortDirection="ascending"]:-moz-system-metric(windows-classic) {
+  list-style-image: url("chrome://global/skin/tree/sort-asc-classic.png");
+}
+
+.aeTree treecol:not([hideheader="true"]) > .treecol-sortdirection[sortDirection="descending"] {
+  list-style-image: url("chrome://global/skin/tree/sort-dsc-classic.png");
+}
+
+.aeTree treecol:not([hideheader="true"]) > .treecol-sortdirection[sortDirection="descending"]:-moz-system-metric(windows-classic) {
+  list-style-image: url("chrome://global/skin/tree/sort-dsc-classic.png");
+}
+
+/* ::::: column picker :::::  */
+
+.aeTree .tree-columnpicker-icon {
+  list-style-image: url("chrome://global/skin/tree/columnpicker.gif");
+}
+
+/* ::::: twisty :::::  */
+
+.aeTree treechildren::-moz-tree-twisty {
+  -moz-padding-end: 4px;
+  padding-top: 1px;
+  width: 9px; /* The image's width is 9 pixels */
+  list-style-image: url("chrome://global/skin/tree/twisty-clsd.png");
+}
+
+.aeTree treechildren::-moz-tree-twisty(open) {
+  width: 9px; /* The image's width is 9 pixels */
+  list-style-image: url("chrome://global/skin/tree/twisty-open.png");
+}
+
+.aeTree treechildren::-moz-tree-indentation {
+  width: 18px;
+}
+
+/* ::::: gridline style ::::: */
+
+.aeTree treechildren.gridlines::-moz-tree-cell {
+  border-right: 1px solid transparent !important;
+  border-bottom: 1px solid transparent !important;
+}
+
+.aeTree treechildren.gridlines::-moz-tree-row {
+  border: none;
+}
+
+/* ::::: editable tree ::::: */
+
+.aeTree treechildren::-moz-tree-row(selected, editing) {
+  background-color: transparent;
+  border: none;
+}
+
+.aeTree treechildren::-moz-tree-cell-text(selected, editing) {
+  color: inherit;
+}
+
+.aeTree .tree-input {
+  -moz-appearance: none;
+  border: 1px solid #000000;
+  margin: 0;
+  -moz-margin-start: -4px;
+  padding: 1px;
+}

@@ -592,11 +592,11 @@ annotationExtensionChrome.bottomAnnotationWindow =
 					{//pokud pridavas posledni typ do databaze upozorni autocomplete...
 					 //pokud se nepodari pridat vsechny typy - nejaka chyba - nenadelas nic
 
-						annotationExtension.typesStorageService.addTypes([type], typesStorageHandler);
+						//annotationExtension.typesStorageService.addTypes([type], typesStorageHandler);
 					}
 					else
 					{
-						annotationExtension.typesStorageService.addTypes([type], null);
+						//annotationExtension.typesStorageService.addTypes([type], null);
 					}
           
 					cont = true;
@@ -830,7 +830,6 @@ annotationExtensionChrome.bottomAnnotationWindow =
    */
   annotateDocument : function(bool)
   {
-    var selectedTextBox = document.getElementById('aeSelectedTextBox');
     var aeSelectedText = document.getElementById('aeSelectedTextBoxDeck');
     
     //Pokud je zadano, zda se ma nebo nema anotovat dokument
@@ -840,7 +839,6 @@ annotationExtensionChrome.bottomAnnotationWindow =
     if (this.documentAnnotation == false)
     {
       aeSelectedText.selectedIndex = 1;
-      selectedTextBox.className = "textboxBoxRed";
       
       this.hideSelectRangeBox();
       
@@ -849,7 +847,6 @@ annotationExtensionChrome.bottomAnnotationWindow =
     else
     {
       aeSelectedText.selectedIndex = 0;
-      selectedTextBox.className = "textboxBoxReadonly";
       
       this.documentAnnotation = false;
       
@@ -1721,10 +1718,8 @@ annotationExtensionChrome.bottomAnnotationWindow =
         button2.hidden = true;
       
       //Nastaveni textboxu pro vybrany text "na bilo" - zruseni pripadne anotace celeho dokumentu  
-      var selectedTextBox = document.getElementById('aeSelectedTextBox');
       var aeSelectedText = document.getElementById('aeSelectedTextBoxDeck');
         aeSelectedText.selectedIndex = 0;
-        selectedTextBox.className = "textboxBoxReadonly";
         
       //Smazani hlavni anotace
       this.annotation = null;

@@ -38,7 +38,7 @@ annotationExtensionChrome.alerts =
     let title = this.stringBundle.getString("annotationextension.alertMessage.title")
 
     alertsService.showAlertNotification(
-      "chrome://annotationextension/skin/boomy/edit.png",
+      "chrome://annotationextension/skin/icons/edit.png",
       title, message, false, "", null, "Annotation Extension Message");
   },
   

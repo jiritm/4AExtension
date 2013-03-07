@@ -111,6 +111,7 @@ function createRTASidebarPanel(id, nestedAnnotationPanel)
             var richlistbox_node = document.createElement('richlistbox');
                 richlistbox_node.setAttribute('id', 'ap-attributes');
                 richlistbox_node.setAttribute('style', 'max-height: 50em');
+                richlistbox_node.setAttribute("disabled", "true");
        
         vbox_node2.appendChild(richlistbox_node);
         
@@ -212,7 +213,7 @@ function appendAttributesRTASidebarPanel(id,frame_doc, panel, showNestedP)
                 span_node.appendChild(text_node);
 								
 								node_image = document.createElementNS("http://www.w3.org/1999/xhtml","html:img");
-                node_image.setAttribute('src','chrome://annotationextension/skin/boomy/bubble.png');
+                node_image.setAttribute('src','chrome://annotationextension/skin/icons/bubble.png');
                 node_image.setAttribute('width','12');
                 node_image.setAttribute('height','12');
                 span_node.appendChild(node_image);
@@ -246,7 +247,7 @@ function appendAttributesRTASidebarPanel(id,frame_doc, panel, showNestedP)
                 text_node = document.createTextNode(append);
 
                 node_image = document.createElementNS("http://www.w3.org/1999/xhtml","html:img");
-                    node_image.setAttribute('src','chrome://annotationextension/skin/boomy/hyperlink.gif');
+                    node_image.setAttribute('src','chrome://annotationextension/skin/icons/hyperlink.gif');
                     node_image.setAttribute('width','12');
                     node_image.setAttribute('height','12');
                     
@@ -267,7 +268,7 @@ function appendAttributesRTASidebarPanel(id,frame_doc, panel, showNestedP)
 								text_node = document.createTextNode(attribute.name + " = (Geo: " +  attribute.value.glat + ' , ' + attribute.value.glong + ")");
 
                 node_image = document.createElementNS("http://www.w3.org/1999/xhtml","html:img");
-                    node_image.setAttribute('src','chrome://annotationextension/skin/boomy/hyperlink.gif');
+                    node_image.setAttribute('src','chrome://annotationextension/skin/icons/hyperlink.gif');
                     node_image.setAttribute('width','12');
                     node_image.setAttribute('height','12');
                     
@@ -296,7 +297,7 @@ function appendAttributesRTASidebarPanel(id,frame_doc, panel, showNestedP)
                     span_node.appendChild(text_node);
 										
                     node_image = document.createElementNS("http://www.w3.org/1999/xhtml","html:img");
-                    node_image.setAttribute('src','chrome://annotationextension/skin/boomy/bubble.png');
+                    node_image.setAttribute('src','chrome://annotationextension/skin/icons/bubble.png');
                     node_image.setAttribute('width','12');
                     node_image.setAttribute('height','12');
                     span_node.appendChild(node_image);
@@ -355,7 +356,7 @@ function appendAttributesRTASidebarPanel(id,frame_doc, panel, showNestedP)
                     text_node = document.createTextNode(attribute.name + " (" + nestedText + ")");
                     span_node.appendChild(text_node);
                     node_image = document.createElementNS("http://www.w3.org/1999/xhtml","html:img");
-                    node_image.setAttribute('src','chrome://annotationextension/skin/boomy/bubble.png');
+                    node_image.setAttribute('src','chrome://annotationextension/skin/icons/bubble.png');
                     node_image.setAttribute('width','12');
                     node_image.setAttribute('height','12');
                     span_node.appendChild(node_image);

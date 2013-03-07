@@ -1,3 +1,8 @@
+@import url(chrome://annotationextension/skin/textbox.css);
+@import url(chrome://annotationextension/skin/label.css);
+@import url(chrome://annotationextension/skin/tree.css);
+@import url(chrome://annotationextension/skin/listbox.css);
+
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 @namespace html url("http://www.w3.org/1999/xhtml");
 
@@ -7,15 +12,15 @@
 
 /* Vzhled ikony do status baru a toolbarpanelu */
 #aeButton {
-  list-style-image: url('chrome://annotationextension/skin/boomy/annotation24.png');
+  list-style-image: url('chrome://annotationextension/skin/icons/annotation24.png');
 }
 
 toolbar[iconsize="small"] #aeButton {
-  list-style-image: url('chrome://annotationextension/skin/boomy/annotation16.png');
+  list-style-image: url('chrome://annotationextension/skin/icons/annotation16.png');
 }
 
 #aeStatusBarPanel {
-  list-style-image: url('chrome://annotationextension/skin/boomy/annotation16.png');
+  list-style-image: url('chrome://annotationextension/skin/icons/annotation16.png');
   cursor: pointer;
   padding: 0px 3px;
 }
@@ -24,22 +29,20 @@ toolbar[iconsize="small"] #aeButton {
 #aeControlPanel {
   color: white;
   background-color: #888888;
-  border-radius: 4px 4px 4px 4px;
-  /* outline: thin solid #0000DD;
-  -moz-outline-radius:  5px 5px 5px 5px; */
 }
 
 /* Hlavni cast anotacniho okna */
 #aeAnnotationContentRow1 {
-  background-color: #BBBBBB;
-  border-radius: 4px 4px 0px 0px;
+  padding-top: 3px;
+  background-color: #acacac;
 }
 
 #aeAnnotationContentRow2 {
-  background-color: #BBBBBB;
-  border-radius: 0px 0px 4px 4px;
+  padding-bottom: 3px;
+  background-color: #acacac;
 }
 
+/* Vyber typu */
 #aeTypeSelect {
   margin: 3px;
   margin-right: 0;
@@ -61,92 +64,55 @@ toolbar[iconsize="small"] #aeButton {
   padding: 0;
 }
 
-#aeSaveDeleteAnnot-box{
+#aeSaveDeleteAnnotBox{
   margin-top: 5px;
 }
 
-/** Box pro label */
-.labelBox {
-  padding : 3px;
-}
-
-/** Box ve kterem je textbox */
-.textboxBox {
-  margin : 3px;
-  padding : 3px;            /* Aby nebyl text v textboxu nalepeny na okraji */
-  background-color: #FFFFFF;
-  border-radius: 4px 4px 4px 4px;
-}
-
-/** Box ve kterem je textbox readonly */
-.textboxBoxReadonly {
-  margin : 3px;
-  padding : 3px;            /* Aby nebyl text v textboxu nalepeny na okraji */
-  background-color: #DDDDDD;
-  border-radius: 4px 4px 4px 4px;
-}
-
-/** Box s okrajem ve kterem je textbox readonly */
-.textboxBoxReadonlyBorder {
-  border : 2px solid #FFFFFF;
-  margin : 3px;
-  padding : 3px;            /* Aby nebyl text v textboxu nalepeny na okraji */
-  background-color: #DDDDDD;
-  border-radius: 4px 4px 4px 4px;
-}
-
-.textboxBoxRed {
-  margin : 3px;
-  padding : 3px;            /* Aby nebyl text v textboxu nalepeny na okraji */
+.redBox, .redBoxHover, .redBoxBlueBorder {
+  margin: 3px;
   background-color: #FF6666;
   border-radius: 4px 4px 4px 4px;
 }
 
-.textboxBoxRedBlueBorder {
-  margin : 3px;
-  padding : 3px;            /* Aby nebyl text v textboxu nalepeny na okraji */
-  background-color: #FF6666;
+.redBoxHover:hover{
+  background-color: #ff8a8a;
+  border: 2px solid #5959ff;
+}
+
+.redBoxBlueBorder {
   border: 2px solid #0000FF;
-  border-radius: 4px 4px 4px 4px;
 }
 
 .textboxForURI {
   min-width: 300px;
 }
 
-.shadowBox {
-  background-color: #EEEEEE;
-  border-radius: 4px 4px 4px 4px;
-  -webkit-box-shadow: 5px 5px 5px #777777;
-  box-shadow: 5px 5px 5px #777777;
-}
-
 /* Tlacitko dalsi vyber(vyber=oznaceny text ve Firefoxu) */
 .aeSelectNext {
   margin: 0 4px 0 0;
-  list-style-image: url("chrome://annotationextension/skin/boomy/next24.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/next24.png");
 }
 
 .aeSelectNext:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/next24dark.png"); 
+  list-style-image: url("chrome://annotationextension/skin/icons/next24dark.png"); 
 }
 
 .aeSelectNext:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/next24light.png"); 
+  list-style-image: url("chrome://annotationextension/skin/icons/next24light.png"); 
 }
 
 /* Tlacitko dalsi vyber(vyber=oznaceny text ve Firefoxu) */
 .aeSelectPrevious {
   margin: 0 0 0 4px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/back24.png");     
+  list-style-image: url("chrome://annotationextension/skin/icons/back24.png");     
 }
 
 .aeSelectPrevious:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/back24dark.png");     
+  list-style-image: url("chrome://annotationextension/skin/icons/back24dark.png");     
 }
 
 .aeSelectPrevious:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/back24light.png");     
+  list-style-image: url("chrome://annotationextension/skin/icons/back24light.png");     
 }
 
 /*TLACITKA NA PRIDANI/ODEBRANI ANOTACE DO/Z VZBERU */
@@ -154,80 +120,78 @@ toolbar[iconsize="small"] #aeButton {
   width : 14px;
   height : 14px;
   margin: 0 0 0 3px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/add16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/add16.png");
 }
 
 .aeAddAnnotSelection:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/add16dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/add16dark.png");
 }
 
 .aeAddAnnotSelection:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/add16light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/add16light.png");
 }
   
 .aeDeleteAnnotSelection {
   width : 14px;
   height : 14px;
   margin: 0 0 0 3px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/delete24.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/delete24.png");
 }
 
 .aeDeleteAnnotSelection:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/delete24dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/delete24dark.png");
 }
 
 .aeDeleteAnnotSelection:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/delete24light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/delete24light.png");
 }
 
 /* Cast s atributy */
 #aeAnnotationAttributes {
   background-color: #DDDDDD;
-  border-radius: 4px 4px 4px 4px; 
-  border: 1px solid #000000;
   padding : 5px;
 }
 
 /* SHOW SIDEBAR "BUTTON" */
 #aeShowSidebarButton {
   margin: 0 0 0 3px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/sidebar16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/sidebar16.png");
 }
 
 #aeShowSidebarButton:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/sidebar16dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/sidebar16dark.png");
 }
 
 #aeShowSidebarButton:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/sidebar16light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/sidebar16light.png");
 }
 
 /* DOCUMENT ANNOTATION "BUTTON" */
 #aeAnnotateDocumentButton {
   margin: 0 0 0 3px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/document16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/document16.png");
 }
 
 #aeAnnotateDocumentButton:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/document16dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/document16dark.png");
 }
 
 #aeAnnotateDocumentButton:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/document16light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/document16light.png");
 }
 
 /* CLOSE "BUTTON" */
 #aeCloseButton {
   margin: 0 4px 0 0px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/close16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/close16.png");
 }
 
 #aeCloseButton:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/close16dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/close16dark.png");
 }
 
 #aeCloseButton:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/close16light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/close16light.png");
 }
 
 /* LOGOUT "BUTTON" */
@@ -235,15 +199,15 @@ toolbar[iconsize="small"] #aeButton {
   border-right : 1px groove #000000;
   margin: 0 2px 0 0;
   padding: 0 2px 0 0;
-  list-style-image: url("chrome://annotationextension/skin/boomy/logout16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/logout16.png");
 }
 
 #aeLogoutButton:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/logout16dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/logout16dark.png");
 }
 
 #aeLogoutButton:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/logout16light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/logout16light.png");
 }
 
 /* LOGIN "BUTTON" */
@@ -251,30 +215,30 @@ toolbar[iconsize="small"] #aeButton {
   border-right : 1px groove #000000;
   margin: 0 2px 0 0;
   padding: 0 2px 0 0;
-  list-style-image: url("chrome://annotationextension/skin/boomy/login16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/login16.png");
 }
 
 #aeLoginButtonP:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/login16dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/login16dark.png");
 }
 
 #aeLoginButtonP:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/login16light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/login16light.png");
 }
 
 /* CONFIGURE "BUTTON" */
 #aeConfigureButton {
   border-right : 1px groove #000000;
   padding: 0 2px 0 0;
-  list-style-image: url("chrome://annotationextension/skin/boomy/configure16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/configure16.png");
 }
 
 #aeConfigureButton:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/configure16dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/configure16dark.png");
 }
 
 #aeConfigureButton:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/configure16light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/configure16light.png");
 }
 
 /* BOX FOT SUGGEST ANNOTATIONS BUTTONS */
@@ -290,15 +254,15 @@ toolbar[iconsize="small"] #aeButton {
 #aeSuggestButton {
   width : 16px;
   height : 16px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/suggestAnnotations22.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/suggestAnnotations22.png");
 }
 
 #aeSuggestButton:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/suggestAnnotations22dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/suggestAnnotations22dark.png");
 }
 
 #aeSuggestButton:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/suggestAnnotations22light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/suggestAnnotations22light.png");
 }
 
 /* SUGGEST END ANNOTATIONS BUTTON */
@@ -306,15 +270,15 @@ toolbar[iconsize="small"] #aeButton {
   margin-left: 2px;
   width : 16px;
   height : 16px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/suggestAnnotationsEnd22.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/suggestAnnotationsEnd22.png");
 }
 
 #aeSuggestEndButton:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/suggestAnnotationsEnd22dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/suggestAnnotationsEnd22dark.png");
 }
 
 #aeSuggestEndButton:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/suggestAnnotationsEnd22light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/suggestAnnotationsEnd22light.png");
 }
 
 /* CLEAR BUTTON */
@@ -322,19 +286,19 @@ toolbar[iconsize="small"] #aeButton {
   margin-right: 6px;
   -webkit-box-shadow: 5px 5px 5px #777777;
   box-shadow: 5px 5px 5px #777777;
-  list-style-image: url("chrome://annotationextension/skin/boomy/clear22.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/clear22.png");
 }
 
 #aeClearButton:hover {
   -webkit-box-shadow: 5px 5px 5px #444444;
   box-shadow: 5px 5px 5px #444444;
-  list-style-image: url("chrome://annotationextension/skin/boomy/clear22dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/clear22dark.png");
 }
 
 #aeClearButton:hover:active {
   -webkit-box-shadow: 5px 5px 5px #AAAAAA;
   box-shadow: 5px 5px 5px #AAAAAA;
-  list-style-image: url("chrome://annotationextension/skin/boomy/clear22light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/clear22light.png");
 }
 
 /* SAVE BUTTON DECK*/
@@ -346,30 +310,30 @@ toolbar[iconsize="small"] #aeButton {
 #aeSaveButton {
   -webkit-box-shadow: 5px 5px 5px #777777;
   box-shadow: 5px 5px 5px #777777;
-  list-style-image: url("chrome://annotationextension/skin/boomy/save22.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/save22.png");
 }
 
 #aeSaveButton:hover {
   -webkit-box-shadow: 5px 5px 5px #444444;
   box-shadow: 5px 5px 5px #444444;
-  list-style-image: url("chrome://annotationextension/skin/boomy/save22dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/save22dark.png");
 }
 
 #aeSaveButton:hover:active {
   -webkit-box-shadow: 5px 5px 5px #AAAAAA;
   box-shadow: 5px 5px 5px #AAAAAA;
-  list-style-image: url("chrome://annotationextension/skin/boomy/save22light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/save22light.png");
 }
 
 #aeSaveButtonRed {
   -webkit-box-shadow: 5px 5px 5px #777777;
   box-shadow: 5px 5px 5px #777777;
-  list-style-image: url("chrome://annotationextension/skin/boomy/save22red.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/save22red.png");
 }
 
 /* LOGIN "BUTTON" */
 #aeLoginButton {
-  list-style-image: url("chrome://annotationextension/skin/boomy/login16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/login16.png");
   max-height: 28px;
   min-height: 28px; 
   height: 28px;
@@ -377,7 +341,7 @@ toolbar[iconsize="small"] #aeButton {
 
 /* Obrazek na prihlasovacim okne */
 #aeLoginImage {
-  list-style-image: url("chrome://annotationextension/skin/oxygen/user2.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/user2.png");
 }
 
 /* Mezera mezi obrazkem a tabulkou s prihlas. udaji v prihlasovacim okne.*/
@@ -393,7 +357,7 @@ toolbar[iconsize="small"] #aeButton {
 
 /* Obrazek spatneho prihlaseni */
 #aeIncorLoginImage {
-  list-style-image: url("chrome://annotationextension/skin/boomy/incorrect16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/incorrect16.png");
 }
 
 /* Tabulka s prihlasovacim jmenem a heslem v prihlasovacim okne */
@@ -434,15 +398,15 @@ toolbar[iconsize="small"] #aeButton {
   margin: 0 0 0 3px;
   width : 16px;
   height : 16px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/add16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/add16.png");
 }
 
 #aeAddAttributeButton:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/add16dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/add16dark.png");
 }
 
 #aeAddAttributeButton:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/add16light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/add16light.png");
 }
 
 /* TLACITKO PRO SMAZANI ATRIBUTU */
@@ -450,15 +414,15 @@ toolbar[iconsize="small"] #aeButton {
   margin: 0 0 0 3px;
   width : 16px;
   height : 16px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/delete24.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/delete24.png");
 }
 
 #aeRemoveAttributeButton:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/delete24dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/delete24dark.png");
 }
 
 #aeRemoveAttributeButton:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/delete24light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/delete24light.png");
 }
 
 /* TLACITKO PRO PRIDANI ATRIBUTU DO ATRIBUTU */
@@ -466,15 +430,15 @@ toolbar[iconsize="small"] #aeButton {
   margin: 0 0 0 3px;
   width : 16px;
   height : 16px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/add16red.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/add16red.png");
 }
 
 #aeAddAttributeToAttrButton:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/add16redDark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/add16redDark.png");
 }
 
 #aeAddAttributeToAttrButton:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/add16redLight.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/add16redLight.png");
 }
 
 /* GRIDS PRO VYBER ATRIBUTU */
@@ -511,14 +475,14 @@ toolbar[iconsize="small"] #aeButton {
 #aeAddType {
   width : 16px;
   height : 16px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/addType16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/addType16.png");
 }
 
 /* TLACITKO PRO PRIDANI TYPU ANOTACE JAKO PODTYP */
 #aeAddSubtype {
   width : 16px;
   height : 16px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/addSubtype16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/addSubtype16.png");
 }
 
 
@@ -527,72 +491,15 @@ toolbar[iconsize="small"] #aeButton {
   margin: 2px 5px 0 0;
   width : 16px;
   height : 16px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/delete24.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/delete24.png");
 }
 
 #aeRemoveType:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/delete24dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/delete24dark.png");
 }
 
 #aeRemoveType:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/delete24light.png");
-}
-
-/** Strom pro zobrazeni atributu */
-#aeAttrTree {
-  border-radius: 4px 4px 4px 4px;
-}
-
-/* Stromy */
-.aeTree treechildren::-moz-tree-row { background-color: #FFFFFF; }
-.aeTree treechildren::-moz-tree-row { border-width: 0px; }
-.aeTree treechildren::-moz-tree-row(hover) { background-color: #FFFFCC; }
-.aeTree treechildren::-moz-tree-row(selected) { background-color: #FFFFAA; } /**border: 1px solid #FFFF55;}*/
-.aeTree treechildren::-moz-tree-cell-text(selected) { color: #000000; }
-.aeTree treechildren::-moz-tree-checkbox { list-style-image: none; }
-.aeTree treechildren::-moz-tree-checkbox(checked) { list-style-image: url("chrome://annotationextension/skin/oxygen/accept16.png"); }
-.aeTree treechildren::-moz-tree-checkbox(disabled) { list-style-image: url("chrome://annotationextension/skin/oxygen/disabled16.png"); }
-
-
-.aeTree treechildren::-moz-tree-row(simple) { border-left: 2px solid #00DD00; }
-.aeTree treechildren::-moz-tree-row(required) { border-left: 2px solid #FF1133; }
-.aeTree treechildren::-moz-tree-row(default) { border-left: 2px solid #0000FF; }
-
-.aeTree treechildren::-moz-tree-row(struct) { border-left: 5px double #00DD00; }
-.aeTree treechildren::-moz-tree-row(requiredStruct) { border-left: 5px double #FF1133; }
-.aeTree treechildren::-moz-tree-row(defaultStruct) { border-left: 5px double #0000FF; }
-
-.aeTree treechildren::-moz-tree-row(whitelist) { background-color: #c1fab4; }
-.aeTree treechildren::-moz-tree-row(blacklist) { background-color: #fb7373; }
-.aeTree treechildren::-moz-tree-row(whitelist, hover) { background-color: #FFFFCC; }
-.aeTree treechildren::-moz-tree-row(blacklist, hover) { background-color: #FFFFCC; }
-.aeTree treechildren::-moz-tree-row(whitelist, selected) { background-color: #FFFFAA; } /**border: 1px solid #FFFF55;}*/
-.aeTree treechildren::-moz-tree-row(blacklist, selected) { background-color: #FFFFAA; } /**border: 1px solid #FFFF55;}*/
-
-/* ListBoxy */
-.aeListbox listitem {
-  border: 1px solid #FFFFFF;
-  background-color: #FFFFFF;
-}
-.aeListbox:hover > listitem:hover {
-  /*outline: 1px dotted #ffff24;*/
-  background-color: #FFFFCC;
-}
-.aeListbox:focus > listitem[selected="true"][current="true"] {
-  outline: 0px dotted #ecec00;
-  background-color: #FFFFAA;
-  color: #000000;
-}
-.aeListbox:focus > listitem[current="true"] {
-  /*outline: 1px dotted Highlight;*/
-  /*outline-offset: -1px;*/
-  background-color: #FFFFAA
-}
-.aeListbox listitem[selected="true"] {
-  background-color: #FFFFAA;
-}
-.aeListbox:focus > listitem[selected="true"] {
-  background-color: #FFFFAA;
+  list-style-image: url("chrome://annotationextension/skin/icons/delete24light.png");
 }
 
 #aeDefaultGroupAndSelectGroupBox {
@@ -607,71 +514,71 @@ toolbar[iconsize="small"] #aeButton {
 /* TLACITKO PRO PRIHLASENI KE SKUPINE */
 #aeJoinGroupButton {
   margin-right: 5px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/addUser22.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/addUser22.png");
 }
 
 #aeJoinGroupButton:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/addUser22Dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/addUser22Dark.png");
 }
 
 #aeJoinGroupButton:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/addUser22Light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/addUser22Light.png");
 }
 
 /* TLACITKO PRO PRIHLASENI KE SKUPINE */
 #aeLeaveGroupButton {
   margin-right: 5px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/removeUser22.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/removeUser22.png");
 }
 
 #aeLeaveGroupButton:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/removeUser22dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/removeUser22dark.png");
 }
 
 #aeLeaveGroupButton:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/removeUser22light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/removeUser22light.png");
 }
 
 
 /* TLACITKO PRIDAT NOVE NASTAVENI */
 #aeAddNewConfig {
   margin : 5px 5px 0px 0px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/add22.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/add22.png");
 }
 
 #aeAddNewConfig:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/add22dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/add22dark.png");
 }
 
 #aeAddNewConfig:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/add22light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/add22light.png");
 }
 
 /* TLACITKO PRIDAT NOVOU BARVU ANOTACE */
 #aeAddNewColor {
   margin : 5px 5px 0px 0px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/add22.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/add22.png");
 }
 
 #aeAddNewColor:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/add22dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/add22dark.png");
 }
 
 #aeAddNewColor:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/add22light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/add22light.png");
 }
 
 /* TLACITKO PRIDAT NOVY ODBER ANOTACE */
 #aeAddNewSubscription {
-  list-style-image: url("chrome://annotationextension/skin/boomy/add22.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/add22.png");
 }
 
 #aeAddNewSubscription:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/add22dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/add22dark.png");
 }
 
 #aeAddNewSubscription:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/add22light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/add22light.png");
 }
 
 /* Ulozeni seznamu odberu */
@@ -692,49 +599,49 @@ toolbar[iconsize="small"] #aeButton {
 /* INFO "BUTTON"*/
 #aeInfoButton {
   margin: 3px 3px 3px 3px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/info16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/info16.png");
 }
 
 /* CLOSE "BUTTON" */
 #aeCloseAnnotationButton {
   margin: 3px 3px 0 0;
-  list-style-image: url("chrome://annotationextension/skin/boomy/close16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/close16.png");
 }
 
 #aeCloseAnnotationButton:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/close16dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/close16dark.png");
 }
 
 #aeCloseAnnotationButton:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/close16light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/close16light.png");
 }
 
 /* DELETE "BUTTON" */
 #aeDeleteAnnotationButton {
   margin: 3px 0 0 3px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/deleteAnnotation16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/deleteAnnotation16.png");
 }
 
 #aeDeleteAnnotationButton:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/deleteAnnotation16dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/deleteAnnotation16dark.png");
 }
 
 #aeDeleteAnnotationButton:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/deleteAnnotation16light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/deleteAnnotation16light.png");
 }
 
 /* EDIT "BUTTON" */
 #aeEditAnnotationButton {
   margin: 3px 0 0 3px;
-  list-style-image: url("chrome://annotationextension/skin/boomy/editAnnotation16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/editAnnotation16.png");
 }
 
 #aeEditAnnotationButton:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/editAnnotation16dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/editAnnotation16dark.png");
 }
 
 #aeEditAnnotationButton:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/editAnnotation16light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/editAnnotation16light.png");
 }
 
 /* BOX S POPISKEM, ZE SE JEDNA O NABIDNUTOU ANOTACI */
@@ -772,28 +679,28 @@ toolbar[iconsize="small"] #aeButton {
 /** TOGGLE ANNOT BUTTON **/
 .toggleAnnotationButtonDown {
   margin: 3px 3px 0 0;
-  list-style-image: url("chrome://annotationextension/skin/boomy/arrowDown16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/arrowDown16.png");
 }
 
 .toggleAnnotationButtonDown:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/arrowDown16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/arrowDown16.png");
 }
 
 .toggleAnnotationButtonDown:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/arrowDown16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/arrowDown16.png");
 }
 
 .toggleAnnotationButtonUp {
   margin: 3px 3px 0 0;
-  list-style-image: url("chrome://annotationextension/skin/boomy/arrowUp16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/arrowUp16.png");
 }
 
 .toggleAnnotationButtonUp:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/arrowUp16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/arrowUp16.png");
 }
 
 .toggleAnnotationButtonUp:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/arrowUp16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/arrowUp16.png");
 }
 
 
@@ -807,15 +714,15 @@ toolbar[iconsize="small"] #aeButton {
 }
 
 .aeInfoPanel-close-button {
-  list-style-image: url("chrome://annotationextension/skin/boomy/close16.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/close16.png");
 }
 
 .aeInfoPanel-close-button:hover {
-  list-style-image: url("chrome://annotationextension/skin/boomy/close16dark.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/close16dark.png");
 }
 
 .aeInfoPanel-close-button:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/boomy/close16light.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/close16light.png");
 }
 
 
@@ -843,28 +750,11 @@ toolbar[iconsize="small"] #aeButton {
   text-decoration: none !important;
 }
 
-/*
-RADEK KOMENTARE RICHLISTITEM
-(zbytek k dohledani v http://mxr.mozilla.org/mozilla/source/toolkit/content/widgets/autocomplete.xml#552)
-<xul:hbox anonid="title-box" class="ac-title" flex="1" onunderflow="_doUnderflow('_title');">
-  <xul:description anonid="title" class="ac-normal-text ac-comment" xbl:inherits="selected"/>
-  <xul:hbox anonid="extra-box" class="ac-extra" align="center" hidden="true">
-    <xul:image class="ac-result-type-tag"/>
-    <xul:description anonid="extra" class="ac-normal-text ac-comment" xbl:inherits="selected"/>
-     
-     span.className = checkAlt && this._needsAlternateEmphasis(text) ?
-                     "ac-emphasize-alt" : "ac-emphasize-text";
-      
-  </xul:hbox>
-</xul:hbox>
-<xul:label anonid="title-overflow-ellipsis" xbl:inherits="selected" class="ac-ellipsis-after ac-comment" hidden="true"/>
-*/
-
 
 .aeFileBrokenImage {
-  list-style-image: url("chrome://annotationextension/skin/boomy/fileBroken48.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/fileBroken48.png");
 }
 
 .aeCancelImage {
-  list-style-image: url("chrome://annotationextension/skin/boomy/cancel32.png");
+  list-style-image: url("chrome://annotationextension/skin/icons/cancel32.png");
 }

@@ -118,7 +118,7 @@
         <label value="&annotationextension.addSubscriptionDialog.user;"
           tooltiptext="&annotationextension.addSubscriptionDialog.user.tooltip;"/>
         <vbox flex="1">
-          <textbox class="textboxForURI" id="aeSubscriptionUser"/>
+          <textbox class="aeTextbox textboxForURI" id="aeSubscriptionUser"/>
         </vbox>
         <hbox flex="1">
           <button id="aeOpenUsersWinButtonAddSubscriptionDialog"
@@ -133,7 +133,7 @@
         <label value="&annotationextension.addSubscriptionDialog.URI;"
           tooltiptext="&annotationextension.addSubscriptionDialog.URI.tooltip;"/>
         <vbox flex="1">
-          <textbox class="textboxForURI" id="aeSubscriptionURI"/>
+          <textbox class="aeTextbox textboxForURI" id="aeSubscriptionURI" />
         </vbox>
         <hbox flex="1">
           <button id="aeOpenGroupsWinButtonAddSubscriptionDialog"

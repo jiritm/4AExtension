@@ -8,8 +8,7 @@
  --> 
 
 <?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
-<?xml-stylesheet type="text/css"
-  href="chrome://annotationextension/skin/browserOverlay.css" ?>
+<?xml-stylesheet type="text/css" href="chrome://annotationextension/skin/annotationExtension.css" ?>
 
 <!DOCTYPE overlay SYSTEM
   "chrome://annotationextension/locale/annotationExtension.dtd">

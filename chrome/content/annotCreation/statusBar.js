@@ -14,9 +14,11 @@ annotationExtensionChrome.statusBar =
   //Vola se v annotationExtensionChrome.browserOverlay.init()
   init : function()
   {
+    var statusBar = document.getElementById('statusBar');
     let stringBundle = document.getElementById("annotationextension-string-bundle");
     this.barText = stringBundle.getString("annotationextension.Window.aeControlPanel.label");
-    this.annotationText = this.barText; 
+    this.annotationText = this.barText;
+    statusBar.style.color = this.color;
   },
   
   /**
@@ -57,7 +59,7 @@ annotationExtensionChrome.statusBar =
     {
       statusBar.setAttribute("value", text);
       if (color != undefined && color != null)
-        statusBar.setAttribute("style", 'color: ' + color);
+        statusBar.style.color = color;
       
       this.isShowing = true;
       setTimeout(this.clearMessage.bind(this), time);
@@ -73,6 +75,6 @@ annotationExtensionChrome.statusBar =
     
     this.isShowing = false;
     statusBar.setAttribute("value", this.barText);
-    statusBar.setAttribute("style", 'color: ' + this.color);
+    statusBar.style.color = this.color;
   }
 };

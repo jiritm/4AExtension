@@ -50,7 +50,7 @@
   <vbox flex="1">
     <hbox>
       <label value="&annotationextension.editSettingsDialog.newValue;"/>
-      <textbox id="aeNewValueTextbox" flex="1"/>
+      <textbox id="aeNewValueTextbox" class="aeTextbox" flex="1"/>
     </hbox>
   </vbox>
               

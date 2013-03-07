@@ -1,25 +1,19 @@
-textbox {
-  -moz-appearance: none;
-  cursor: text;
-  /*margin: 2px 4px;*/
-  border: 1px solid rgba(221, 221, 221, 0.9);
-  border-radius: 4px;
-  padding: 2px 2px 3px;
-  -moz-padding-start: 2px;
-  background-color: #ffffff;
-}
+@import url(chrome://annotationextension/skin/textbox.css);
+@import url(chrome://annotationextension/skin/label.css);
+
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
 button {
   margin: 0;
   padding: 0;
 }
 
-.aeTypeTextbox, .aeNotConfirmed {
+.aeTypeTextbox {
   min-width: 300px;
 }
 
-.aeNotConfirmed {
-  background-color: #fb7373;
+[aeNotConfirmed="true"] {
+  background-color: #fb7373 !important;
 }
 
 [anonid="confirm-box"] {

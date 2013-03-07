@@ -1,0 +1,80 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+.aeTextbox {
+  -moz-appearance: none;
+  cursor: text !important;
+  margin: 2px 4px !important;
+  border: 1px solid rgba(192, 192, 192, 0.9);
+  border-radius: 3px;
+  padding: 2px 2px 3px;
+  -moz-padding-start: 2px;
+  color: rgb(0, 0, 0);
+  background: none;
+  background-color: #ffffff;
+  box-shadow: none;
+}
+
+.aeTextbox:hover {
+  background-color: #f8f8f8;
+  transition: .1s ease-in;
+}
+
+.aeTextbox[focused="true"] {
+  background-color: #f0f0f0;
+  transition: .1s ease-in;
+}
+
+.aeTextbox html|*.textbox-input, 
+.aeTextbox html|*.textbox-textarea {
+  margin: 0px !important;
+  border: none !important;
+  padding: 0px !important;
+  background-color: inherit;
+  color: inherit;
+  font: inherit;
+}
+
+.aeTextbox html|*.textbox-input:-moz-placeholder,
+.aeTextbox html|*.textbox-textarea:-moz-placeholder {
+  color: rgb(0, 0, 0);
+}
+
+.aeTextbox .textbox-contextmenu {
+  cursor: default;
+}
+
+/* ..... readonly state ..... */
+
+.aeTextbox[readonly="true"] {
+  cursor: none;
+  background-color: rgb(232, 232, 232);
+  color: rgb(0, 0, 0);
+}
+
+/* ..... disabled state ..... */
+
+.aeTextbox[disabled="true"] {
+  cursor: default;
+  background-color: rgb(207, 207, 207);
+  color: rgb(0, 0, 0);
+}
+
+/* ::::: plain textbox ::::: */
+
+.aeTextbox.plain {
+  -moz-appearance: none !important;
+  background-color: transparent;
+  padding: 0px !important;
+  margin: 0px !important;
+  border: none !important;
+  color: rgb(0, 0, 0);
+  box-shadow: none !important;
+}
+
+
+
+/* ::::: textboxes inside toolbarpaletteitems ::::: */
+
+toolbarpaletteitem > toolbaritem > .aeTextbox > .textbox-input-box > html|*.textbox-input {
+  visibility: hidden;
+}

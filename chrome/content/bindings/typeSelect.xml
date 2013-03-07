@@ -17,7 +17,7 @@
       <xul:vbox flex="1">
         <xul:textbox
           anonid="type-textbox"
-          class="aeTypeTextbox"
+          class="aeTextbox aeTypeTextbox"
           type="autocomplete"
           row="1"
           flex="1"
@@ -252,17 +252,17 @@
         <body>
           <![CDATA[
             var confirmLabel = document.getAnonymousElementByAttribute(this, "anonid", "confirm-label");    
-            var textboxBox = document.getAnonymousElementByAttribute(this, "anonid", "type-textbox");
+            var textbox = document.getAnonymousElementByAttribute(this, "anonid", "type-textbox");
             
             if (this.aeValue != this.aeSelectedTypeName)
             {
               confirmLabel.hidden = false;
-              textboxBox.className = "aeNotConfirmed";
+              textbox.setAttribute("aeNotConfirmed", "true");
             }
             else
             {
               confirmLabel.hidden = true;
-              textboxBox.className = "aeTypeTextbox";
+              textbox.setAttribute("aeNotConfirmed", "false");
             }
 					]]>
         </body>
@@ -349,6 +349,7 @@
     <content>
       <xul:label
         anonid="type-label"
+        class="aeLabel"
         value="&annotationextension.aeTypeSelect.typeAnnotation.label;"
         tooltiptext="&annotationextension.annotationWindow.selectedType.tooltip;"/>
       <children/>

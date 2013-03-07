@@ -45,11 +45,9 @@
         <tabpanel flex="1">
           <vbox flex="1">
             <hbox align="center" style="background-color: #CCCCCC;">
-              <label control="aeAttributeNameTextbox" value="&annotationextension.addAttributesWindow.name.label;"/>
-              <hbox class="textboxBox">
-                <textbox id="aeAttributeNameTextbox" class="plain"
-                         onkeypress="annotationExtensionChrome.addAttributeWindow.onkeypress(this, event);"/>
-              </hbox>
+              <label class="aeLabel" control="aeAttributeNameTextbox" value="&annotationextension.addAttributesWindow.name.label;"/>
+              <textbox id="aeAttributeNameTextbox" class="aeTextbox"
+                       onkeypress="annotationExtensionChrome.addAttributeWindow.onkeypress(this, event);"/>
             </hbox>
             <hbox flex="1">
               <!-- JEDNODUCHE TYPY -->
@@ -61,7 +59,7 @@
                     ondblclick="annotationExtensionChrome.addAttributeWindow.addAttribute();">
                 
                 <treecols>
-                  <treecol id="aeNameSimple" class="labelBox" hideheader="true" label="&annotationextension.addAttributesWindow.columnTitle.simple;" primary="true" flex="1"/>
+                  <treecol id="aeNameSimple" hideheader="true" label="&annotationextension.addAttributesWindow.columnTitle.simple;" primary="true" flex="1"/>
                 </treecols>
               
                 <treechildren>
@@ -158,7 +156,7 @@
                     ondblclick="annotationExtensionChrome.addAttributeWindow.addAttribute();">
                 
                 <treecols>
-                  <treecol id="aeNameExt" class="labelBox" hideheader="true" label="&annotationextension.addAttributesWindow.columnTitle.structured;" primary="true" flex="1" sortActive="true" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
+                  <treecol id="aeNameExt" hideheader="true" label="&annotationextension.addAttributesWindow.columnTitle.structured;" primary="true" flex="1" sortActive="true" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
                   <treecol id="comment" flex="1" hideheader="true"/>
                 </treecols>
                 
@@ -197,7 +195,7 @@
             <!-- PRIDANI NOVEHO TYPU -->
             <vbox style="background-color: #CCCCCC;">
               <hbox>
-                <label value="&annotationextension.typesWindow.addAsSubtype.label;"/>
+                <label class="aeLabel" value="&annotationextension.typesWindow.addAsSubtype.label;"/>
                 <spacer flex="1"/>
                 <vbox>
                   <image id="aeRemoveType"
@@ -207,7 +205,7 @@
               </hbox>
               <hbox>
                 <vbox>
-                  <textbox id="aeNewTypeNameTextbox"/>
+                  <textbox id="aeNewTypeNameTextbox" class="aeTextbox"/>
                 </vbox>
                 <vbox>
                   <spacer flex="1"/>
@@ -244,9 +242,9 @@
                     onselect="annotationExtensionChrome.addAttributeWindow.onselectOnto();"
                     ondblclick="annotationExtensionChrome.addAttributeWindow.addAttribute();">                
                 <treecols>
-                  <treecol id="aeNamOnto" class="labelBox" label="&annotationextension.addAttributesWindow.nameCol;" hideheader="true" primary="true" flex="3" sortActive="true" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
-                  <treecol id="aeTypeOnto" class="labelBox" label="&annotationextension.addAttributesWindow.typeCol;" flex="1" hideheader="true"/>
-                  <treecol id="aeCommentOnto" class="labelBox" label="&annotationextension.addAttributesWindow.commentCol;" flex="1" hideheader="true"/>
+                  <treecol id="aeNamOnto" label="&annotationextension.addAttributesWindow.nameCol;" hideheader="true" primary="true" flex="3" sortActive="true" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
+                  <treecol id="aeTypeOnto" label="&annotationextension.addAttributesWindow.typeCol;" flex="1" hideheader="true"/>
+                  <treecol id="aeCommentOnto" label="&annotationextension.addAttributesWindow.commentCol;" flex="1" hideheader="true"/>
                 </treecols>
                   
            

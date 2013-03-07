@@ -61,16 +61,15 @@
         <row id="aeAnnotationContentRow1">
           <!-- Popisek: "vybrany text" -->
           <vbox id="aeSelectTextLabelBox" flex="1">
-            <hbox class="labelBox">
-              <label value="&annotationextension.aeSelectedText.selectedText.label;"
-                 tooltiptext="&annotationextension.annotationWindow.selectedText.tooltip;"
-                 control="aeSelectedText"/>
-            </hbox>
+						<label class="aeLabel"
+							 value="&annotationextension.aeSelectedText.selectedText.label;"
+							 tooltiptext="&annotationextension.annotationWindow.selectedText.tooltip;"
+							 control="aeSelectedText"/>
             <hbox id="aeSelectRangeBox" align="center" pack="center" hidden="true">
               <image class="aeSelectPrevious" onclick="annotationExtensionChrome.selectedText.showRange('previous');"
                      tooltiptext="&annotationextension.aeSelectedText.selectedText.previous.tooltip;"/>
               <spacer flex="1"/>
-              <label id="aeSelectedRangeLabel"/>
+              <label id="aeSelectedRangeLabel" class="aeLabel"/>
               <spacer flex="1"/>
               <image class="aeSelectNext" onclick="annotationExtensionChrome.selectedText.showRange('next');"
                      tooltiptext="&annotationextension.aeSelectedText.selectedText.next.tooltip;"/>
@@ -84,38 +83,33 @@
             </hbox>
           </vbox>
           <!-- Textbox zobrazuje vybrany text -->
-          <hbox id="aeSelectedTextBox" class="textboxBoxReadonly" pack="center" align="center">
-            <deck id="aeSelectedTextBoxDeck" selectedIndex="0" flex="1">
-              <textbox id="aeSelectedText"
-                       tooltiptext="&annotationextension.annotationWindow.selectedText.tooltip;"
-                       class="plain" multiline="true" rows="2" readonly="true" flex="1"/>
-              <hbox flex="1" pack="center" align="center">
-                <label id="aeDocAnnotateLabel" value="&annotationextension.aeSelectedText.selectedText.wholeDocument;"/>
-              </hbox>
-            </deck>
-          </hbox>
+          <deck id="aeSelectedTextBoxDeck" selectedIndex="0" flex="1">
+						<textbox id="aeSelectedText"
+							class="aeTextbox"
+						  tooltiptext="&annotationextension.annotationWindow.selectedText.tooltip;"
+              multiline="true" rows="2" readonly="true" flex="1"/>
+            <hbox flex="1" pack="center" align="center" class="redBox">
+              <label id="aeDocAnnotateLabel" class="aeLabel" value="&annotationextension.aeSelectedText.selectedText.wholeDocument;"/>
+            </hbox>
+          </deck>
         </row>
         <row id="aeAnnotationContentRow2">
           <!-- Popisek: "anotace" -->
           <vbox>
-            <hbox class="labelBox">
-              <label value="&annotationextension.aeContentText.annotationText.label;"
-                tooltiptext="&annotationextension.annotationWindow.contentText.tooltip;"
-                control="aeContentText"/>
-            </hbox>
+						<label class="aeLabel"
+							value="&annotationextension.aeContentText.annotationText.label;"
+							tooltiptext="&annotationextension.annotationWindow.contentText.tooltip;"
+							control="aeContentText"/>
             <spacer flex="1"/>
           </vbox>
           <hbox flex="1">
             <!-- Textbox pro zadani anotace -->
-            <hbox class="textboxBox">
-              <textbox id="aeContentText" class="plain" multiline="true" rows="2" flex="1"/>
-            </hbox>
+            <textbox id="aeContentText" class="aeTextbox" multiline="true" rows="2"/>
             
             <!-- Vyber typu anotace aj. -->
             <hbox flex="1">
 							<!-- SELECTION OF TYPE + AUTOCOMPLETE -->
 							<box id="aeTypeLabel"
-								class="labelBox"
 							  type="aeTypeSelectLabel"
 								control="aeTypeSelect"/>
 							<box id="aeTypeSelect"
@@ -127,7 +121,7 @@
 								aeTypeSelect="aeTypeSelect"
 								orient="vertical">
 								<!-- Ulozeni anotace a smazani anotacniho okna -->
-								<hbox id="aeSaveDeleteAnnot-box" flex="1" align="center">
+								<hbox id="aeSaveDeleteAnnotBox" flex="1" align="center">
 									<spacer flex="1"/>
 									<image id="aeClearButton" tooltiptext="&annotationextension.clear.button.label;"
 										onclick="annotationExtensionChrome.bottomAnnotationWindow.clearWindow();"/>
@@ -162,8 +156,8 @@
             flags="dont-build-content">
         
             <treecols>
-              <treecol id="aeAttrNameColumn" class="labelBox" flex="2" primary="true" hideheader="true" label="&annotationextension.annotationWindow.Attributes;" sortActive="true" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
-              <treecol id="aeAttrCommentColumn" class="labelBox"  flex="1" hideheader="true"/>
+              <treecol id="aeAttrNameColumn" flex="2" primary="true" hideheader="true" label="&annotationextension.annotationWindow.Attributes;" sortActive="true" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
+              <treecol id="aeAttrCommentColumn" flex="1" hideheader="true"/>
             </treecols>
             
             <template>
