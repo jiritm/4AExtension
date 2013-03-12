@@ -74,20 +74,20 @@ annotationExtension.attrConstants =
   
   simpleTypesArray :
   [
-    'String',
-    'URI',
-    'DateTime',
-    'Integer',
-    'Decimal',
-    'Date',
-    'Time',
     'Boolean',
-    'GeoPoint',
+    'Decimal',
+    'Integer',
+    'DateTime',
+    'Date',
     'Duration',
-    'Image',
+    'Time',
+    'String',
     'Text',
     'AnyAnnotation',
     'Binary',
+    'GeoPoint',
+    'Image',
+    'URI',
     'Person'
   ],
   

@@ -3,17 +3,25 @@
 /* :::::::::: button :::::::::: */
 
 .aeButton {
-  -moz-appearance: button;
-  margin: 1px 5px 2px 5px;
-  min-width: 6.3em;
-  border: 3px solid;
-  -moz-border-top-colors: transparent ThreeDHighlight ThreeDLightShadow;
-  -moz-border-right-colors: transparent ThreeDDarkShadow ThreeDShadow;
-  -moz-border-bottom-colors: transparent ThreeDDarkShadow ThreeDShadow;
-  -moz-border-left-colors: transparent ThreeDHighlight ThreeDLightShadow;
-  background-color: ThreeDFace;
-  color: ButtonText;
+  -moz-appearance: none;
+  margin: 2px 3px 2px 3px;
+  min-width: 5.3em;
+  border-radius: 2.5px;
+  border: 1px solid rgb(154, 154, 154);
+  box-shadow:  0px 1px 1px rgba(255, 255, 255, 0.2) inset, 0px 1px 3px rgba(0, 0, 0, 0.5);
+  background: rgb(214, 214, 214)
+              linear-gradient(rgba(228, 228, 228, 0.21), rgba(228, 228, 228, 0.13) 49%,
+			  rgba(228, 228, 228, 0.094) 51%, rgba(228, 228, 228, 0.05));
+  color: #000000;
   text-shadow: none;
+}
+
+.aeButton:hover {
+  background: rgb(178, 178, 178)
+              linear-gradient(rgba(97, 97, 97, 0.45), rgba(97, 97, 97, 0.15) 49%,
+			  rgba(70, 70, 70, 0.12) 51%, rgba(70, 70, 70, 0.08));
+  color: #000000;
+  transition: .2s ease-in;
 }
 
 .aeButton .button-box {
@@ -32,37 +40,23 @@
 /* .......... focused state .......... */
 
 .aeButton:focus {
-  -moz-border-top-colors: ThreeDDarkShadow ThreeDHighlight transparent;
-  -moz-border-right-colors: ThreeDDarkShadow ThreeDDarkShadow ThreeDShadow;
-  -moz-border-bottom-colors: ThreeDDarkShadow ThreeDDarkShadow ThreeDShadow;
-  -moz-border-left-colors: ThreeDDarkShadow ThreeDHighlight transparent;
-}
-
-.aeButton:-moz-focusring > .button-box {
-  border: 1px dotted ThreeDDarkShadow;
-}
-
-/* .......... default state .......... */
-
-.aeButton[default="true"] {
-  -moz-border-top-colors: ThreeDDarkShadow ThreeDHighlight ThreeDLightShadow;
-  -moz-border-right-colors: ThreeDDarkShadow ThreeDDarkShadow ThreeDShadow;
-  -moz-border-bottom-colors: ThreeDDarkShadow ThreeDDarkShadow ThreeDShadow;
-  -moz-border-left-colors: ThreeDDarkShadow ThreeDHighlight ThreeDLightShadow;
+  color :#000000 !important;
+  text-shadow: 2px 2px 3px #ffffff;
+  transition: .2s ease-in;
+	border: 1px dotted rgb(140, 140, 140);
 }
 
 /* .......... active/open/checked state .......... */
 
-.aeButton:hover:active,
+.aeButton/*:hover*/:active,
 .aeButton[open="true"],
 .aeButton[checked="true"] {
-  -moz-border-top-colors: ThreeDDarkShadow ThreeDShadow transparent;
-  -moz-border-right-colors: ThreeDDarkShadow ThreeDShadow transparent;
-  -moz-border-bottom-colors: ThreeDDarkShadow ThreeDShadow transparent;
-  -moz-border-left-colors: ThreeDDarkShadow ThreeDShadow transparent;
+  box-shadow: 0px 0px 5px rgba(4,4,4,1) inset,
+			  0 1px 0 rgba(255,255,255,.1);
+  transition: .2s ease-in;
 }
 
-.aeButton:hover:active > .button-box:-moz-system-metric(windows-classic),
+.aeButton/*:hover*/:active > .button-box:-moz-system-metric(windows-classic),
 .aeButton[open="true"] > .button-box:-moz-system-metric(windows-classic),
 .aeButton[checked="true"] > .button-box:-moz-system-metric(windows-classic) {
   padding-top: 2px;
@@ -74,15 +68,16 @@
 /* .......... disabled state .......... */
 
 .aeButton[disabled="true"] {
-  -moz-border-top-colors: transparent ThreeDHighlight ThreeDLightShadow !important;
-  -moz-border-right-colors: transparent ThreeDDarkShadow ThreeDShadow !important;
-  -moz-border-bottom-colors: transparent ThreeDDarkShadow ThreeDShadow !important;
-  -moz-border-left-colors: transparent ThreeDHighlight ThreeDLightShadow !important;
-  color: GrayText;
+  background: rgba(0, 0, 0, 0.075);
+  border-radius: 3.5px;
+  border: 1px solid rgba(10,10,10,1);
+  box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.25) inset;
+  cursor:default;
+  color: rgba(200,200,200,.25) !important;
 }
 
 .aeButton[disabled="true"]:-moz-system-metric(windows-classic) {
-  color: ThreeDShadow;
+  /*color: ThreeDShadow;*/
   text-shadow: 1px 1px ThreeDHighlight;
 }
 

@@ -18,7 +18,8 @@ annotationExtensionChrome.groupsWindow =
   init : function()
   {
     //Vytvoreni a pripojeni datasource ke stromu
-    annotationExtensionChrome.treeGroupsDatasource = new annotationExtensionChrome.TreeDatasource('aeGroupsTree', 'groups', opener.annotationExtensionChrome.groupsDatasource, null);
+    var aeGroupsTree = document.getElementById('aeGroupsTree');
+    annotationExtensionChrome.treeGroupsDatasource = new annotationExtensionChrome.TreeDatasource(aeGroupsTree, 'groups', opener.annotationExtensionChrome.groupsDatasource, null);
   },
   
   /**

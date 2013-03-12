@@ -50,11 +50,11 @@
     <rows>
       <row>
         <label value="&annotationextension.addSettingsDialog.name;"/>
-        <textbox id="aeNewSettingName" class="aeTextbox"/>
+        <textbox id="aeNewSettingName"/>
       </row>
       <row>
         <label value="&annotationextension.addSettingsDialog.value;"/>
-        <textbox id="aeNewSettingValue" class="aeTextbox"/>
+        <textbox id="aeNewSettingValue"/>
       </row>
     </rows>
   </grid>

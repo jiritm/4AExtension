@@ -317,27 +317,24 @@ annotationExtensionChrome.user =
    */
   badLogin : function(optParam)
   {
-    var incorLoginBox = document.getElementById("aeIncorLoginBox");
-    var aeLoginSpacer = document.getElementById("aeLoginSpacer");
+    var incorLogin = document.getElementById("aeIncorLoginLabel");
     
-    if (optParam == "clickedCall" && incorLoginBox.hidden == false)
+    if (optParam == "clickedCall" && incorLogin.hidden == false)
     {
       clearTimeout(this.badLogTimerID);
       this.badLogTimerID = setTimeout(this.badLogin, 4000);
     }
     else
     {
-      if (incorLoginBox.hidden == true)
+      if (incorLogin.hidden == true)
       {
-        incorLoginBox.hidden = false;
-        aeLoginSpacer.hidden = true;
+        incorLogin.hidden = false;
         this.badLogTimerID = setTimeout(this.badLogin, 4000);
       }
       //Aby se pri kliknuti na prihlaseni se a opetovnem vyplneni spatneho loginu nezrusila hlaska
       else
       {
-        incorLoginBox.hidden = true;
-        aeLoginSpacer.hidden = false;
+        incorLogin.hidden = true;
       }
     }
   },

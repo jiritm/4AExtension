@@ -36,7 +36,8 @@ annotationExtensionChrome.config =
       observerService.addObserver(this, "annotationextension-settingsChange-topic", false);
       
       //Vytvoreni a pripojeni datasource ke stromu
-      annotationExtensionChrome.groupsTreeDatasource = new annotationExtensionChrome.TreeDatasource('aeGroupTree', 'groups', opener.annotationExtensionChrome.groupsDatasource, null);
+      var aeGroupTree = document.getElementById('aeGroupTree');
+      annotationExtensionChrome.groupsTreeDatasource = new annotationExtensionChrome.TreeDatasource(aeGroupTree, 'groups', opener.annotationExtensionChrome.groupsDatasource, null);
       
       var defGroupTextbox = document.getElementById('aeDefaultUserGroupTextbox');
       defGroupTextbox.value = opener.annotationExtensionChrome.settings.DefaultUserGroup;
@@ -167,7 +168,8 @@ annotationExtensionChrome.config =
     else
     {//Uzivatel je prihlasen
       settingsDeck.selectedIndex = 0;
-      annotationExtensionChrome.otherOptionTreeDatasource = new annotationExtensionChrome.TreeDatasource('aeOtherOptionTree', 'settings', opener.annotationExtensionChrome.otherSettingsDatasource, null);
+      var aeOtherOptionTree = document.getElementById('aeOtherOptionTree');
+      annotationExtensionChrome.otherOptionTreeDatasource = new annotationExtensionChrome.TreeDatasource(aeOtherOptionTree, 'settings', opener.annotationExtensionChrome.otherSettingsDatasource, null);
     }
   },
   
@@ -272,8 +274,8 @@ annotationExtensionChrome.config =
     else
     {//Uzivatel je prihlasen
       settingsDeck.selectedIndex = 0;
-      //annotationExtensionChrome.colorsOptionTreeDatasource = new annotationExtensionChrome.TreeDatasource('aeColorsOptionTree', 'colors', opener.annotationExtensionChrome.colorsDatasource, null);
-      annotationExtensionChrome.colorsOptionListboxDatasource = new annotationExtensionChrome.ListboxDatasource('aeColorsOptionListbox', 'colors', opener.annotationExtensionChrome.colorsDatasource, null); 
+      var aeColorsOptionListbox = document.getElementById('aeColorsOptionListbox');
+      annotationExtensionChrome.colorsOptionListboxDatasource = new annotationExtensionChrome.ListboxDatasource(aeColorsOptionListbox, 'colors', opener.annotationExtensionChrome.colorsDatasource, null); 
     }
   },
   
@@ -379,7 +381,8 @@ annotationExtensionChrome.config =
     else
     {//Uzivatel je prihlasen
       subscriptionsDeck.selectedIndex = 0;
-      annotationExtensionChrome.subscriptionsTreeDatasource = new annotationExtensionChrome.TreeDatasource('aeSubscriptionsTree', 'subscriptions', opener.annotationExtensionChrome.subscriptionsDatasource, null);
+      var aeSubscriptionsTree = document.getElementById('aeSubscriptionsTree');
+      annotationExtensionChrome.subscriptionsTreeDatasource = new annotationExtensionChrome.TreeDatasource(aeSubscriptionsTree, 'subscriptions', opener.annotationExtensionChrome.subscriptionsDatasource, null);
     
       var saveButton = document.getElementById("aeSaveSubscriptions");
       saveButton.className = "subscriptionsSaved";

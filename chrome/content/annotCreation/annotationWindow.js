@@ -41,7 +41,7 @@ annotationExtensionChrome.bottomAnnotationWindow =
 			annotationExtension.typesStorageService.init();
 			
 			var typeBox = document.getElementById("aeTypeSelect");
-			typeBox.aeOnTypeSelect = this.newTypeSelectedHandler;
+			typeBox.aeontypeselect = this.newTypeSelectedHandler;
 			typeBox.aeMainAEChrome = annotationExtensionChrome;
 			typeBox.aeContext = annotationExtensionChrome.bottomAnnotationWindow;
 			
@@ -56,7 +56,8 @@ annotationExtensionChrome.bottomAnnotationWindow =
       annotationExtensionChrome.typeAttrDatasource = new annotationExtensionChrome.Datasource('typesAttr', [{ type : 'annotAttr', props : ['name', 'type', 'def', 'req', 'struct', 'comment']}]);
       
       //Tento datasource se stara o "zobrazeni" atributu aktualne vybraneho typu
-      annotationExtensionChrome.attrDatasource = new annotationExtensionChrome.TreeDatasource('aeAttrTree', 'attr', null, [{ type : 'annotAttrAnnotExt', props : ['name', 'type', 'req', 'def', 'struct', 'attrTypeURI', 'aLink', 'edited', 'comment']}]);
+			var attrTree = document.getElementById('aeAttrTree');
+      annotationExtensionChrome.attrDatasource = new annotationExtensionChrome.TreeDatasource(attrTree, 'attr', null, [{ type : 'annotAttrAnnotExt', props : ['name', 'type', 'req', 'def', 'struct', 'attrTypeURI', 'aLink', 'edited', 'comment']}]);
       annotationExtensionChrome.attrDatasource.masterRootName = 'attr';
       annotationExtensionChrome.attrDatasource.datasource.masterRootName = 'attr';
     
@@ -592,17 +593,18 @@ annotationExtensionChrome.bottomAnnotationWindow =
         
         //Pridani typu do datasource typu.
         var result = annotationExtensionChrome.typesDatasource.addType(type);
+
         if (result)
 				{
 					//Pridani do databaze (pro vyhledavani typu podle jmena)
 					if (annotationExtensionChrome.types.length <= 0)
 					{//pokud pridavas posledni typ do databaze upozorni autocomplete...
 					 //pokud se nepodari pridat vsechny typy - nejaka chyba - nenadelas nic
-						annotationExtension.typesStorageService.addTypes([type], typesStorageHandler);
+						//annotationExtension.typesStorageService.addTypes([type], typesStorageHandler);
 					}
 					else
 					{
-						annotationExtension.typesStorageService.addTypes([type], null);
+						//annotationExtension.typesStorageService.addTypes([type], null);
 					}
           
 					cont = true;
@@ -907,7 +909,7 @@ annotationExtensionChrome.bottomAnnotationWindow =
 
     var suggestBox = document.createElement("box");
 		suggestBox.setAttribute("class", "suggestAnnotation");
-    suggestBox.setAttribute("type", "suggestAnnotation");
+    suggestBox.setAttribute("type", "aeSuggestAnnotation");
 		suggestBox.aeMainAEChrome = annotationExtensionChrome;
     
     var sB = document.createElement("button");
@@ -1118,7 +1120,7 @@ annotationExtensionChrome.bottomAnnotationWindow =
         
         if(selectButton != null)
         {
-          selectButton.className = "aeSelectNestedAnnotButtonActive";
+          selectButton.style.color = "";
           selectButton.setAttribute('label', stringBundle.getString("annotationextension.chooseEnd.button.label"));
         }
         
@@ -1205,7 +1207,7 @@ annotationExtensionChrome.bottomAnnotationWindow =
         this.showSelectRangeBox();
         if(selectButton != null)
         {
-          selectButton.className = "aeSelectNestedAnnotButton";
+          selectButton.style.color = "green";
           selectButton.setAttribute('label', stringBundle.getString("annotationextension.choose.button.label"));
         }
         //Obnoveni vyberu "hlavni anotace".

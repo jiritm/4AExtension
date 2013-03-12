@@ -18,7 +18,8 @@ annotationExtensionChrome.usersWindow =
   init : function()
   {
     //Vytvoreni a pripojeni datasource ke stromu
-    annotationExtensionChrome.treeUsersDatasource = new annotationExtensionChrome.TreeDatasource('aeUsersTree', 'users', opener.annotationExtensionChrome.usersDatasource, null);
+    var aeUsersTree = document.getElementById('aeUsersTree');
+    annotationExtensionChrome.treeUsersDatasource = new annotationExtensionChrome.TreeDatasource(aeUsersTree, 'users', opener.annotationExtensionChrome.usersDatasource, null);
   },
   
   /**

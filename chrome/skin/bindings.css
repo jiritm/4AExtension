@@ -10,6 +10,18 @@ box[type="aeTypeSelectButton"] {
   -moz-binding: url('chrome://annotationextension/content/bindings/typeSelect.xml#typeSelectButton');
 }
 
-box[type="suggestAnnotation"] {
+box[type="aeSuggestAnnotation"] {
   -moz-binding: url('chrome://annotationextension/content/bindings/suggestAnnotation.xml#aeSuggestPanel');
+}
+
+box[type="aeStructTypes"] {
+  -moz-binding: url('chrome://annotationextension/content/bindings/structTypes.xml#aeStructTypes');
+}
+
+box[type="aeSimpleTypes"] {
+  -moz-binding: url('chrome://annotationextension/content/bindings/simpleTypes.xml#aeSimpleTypes');
+}
+
+box[type="aeTypes"] {
+  -moz-binding: url('chrome://annotationextension/content/bindings/types.xml#aeTypes');
 }

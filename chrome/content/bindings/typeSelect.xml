@@ -10,7 +10,7 @@
   <binding id="typeSelect">
     
     <resources>
-      <stylesheet src="chrome://annotationextension/skin/typeSelect.css"/>
+      <stylesheet src="chrome://annotationextension/skin/bindings/typeSelect.css"/>
     </resources>
     
     <content>
@@ -84,6 +84,21 @@
       </constructor>
       
       <!-- =================== PUBLIC MEMBERS =================== -->
+      
+      <property name="aeontypeselect"
+        onset="this.mAeOnTypeSelect = val;"
+        onget="return this.mAeOnTypeSelect;">
+      </property>
+      
+      <property name="aeMainAEChrome"
+        onset="this.mAeMainAEChrome = val;"
+        onget="return this.mAeMainAEChrome;">
+      </property>
+      
+      <property name="aeContext"
+        onset="this.mAeContext = val;"
+        onget="return this.mAeContext;">
+      </property>
       
       <property name="aeSelectedTypeName"
         readonly="true"
@@ -240,8 +255,8 @@
             this.mAeSelectedTypeURI = typeURI;
             this.mAeSelectedTypeName = typeName;
             var id = this.id;             
-            if (this.aeOnTypeSelect)
-              this.aeOnTypeSelect(this, this.aeContext);
+            if (this.aeontypeselect)
+              this.aeontypeselect(this, this.aeContext);
               
             this.aeCheckTypeTextboxInput();
 					]]>

@@ -30,8 +30,12 @@
     function init()
     {
       var typeBox = document.getElementById("aeSubscriptionType");
-      typeBox.aeOnTypeSelect = typeSelectHandler;
+      typeBox.aeontypeselect = typeSelectHandler;
       typeBox.aeMainAEChrome = window.arguments[0].inn.mainWindow.annotationExtensionChrome;
+      
+      var buttonBox = document.getElementById("aeDialogTypeSelectButton");
+      var button = document.getAnonymousElementByAttribute(buttonBox, "anonid", "type-button");
+      button.className = "";
     };
     
     function typeSelectHandler()
@@ -110,7 +114,8 @@
           type="aeTypeSelect"
 					aeConfirmTextHidden="true"
 					aeShowSimple="false"/>
-				<box type="aeTypeSelectButton"
+				<box id="aeDialogTypeSelectButton"
+          type="aeTypeSelectButton"
 					aeTypeSelect="aeSubscriptionType"/>
       </row>
       <!-- SUBSCRIPTION USER -->
@@ -122,7 +127,6 @@
         </vbox>
         <hbox flex="1">
           <button id="aeOpenUsersWinButtonAddSubscriptionDialog"
-                  style="padding: 0; margin: 0;"
                   label="&annotationextension.choose.button.label;"
                   tooltiptext="&annotationextension.annotationWindow.chooseUser.tooltip;"
                   oncommand="openUsersWindow();"/>
@@ -137,7 +141,6 @@
         </vbox>
         <hbox flex="1">
           <button id="aeOpenGroupsWinButtonAddSubscriptionDialog"
-                  style="padding: 0; margin: 0;"
                   label="&annotationextension.choose.button.label;"
                   tooltiptext="&annotationextension.annotationWindow.chooseGroup.tooltip;"
                   oncommand="openGroupsWindow();"/>

@@ -12,19 +12,19 @@ Components.utils.import("resource://annotationextension/constants.jsm");
 /**
  * Konstruktor
  * Vytvori objekt pro praci s datasource stromu.
- * @param {string} treeID id stromu, pro ktery se pripoji datasource
+ * @param {string} tree strom, pro ktery se pripoji datasource
  * @param {string} rootName jmeno 'korenoveho' prvku v datasource
  * @param {Datasource} ds, datasource pro strom - vetsinou se vynecha (null), pokud je uveden, treeDatasource pouzije
  *                         ten z parametru a nevytvori si vlastni - atribut dsTypes je potom ignorovan
  * @param {} dsTypes, viz atribut u annotaionExtensionChrome.Datasource
  *                    nemusi byt definovan, pokud je uveden ds
  */
-annotationExtensionChrome.TreeDatasource = function(treeID, rootName, ds, dsTypes)
+annotationExtensionChrome.TreeDatasource = function(tree, rootName, ds, dsTypes)
 {
   this.baseURI = annotationExtension.BASE_URI;
   this.namespace = annotationExtension.NAMESPACE;
   
-  this.treeID = treeID;
+  this.tree = tree;
   
   if (ds != undefined && ds != null)
   {
@@ -43,13 +43,13 @@ annotationExtensionChrome.TreeDatasource = function(treeID, rootName, ds, dsType
 annotationExtensionChrome.TreeDatasource.prototype =
 {  
   datasource : null,
-  treeID : null,
+  tree : null,
   
   rootName : null,   /**< Jmeno "root elementu". */
   
   destroy : function()
   {
-    var theTree = document.getElementById(this.treeID);
+    var theTree = this.tree;
 
     theTree.database.RemoveDataSource(this.getDatasource());
     theTree.setAttribute("ref", '');
@@ -62,7 +62,7 @@ annotationExtensionChrome.TreeDatasource.prototype =
    */
   addDatasource : function()
   {
-    var theTree = document.getElementById(this.treeID);
+    var theTree = this.tree;
 
     theTree.database.AddDataSource(this.getDatasource());
     //theTree.setAttribute("datasources", this.datasource.resFile);
@@ -76,7 +76,7 @@ annotationExtensionChrome.TreeDatasource.prototype =
    */
   getSelectionIndex : function()
   {
-    var view = document.getElementById(this.treeID).view;
+    var view = this.tree.view;
     
     return view.selection.currentIndex;
   },
@@ -99,7 +99,7 @@ annotationExtensionChrome.TreeDatasource.prototype =
    */
   getSelectionParentIndex : function()
   {
-    var view = document.getElementById(this.treeID).view;
+    var view = this.tree.view;
     var selIndex = this.getSelectionIndex(); 
     if(selIndex > -1)
     {
@@ -139,7 +139,7 @@ annotationExtensionChrome.TreeDatasource.prototype =
   {
     try
     {
-      var view = document.getElementById(this.treeID).view;
+      var view = this.tree.view;
     
       if (view.getResourceAtIndex != null)
       {//Strom je vytvoren s flags="dont-build-content"
@@ -211,9 +211,9 @@ annotationExtensionChrome.TreeDatasource.prototype =
    * @param {string} sectionURI URI kontejneru, ve kterem je resource
    * @returns {bool} true, pokud doslo ke smazani, jinak false
    */
-  deleteObject : function(resourceURI, sectionURI)
+  deleteObject : function(resourceURI, sectionURI, aRenumbered)
   {
-    var retVal = this.datasource.deleteObject(resourceURI, sectionURI);
+    var retVal = this.datasource.deleteObject(resourceURI, sectionURI, aRenumbered);
     return retVal;
   },
   

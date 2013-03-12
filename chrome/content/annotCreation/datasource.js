@@ -213,7 +213,7 @@ annotationExtensionChrome.Datasource.prototype =
         //Smaz element z kontejneru a jeho zaznam
         this.deleteObject(child.ValueUTF8, resourceURI);
         
-        //TODO: smaz kontejner
+        childElems = theSectionContainer.GetElements();
       }
     }
     catch(ex)
@@ -228,10 +228,15 @@ annotationExtensionChrome.Datasource.prototype =
    * @param {string} sectionURI URI kontejneru, ve kterem je resource
    * @returns {bool} true, pokud doslo ke smazani, jinak false
    */
-  deleteObject : function(resourceURI, sectionURI)
+  deleteObject : function(resourceURI, sectionURI, aRenumber)
   {
     try
-    {        
+    {
+      if (aRenumber == undefined || aRenumber == null || aRenumber == true)
+        var renumber = true;
+      else
+        var renumber = false;
+      
       var dataSource = this.ds;
       if (dataSource == null)
       {
@@ -282,7 +287,7 @@ annotationExtensionChrome.Datasource.prototype =
       
       if (theSectionContainer.IndexOf(theSubject) != -1)
       {
-        theSectionContainer.RemoveElement(theSubject,false); 
+        theSectionContainer.RemoveElement(theSubject,renumber); 
       }
       
       return true;

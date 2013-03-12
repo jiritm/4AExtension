@@ -1,0 +1,224 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://annotationextension/locale/annotationExtension.dtd">
+
+<bindings xmlns="http://www.mozilla.org/xbl"
+  xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  
+  <binding id="aeTypes">
+    
+    <resources>
+      <stylesheet src="chrome://annotationextension/skin/bindings/types.css"/>
+      <stylesheet src="chrome://annotationextension/skin/bindings.css"/>
+    </resources>
+    
+    <content>
+      
+      <xul:box anonid="aeStructTypes"
+        type="aeStructTypes"
+        flex="1">
+        <xul:box anonid="aeSimpleTypes"
+          type="aeSimpleTypes"
+          flex="1"/>
+      </xul:box>
+      
+    </content>
+    
+    <implementation>
+      
+      <constructor>
+        <![CDATA[
+          var simpleTypes = document.getAnonymousElementByAttribute(this, "anonid", "aeSimpleTypes");
+          var structTypes = document.getAnonymousElementByAttribute(this, "anonid", "aeStructTypes");
+          simpleTypes.aeondblclick = this.aeOnSimpleDblClick;
+          simpleTypes.aeonselecttype = this.aeOnSimpleSelect;
+          simpleTypes.aeContext = this;
+          structTypes.aeondblclick = this.aeOnStructDblClick;
+          structTypes.aeonselecttype = this.aeOnStructSelect;
+          structTypes.aeContext = this;
+        ]]>
+      </constructor>
+      
+      <!-- =================== PUBLIC MEMBERS =================== -->
+      
+      <property name="aeondblclick"
+        onget="return this.mAeOnDblClick;"
+        onset="this.mAeOnDblClick = val;">
+      </property>
+      
+      <property name="aeonselecttype"
+        onget="return this.mAeOnSelectType;"
+        onset="this.mAeOnSelectType = val;">
+      </property>
+      
+      <property name="aeContext"
+        onset="this.mAeContext = val;"
+        onget="return this.mAeContext;">
+      </property>
+      
+      <property name="aeMainAEChrome"
+        onget="return this.mAeMainAEChrome;">
+        <setter>
+          <![CDATA[
+            this.mAeMainAEChrome = val;
+            var structTypes = document.getAnonymousElementByAttribute(this, "anonid", "aeStructTypes");
+            structTypes.aeMainAEChrome = val;
+          ]]>
+        </setter>
+      </property>
+      
+      <property name="aeTreeTypesDatasource"
+          readonly="true">
+        <getter>
+          <![CDATA[
+            var structTypes = document.getAnonymousElementByAttribute(this, "anonid", "aeStructTypes");
+            return structTypes.aeTreeTypesDatasource;
+          ]]>
+        </getter>
+      </property>
+      
+      <property name="aeSelectedTypeName"
+        readonly="true"
+        onget="return this.mAeSelectedTypeName;">
+      </property>
+      
+      <property name="aeSelectedTypeURI"
+        readonly="true"
+        onget="return this.mAeSelectedTypeURI;">
+      </property>
+      
+      <method name="aeSetNewDatasource">
+        <parameter name="typesDatasource"/>
+        <body>
+          <![CDATA[
+            var structTypes = document.getAnonymousElementByAttribute(this, "anonid", "aeStructTypes");
+            structTypes.aeSetNewDatasource(typesDatasource);
+          ]]>
+        </body>
+      </method>
+      
+      <method name="aeClearSelection">
+        <body>
+          <![CDATA[
+            var struct = document.getAnonymousElementByAttribute(this, "anonid", "aeStructTypes");
+            var simple = document.getAnonymousElementByAttribute(this, "anonid", "aeSimpleTypes");
+            struct.aeClearSelection();
+            simple.aeClearSelection();  
+          ]]>
+        </body>
+      </method>
+      
+      <!-- =================== PRIVATE MEMBERS =================== -->
+      
+      <method name="aeOnDblClick">
+        <parameter name="typeURI"/>
+        <parameter name="typeName"/>
+        <body>
+          <![CDATA[
+            this.aeSelectType(typeURI, typeName);
+            if (this.aeSelectedTypeURI != null)
+              if (this.aeondblclick)
+                this.aeondblclick(this.mAeSelectedTypeURI, this.mAeSelectedTypeName);
+          ]]>
+        </body>
+      </method>
+      
+      <method name="aeOnSelectType">
+        <parameter name="typeURI"/>
+        <parameter name="typeName"/>
+        <body>
+          <![CDATA[
+            this.aeSelectType(typeURI, typeName);
+            if (this.aeSelectedTypeURI != null)
+              if (this.aeonselecttype)
+                this.aeonselecttype(this.mAeSelectedTypeURI, this.mAeSelectedTypeName);
+          ]]>
+        </body>
+      </method>
+      
+      <method name="aeSelectType">
+        <parameter name="typeURI"/>
+        <parameter name="typeName"/>
+        <body>
+          <![CDATA[
+            this.mAeSelectedTypeName = typeName;
+            this.mAeSelectedTypeURI = typeURI;
+          ]]>
+        </body>
+      </method>
+      
+      <method name="aeOnSimpleDblClick">
+        <parameter name="typeName"/>
+        <parameter name="context"/>
+        <body>
+          <![CDATA[
+            if(typeName != null)
+            {
+              var structTypes = document.getAnonymousElementByAttribute(context, "anonid", "aeStructTypes");
+              structTypes.aeClearSelection();
+            }
+            
+            context.aeOnDblClick(typeName, typeName);
+          ]]>
+        </body>
+      </method>
+      
+      <method name="aeOnSimpleSelect">
+        <parameter name="typeName"/>
+        <parameter name="context"/>
+        <body>
+          <![CDATA[
+            if(typeName != null)
+            {
+              var structTypes = document.getAnonymousElementByAttribute(context, "anonid", "aeStructTypes");
+              structTypes.aeClearSelection();
+            }
+            
+            context.aeOnSelectType(typeName, typeName);
+          ]]>
+        </body>
+      </method>
+            
+      <method name="aeOnStructDblClick">
+        <parameter name="typeURI"/>
+        <parameter name="typeName"/>
+        <parameter name="context"/>
+        <body>
+          <![CDATA[
+            if(typeURI != null)
+            {
+              var simpleTypes = document.getAnonymousElementByAttribute(context, "anonid", "aeSimpleTypes");
+              simpleTypes.aeClearSelection();
+            }
+            
+            context.aeOnDblClick(typeURI, typeName);
+          ]]>
+        </body>
+      </method>
+                  
+      <method name="aeOnStructSelect">
+        <parameter name="typeURI"/>
+        <parameter name="typeName"/>
+        <parameter name="context"/>
+        <body>
+          <![CDATA[
+            try
+            {
+              if(typeURI != null)
+              {
+                var simpleTypes = document.getAnonymousElementByAttribute(context, "anonid", "aeSimpleTypes");
+                simpleTypes.aeClearSelection();
+              }
+              
+              context.aeOnSelectType(typeURI, typeName);
+            }
+            catch(ex)
+            {}
+          ]]>
+        </body>
+      </method>
+      
+    </implementation>
+    
+  </binding>
+</bindings>

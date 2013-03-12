@@ -1,0 +1,191 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://annotationextension/locale/annotationExtension.dtd">
+
+<bindings xmlns="http://www.mozilla.org/xbl"
+  xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  
+  <binding id="aeSimpleTypes">
+    
+    <resources>
+      <stylesheet src="chrome://annotationextension/skin/bindings/simpleTypes.css"/>
+    </resources>
+    
+    <content>
+      
+      <xul:vbox flex="1">
+        <xul:tree flex="1"
+          anonid="aeSimpleTypesTree"
+          class="aeTree"
+          hidecolumnpicker="true"
+          onselect="document.getBindingParent(this).aeOnSelectType(this);"
+          ondblclick="document.getBindingParent(this).aeOnDblClick(this);">
+          
+          <xul:treecols>
+            <xul:treecol hideheader="true" label="&annotationextension.addAttributesWindow.columnTitle.simple;" primary="true" flex="1"/>
+          </xul:treecols>
+        
+          <xul:treechildren>
+            <xul:treeitem>
+              <xul:treerow>
+                <xul:treecell label="&annotationextension.attribute.type.boolean;"/>
+              </xul:treerow>
+            </xul:treeitem>
+            <xul:treeitem>
+              <xul:treerow>
+                <xul:treecell label="&annotationextension.attribute.type.decimal;"/>
+              </xul:treerow>
+            </xul:treeitem>
+            <xul:treeitem>
+              <xul:treerow>
+                <xul:treecell label="&annotationextension.attribute.type.integer;"/>
+              </xul:treerow>
+            </xul:treeitem>
+  
+            <xul:treeitem>
+              <xul:treerow>
+                <xul:treecell label="&annotationextension.attribute.type.date; and &annotationextension.attribute.type.time;"/>
+              </xul:treerow>
+            </xul:treeitem>
+            <xul:treeitem>
+              <xul:treerow>
+                <xul:treecell label="&annotationextension.attribute.type.date;"/>
+              </xul:treerow>
+            </xul:treeitem>
+            <xul:treeitem>
+              <xul:treerow>
+                <xul:treecell label="&annotationextension.attribute.type.duration;"/>
+              </xul:treerow>
+            </xul:treeitem>
+            <xul:treeitem>
+              <xul:treerow>
+                <xul:treecell label="&annotationextension.attribute.type.time;"/>
+              </xul:treerow>
+            </xul:treeitem>
+            
+            <xul:treeitem>
+              <xul:treerow>
+                <xul:treecell label="&annotationextension.attribute.type.string;"/>
+              </xul:treerow>
+            </xul:treeitem>
+            <xul:treeitem>
+              <xul:treerow>
+                <xul:treecell label="&annotationextension.attribute.type.text;"/>
+              </xul:treerow>
+            </xul:treeitem>
+  
+            <xul:treeitem>
+              <xul:treerow>
+                <xul:treecell label="&annotationextension.attribute.type.anyannotation;"/>
+              </xul:treerow>
+            </xul:treeitem>
+  
+            <xul:treeitem>
+              <xul:treerow>
+                <xul:treecell label="&annotationextension.attribute.type.binary;"/>
+              </xul:treerow>
+            </xul:treeitem>
+            
+            <xul:treeitem>
+              <xul:treerow>
+                <xul:treecell label="&annotationextension.attribute.type.geoPoint;"/>
+              </xul:treerow>
+            </xul:treeitem>
+  
+            <xul:treeitem>
+              <xul:treerow>
+                <xul:treecell label="&annotationextension.attribute.type.image;"/>
+              </xul:treerow>
+            </xul:treeitem>
+        
+            <xul:treeitem>
+              <xul:treerow>
+                <treecell label="&annotationextension.attribute.type.uri;"/>
+              </xul:treerow>
+            </xul:treeitem>
+          </xul:treechildren>
+        </xul:tree>
+      </xul:vbox>
+        
+    </content>
+    
+    <implementation>
+      
+      <!-- =================== PUBLIC MEMBERS =================== -->
+      
+      <property name="aeondblclick"
+        onget="return this.mAeOnDblClick;"
+        onset="this.mAeOnDblClick = val;">
+      </property>
+      
+      <property name="aeonselecttype"
+        onget="return this.mAeOnSelectType;"
+        onset="this.mAeOnSelectType = val;">
+      </property>
+      
+      <property name="aeContext"
+        onset="this.mAeContext = val;"
+        onget="return this.mAeContext;">
+      </property>
+      
+      <property name="aeSelectedTypeName"
+        readonly="true"
+        onget="return this.mAeSelectedTypeName;">
+      </property>
+      
+      <method name="aeClearSelection">
+        <body>
+          <![CDATA[
+            var tree = document.getAnonymousElementByAttribute(this, "anonid", "aeSimpleTypesTree");
+            tree.view.selection.select(-1);
+            this.mAeSelectedTypeName = null;
+          ]]>
+        </body>
+      </method>
+      
+      <!-- =================== PRIVATE MEMBERS =================== -->
+      
+      <method name="aeOnDblClick">
+        <parameter name="tree"/>
+        <body>
+          <![CDATA[
+           this.aeSelectType(tree);
+           if (this.mAeSelectedTypeName != null)
+            if (this.aeondblclick)
+             this.aeondblclick(this.mAeSelectedTypeName, this.aeContext);
+          ]]>
+        </body>
+      </method>
+      
+      <method name="aeOnSelectType">
+        <parameter name="tree"/>
+        <body>
+          <![CDATA[
+           this.aeSelectType(tree);
+           if (this.mAeSelectedTypeName != null)
+            if (this.aeonselecttype)
+             this.aeonselecttype(this.mAeSelectedTypeName, this.aeContext);
+          ]]>
+        </body>
+      </method>
+      
+      <method name="aeSelectType">
+        <parameter name="tree"/>
+        <body>
+          <![CDATA[
+            Components.utils.import("resource://annotationextension/constants.jsm");
+            var view = tree.view;
+            var currentIndex = view.selection.currentIndex;
+            
+            if (currentIndex < 0)
+              this.mAeSelectedTypeName = null;
+            else            
+              this.mAeSelectedTypeName = annotationExtension.attrConstants.simpleTypesArray[currentIndex];
+          ]]>
+        </body>
+      </method>
+      
+    </implementation>
+    
+  </binding>
+</bindings>

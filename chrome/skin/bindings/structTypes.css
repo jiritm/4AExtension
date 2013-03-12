@@ -1,0 +1,44 @@
+[anonid="aeRemoveType"] {
+  margin: 2px 5px 0 0;
+  width : 16px;
+  height : 16px;
+  list-style-image: url("chrome://annotationextension/skin/icons/delete24.png");
+}
+
+[anonid="aeRemoveType"]:hover {
+  list-style-image: url("chrome://annotationextension/skin/icons/delete24dark.png");
+}
+
+[anonid="aeRemoveType"]:hover:active {
+  list-style-image: url("chrome://annotationextension/skin/icons/delete24light.png");
+}
+
+[anonid="aeAddTypeButtonLeft"] {
+  width : 30px !important;
+  height : 25px !important;
+  max-height : 25px !important;
+  min-height : 25px !important;
+  max-width : 30px !important;
+  min-width : 30px !important;
+}
+
+[anonid="aeAddSubtypeButtonRight"] {
+  width : 30px !important;
+  height : 25px !important;
+  max-height : 25px !important;
+  min-height : 25px !important;
+  max-width : 30px !important;
+  min-width : 30px !important;
+}
+
+[anonid="aeAddType"] {
+  width : 16px;
+  height : 16px;
+  list-style-image: url("chrome://annotationextension/skin/icons/addType16.png");
+}
+
+[anonid="aeAddSubtype"] {
+  width : 16px;
+  height : 16px;
+  list-style-image: url("chrome://annotationextension/skin/icons/addSubtype16.png");
+}

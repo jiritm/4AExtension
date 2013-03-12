@@ -42,7 +42,7 @@ annotationExtensionChrome.settings =
    * @param {Elem} settingsElem element s nastavenim
    */
   processSettings : function(settingsElems)
-  {try{
+  {
     var paramElems = settingsElems[0].getElementsByTagName('param');
   
     //Smazani starych ulozenych nastaveni
@@ -107,10 +107,6 @@ annotationExtensionChrome.settings =
     let observerService = Cc["@mozilla.org/observer-service;1"].
         getService(Components.interfaces.nsIObserverService);
     observerService.notifyObservers(null, "annotationextension-settingsChange-topic", "all");
-	}catch(ex)
-	{
-		alert(ex.message);
-	}
   },
   
   /**
@@ -395,7 +391,7 @@ annotationExtensionChrome.settings =
 	{
 		var subscriptionsIsEmpty = false;
 		var datasource = annotationExtensionChrome.subscriptionsDatasource.getDatasource();
-    
+
     var rdfService = Components.classes["@mozilla.org/rdf/rdf-service;1"].getService(Components.interfaces.nsIRDFService);
     var theSectionContainer = Components.classes["@mozilla.org/rdf/container;1"].createInstance(Components.interfaces.nsIRDFContainer);
     var containerTools = Components.classes["@mozilla.org/rdf/container-utils;1"].getService(Components.interfaces.nsIRDFContainerUtils);
@@ -405,6 +401,7 @@ annotationExtensionChrome.settings =
       subscriptionsIsEmpty = true;
 		else if (containerTools.IsEmpty(datasource, theSectionHeading))
 			subscriptionsIsEmpty = true;
+		
 		
 		if (subscriptionsIsEmpty)
 		{//Pridej do subscriptions defaultni, ke kterym je uzivatel prihlasen po prihlaseni

@@ -3,11 +3,6 @@
 
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 
-button {
-  margin: 0;
-  padding: 0;
-}
-
 .aeTypeTextbox {
   min-width: 300px;
 }

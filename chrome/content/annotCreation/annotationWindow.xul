@@ -30,7 +30,7 @@
         onclick="annotationExtensionChrome.bottomAnnotationWindow.annotateDocument();"
         tooltiptext="&annotationextension.Window.annotateDocument;"/>
       <spacer flex="1"/>
-      <label id="statusBar" value="&annotationextension.Window.aeControlPanel.label;"/>
+      <label id="aeStatusBar" value="&annotationextension.Window.aeControlPanel.label;"/>
       <spacer flex="1"/>
       <hbox id="aeSuggestButtonBox">
         <image id="aeSuggestButton"
@@ -344,12 +344,12 @@
             <!-- TLACITKO NA PRIDANI ATRIBUTU DO VYBRANEHO TYPU ANOTACE(atributu) VE STROMU ATRIBUTU-->
             <image id="aeAddAttributeToAttrButton"
               hidden="true"
-              onclick="annotationExtensionChrome.attributes.openAddAttributeWindowAttr();"
+              onclick="annotationExtensionChrome.attributes.addAttributeToAttr();"
               tooltiptext="&annotationextension.annotationWindow.addAttributeToAttr;"/>
             <!-- TLACITKO NA PRIDANI ATRIBUTU DO VYBRANEHO TYPU ANOTACE Z "HLAVNIHO OKNA"-->
             <image id="aeAddAttributeButton"
               hidden="true"
-              onclick="annotationExtensionChrome.attributes.openAddAttributeWindowRoot();"
+              onclick="annotationExtensionChrome.attributes.addAttributeToRoot();"
               tooltiptext="&annotationextension.annotationWindow.addAttribute;"/>
           </vbox>
         </hbox>

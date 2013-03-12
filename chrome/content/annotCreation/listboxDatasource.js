@@ -12,18 +12,18 @@ Components.utils.import("resource://annotationextension/constants.jsm");
 /**
  * Konstruktor
  * Vytvori objekt pro praci s datasource listu.
- * @param {string} listboxID id listboxu, pro ktery se pripoji datasource
+ * @param {string} listbox listbox, pro ktery se pripoji datasource
  * @param {string} rootName jmeno 'korenoveho' prvku v datasource
  * @param {} dsTypes, viz atribut u annotaionExtensionChrome.Datasource
  * @param {Datasource} ds, datasource pro strom - vetsinou se vynecha, pokud je uveden, listboxDatasource pouzije
  *                         ten z parametru a nevytvori si vlastni - atribut dsTypes je potom ignorovan
  */
-annotationExtensionChrome.ListboxDatasource = function(listboxID, rootName, ds, dsTypes)
+annotationExtensionChrome.ListboxDatasource = function(listbox, rootName, ds, dsTypes)
 {
   this.baseURI = annotationExtension.BASE_URI;
   this.namespace = annotationExtension.NAMESPACE;
   
-  this.listboxID = listboxID;
+  this.listbox = listbox;
   
   if (ds != undefined && ds != null)
   {
@@ -42,13 +42,13 @@ annotationExtensionChrome.ListboxDatasource = function(listboxID, rootName, ds, 
 annotationExtensionChrome.ListboxDatasource.prototype =
 {  
   datasource : null,
-  listboxID : null,
+  listbox : null,
   
   rootName : null,   /**< Jmeno "root elementu". */
   
   destroy : function()
   {
-    var theList = document.getElementById(this.listboxID);
+    var theList = this.listbox;
 
     theList.database.RemoveDataSource(this.getDatasource());
     theList.setAttribute("ref", '');
@@ -62,7 +62,7 @@ annotationExtensionChrome.ListboxDatasource.prototype =
   addDatasource : function()
   {
     try{
-    var theList = document.getElementById(this.listboxID);
+    var theList = this.listbox;
 
     theList.database.AddDataSource(this.getDatasource());
     //theList.setAttribute("datasources", this.datasource.resFile);
@@ -79,7 +79,7 @@ annotationExtensionChrome.ListboxDatasource.prototype =
   {
     try
     {
-      var listbox = document.getElementById(this.listboxID);
+      var listbox = this.listbox;
       var item = listbox.getItemAtIndex(index);
       
       return item.resource;
@@ -145,9 +145,9 @@ annotationExtensionChrome.ListboxDatasource.prototype =
    * @param {string} sectionURI URI kontejneru, ve kterem je resource
    * @returns {bool} true, pokud doslo ke smazani, jinak false
    */
-  deleteObject : function(resourceURI, sectionURI)
+  deleteObject : function(resourceURI, sectionURI, aRenumbered)
   {
-    var retVal = this.datasource.deleteObject(resourceURI, sectionURI);
+    var retVal = this.datasource.deleteObject(resourceURI, sectionURI, aRenumbered);
     return retVal;
   },
   

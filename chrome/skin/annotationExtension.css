@@ -61,11 +61,6 @@ toolbar[iconsize="small"] #aeButton {
   border-radius: 0 4px 4px 0;
 }
 
-#aeTypeButton button {
-  margin: 0;
-  padding: 0;
-}
-
 #aeSaveDeleteAnnotBox{
   margin-top: 5px;
 }
@@ -352,53 +347,12 @@ toolbar[iconsize="small"] #aeButton {
   list-style-image: url("chrome://annotationextension/skin/icons/user2.png");
 }
 
-/* Mezera mezi obrazkem a tabulkou s prihlas. udaji v prihlasovacim okne.*/
-#aeLoginSpacer {
-  height: 20px;
-}
-
 /* Text: spatne prihlas. udaje v prihlasovacim okne. */
 #aeIncorLoginBox {
+  min-height: 1.5em;
+  max-height: 1.5em;
+  height: 1.5em;
   color: #FF0000;
-  height: 20px;
-}
-
-/* Obrazek spatneho prihlaseni */
-#aeIncorLoginImage {
-  list-style-image: url("chrome://annotationextension/skin/icons/incorrect16.png");
-}
-
-/* Tabulka s prihlasovacim jmenem a heslem v prihlasovacim okne */
-#aeLoginTable {
-  /*background-color: #DDDDDD;
-  border-radius: 4px 4px 4px 4px; 
-  border: 1px solid #000000;*/
-}
-
-/* TLACITKO PRO VYBER TYPU ATRIBUTU */
-.aeAttributeTypeSelect {
-  width: 70px;
-  min-width: 70px;
-  max-width: 70px;
-}
-
-/* POZADI PRI VYBERU ATRIBUTU */
-.aeAttrTabPanel {
-  background-color: #CCCCCC;
-}
-
-/* TLACITKO PRO VYBER VNORENE ANOTACE */
-.aeSelectNestedAnnotButton {
-  margin: 3px 0 0 0;
-  padding: 0;
-  color : green;
-}
-
-/* TLACITKO PRO VYBER VNORENE ANOTACE */
-.aeSelectNestedAnnotButtonActive {
-  margin: 3px 0 0 0;
-  padding: 0;
-  color : red;
 }
 
 /* TLACITKO PRO PRIDANI ATRIBUTU */
@@ -452,62 +406,6 @@ toolbar[iconsize="small"] #aeButton {
 /* GRIDS PRO VYBER ATRIBUTU */
 .attrLabelColumn {
   width : 80px;
-}
-
-/* TLACITKO PRO PRIDANI TYPU ANOTACE */
-.aeAddTypeButtonLeft {
-  margin-left : 3px !important;
-  margin-right : 3px !important;
-  margin-top : 0px !important;
-  margin-bottom : 0px !important;
-  padding : 0px !important;
-  width : 30px !important;
-  height : 25px !important;
-  max-height : 25px !important;
-  min-height : 25px !important;
-  max-width : 30px !important;
-  min-width : 30px !important;
-}
-
-.aeAddSubtypeButtonRight {
-  margin : 0 !important;
-  padding : 0 !important;
-  width : 30px !important;
-  height : 25px !important;
-  max-height : 25px !important;
-  min-height : 25px !important;
-  max-width : 30px !important;
-  min-width : 30px !important;
-}
-
-#aeAddType {
-  width : 16px;
-  height : 16px;
-  list-style-image: url("chrome://annotationextension/skin/icons/addType16.png");
-}
-
-/* TLACITKO PRO PRIDANI TYPU ANOTACE JAKO PODTYP */
-#aeAddSubtype {
-  width : 16px;
-  height : 16px;
-  list-style-image: url("chrome://annotationextension/skin/icons/addSubtype16.png");
-}
-
-
-/* TLACITKO PRO SMAZANI TYPU ANOTACE */
-#aeRemoveType {
-  margin: 2px 5px 0 0;
-  width : 16px;
-  height : 16px;
-  list-style-image: url("chrome://annotationextension/skin/icons/delete24.png");
-}
-
-#aeRemoveType:hover {
-  list-style-image: url("chrome://annotationextension/skin/icons/delete24dark.png");
-}
-
-#aeRemoveType:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/icons/delete24light.png");
 }
 
 #aeDefaultGroupAndSelectGroupBox {

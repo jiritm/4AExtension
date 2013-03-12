@@ -8,7 +8,8 @@
   <binding id="aeSuggestPanel">
     
     <resources>
-      <stylesheet src="chrome://annotationextension/skin/suggestAnnotation.css"/>
+      <stylesheet src="chrome://annotationextension/skin/bindings/suggestAnnotation.css"/>
+      <stylesheet src="chrome://annotationextension/skin/bindings.css"/>
     </resources>
     
     <content>
@@ -70,7 +71,7 @@
           
           typeSelect.aeSetTypeTextbox(typeSelect.getAttribute('annotationExtensionAllTypes'));
           
-          typeSelect.aeOnTypeSelect = this.aeTypeSelectHandler;
+          typeSelect.aeontypeselect = this.aeTypeSelectHandler;
           typeSelect.aeMainAEChrome = this.aeMainAEChrome;
           typeSelect.aeContext = this;
         ]]>

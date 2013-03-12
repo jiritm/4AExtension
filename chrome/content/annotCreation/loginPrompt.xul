@@ -46,17 +46,9 @@
           <image id="aeLoginImage"/>
         </hbox>
         
-        <hbox id="aeIncorLoginBox" pack="center" hidden="true" height="20">
-          <vbox>
-            <image id="aeIncorLoginImage"/>
-          </vbox>
-          <label id="aeIncorLoginLabel" value="&annotationextension.aeLoginPrompt.badLogin.label;"/>
+        <hbox id="aeIncorLoginBox" pack="center" align="center">
+          <label id="aeIncorLoginLabel" value="&annotationextension.aeLoginPrompt.badLogin.label;" hidden="true"/>
         </hbox>
-        <hbox id="aeProgressBox" pack="center" hidden="true" height="20">
-          <progressmeter id="aeLoginProgress" mode="undetermined"/>
-        </hbox>
-        
-        <spacer id="aeLoginSpacer" height="20"/>
         
         <vbox id="aeLoginTable">
           <grid>
@@ -66,11 +58,10 @@
             </columns>
             <rows>
               <row>
-                <hbox align="center" pack="end">
+                <hbox align="center" pack="end" flex="1">
                   <label control="aeUsername" value="&annotationextension.aeLoginPrompt.username.label;"/>
                 </hbox>
                 <textbox id="aeUsername" rows="1" flex="1"
-                  class="aeTextbox"
                   type="autocomplete"
                   autocompletesearch="form-history"
                   autocompletesearchparam="aeusername-form-history"
@@ -81,11 +72,10 @@
                   onkeypress="annotationExtensionChrome.user.keypressedHandler(event)"/>
               </row>
               <row>
-                <hbox align="center" pack="end">
+                <hbox align="center" pack="end" flex="1">
                   <label control="aePassword" value="&annotationextension.aeLoginPrompt.password.label;"/>
                 </hbox>
-                <textbox id="aePassword"
-                  class="aeTextbox"
+                <textbox id="aePassword" flex="1"
                   type="password"
                   onkeypress="annotationExtensionChrome.user.keypressedHandler(event)"/>
               </row>
@@ -101,6 +91,9 @@
             label="&annotationextension.aeLoginPrompt.deleteUser.label;"
             oncommand="annotationExtensionChrome.user.deleteUserCheckboxHandler()"/>
           <hbox align="center" pack="end">
+            <vbox id="aeProgressBox" pack="center" hidden="true">
+              <progressmeter id="aeLoginProgress" mode="undetermined"/>
+            </vbox>
             <button id="aeLoginButton"
               oncommand="annotationExtensionChrome.user.login()"
               label="&annotationextension.aeLoginPrompt.loginButton.label;"/>

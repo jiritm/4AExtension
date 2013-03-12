@@ -1,0 +1,312 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://annotationextension/locale/annotationExtension.dtd">
+
+<bindings xmlns="http://www.mozilla.org/xbl"
+  xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  
+  <binding id="aeStructTypes">
+    
+    <resources>
+      <stylesheet src="chrome://annotationextension/skin/bindings/structTypes.css"/>
+    </resources>
+    
+    <content>
+      
+      <xul:vbox flex="1">
+        <xul:hbox flex="1">
+          <children/>
+          <xul:tree anonid="aeTypesTree"
+                id="aeTypesTree"
+                flex="3"
+                class="aeTree"
+                persist="sizemode"
+                sizemode="normal"
+                seltype="single"
+                hidecolumnpicker="true"
+                datasources="rdf:null" ref=""
+                ondblclick="document.getBindingParent(this).aeOnDblClick(this);"
+                onselect="document.getBindingParent(this).aeOnSelectType(this);"
+                sort="chrome://annotationextension/rdf#name"
+                sortDirection="ascending"
+                flags="dont-build-content">
+        
+            <xul:treecols>
+              <xul:treecol id="name" primary="true" flex="1" label="&annotationextension.addAttributesWindow.columnTitle.structured;" sortActive="true" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
+              <xul:treecol id="comment" flex="1" hideheader="true"/>
+            </xul:treecols>
+            
+            <xul:template>
+              <xul:rule>
+                 <xul:conditions>
+                  <xul:content uri="?types"/>
+                  <xul:member container="?types" child="?type"/>
+                  <xul:triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#name"
+                          object="?name"/>
+                  <xul:triple subject="?type"
+                          predicate="chrome://annotationextension/rdf#comment"
+                          object="?comment"/>
+                </xul:conditions>
+                 
+                <xul:action>
+                  <xul:treechildren>
+                   <xul:treeitem uri="?type">
+                     <xul:treerow>
+                       <xul:treecell label="?name"/>
+                       <xul:treecell label="?comment"/>
+                     </xul:treerow>
+                   </xul:treeitem>
+                  </xul:treechildren>
+                </xul:action>
+              </xul:rule>
+              
+            </xul:template>
+          </xul:tree>
+        </xul:hbox>
+        
+        <xul:hbox class="aeLightGreyBox">
+          <xul:vbox flex="1">
+            <xul:hbox>
+              <xul:label class="aeLabel" value="&annotationextension.typesWindow.addAsSubtype.label;"/>
+              <xul:spacer flex="1"/>
+              <xul:vbox>
+                <xul:image anonid="aeRemoveType"
+                    onclick="document.getBindingParent(this).aeRemoveType();"
+                    tooltiptext="&annotationextension.typesWindow.removeType;"/>
+              </xul:vbox>
+            </xul:hbox>
+            <xul:hbox align="center" pack="center">
+              <xul:vbox align="center" pack="center">
+                <xul:textbox anonid="aeNewTypeNameTextbox" class="aeTextbox"/>
+              </xul:vbox>
+              <xul:vbox align="center" pack="center">
+                <xul:hbox align="center" pack="center">
+                  <!-- Pridat novy podtyp -->
+                  <xul:button anonid="aeAddTypeButtonLeft" class="aeButton" tooltiptext="&annotationextension.typesWindow.addType;" onclick="document.getBindingParent(this).aeAddType('root');">
+                    <xul:image anonid="aeAddType"/>
+                  </xul:button>
+                  <!-- Pridat novy typ -->
+                  <xul:button anonid="aeAddSubtypeButtonRight" class="aeButton" tooltiptext="&annotationextension.typesWindow.addSubtype;" onclick="document.getBindingParent(this).aeAddType('subtype');">
+                    <xul:image anonid="aeAddSubtype"/>
+                  </xul:button>
+                </xul:hbox>
+                <xul:spacer flex="1"/>
+              </xul:vbox>
+              <xul:spacer flex="1"/>
+            </xul:hbox>
+          </xul:vbox>
+        </xul:hbox>
+      </xul:vbox>
+      
+    </content>
+    
+    <implementation>
+      
+      <destructor>
+        <![CDATA[
+          if (this.mAeTreeTypesDatasource)
+          {
+            this.mAeTreeTypesDatasource.destroy();
+          }
+        ]]>
+      </destructor>
+      
+      <!-- =================== PUBLIC MEMBERS =================== -->
+      
+      <property name="aeondblclick"
+        onget="return this.mAeOnDblClick;"
+        onset="this.mAeOnDblClick = val;">
+      </property>
+      
+      <property name="aeonselecttype"
+        onget="return this.mAeOnSelectType;"
+        onset="this.mAeOnSelectType = val;">
+      </property>
+      
+      <property name="aeContext"
+        onset="this.mAeContext = val;"
+        onget="return this.mAeContext;">
+      </property>
+      
+      <property name="aeMainAEChrome"
+        onset="this.mAeMainAEChrome = val;"
+        onget="return this.mAeMainAEChrome;">
+      </property>
+      
+      <property name="aeTreeTypesDatasource"
+          readonly="true"
+          onget="return this.mAeTreeTypesDatasource;">
+      </property>
+      
+      <property name="aeSelectedTypeName"
+        readonly="true"
+        onget="return this.mAeSelectedTypeName;">
+      </property>
+      
+      <property name="aeSelectedTypeURI"
+        readonly="true"
+        onget="return this.mAeSelectedTypeURI;">
+      </property>
+      
+      <method name="aeSetNewDatasource">
+        <parameter name="typesDatasource"/>
+        <body>
+          <![CDATA[
+            if (this.mAeTreeTypesDatasource)
+            {
+              this.mAeTreeTypesDatasource.destroy();
+            }
+            var typesTree = document.getAnonymousElementByAttribute(this, "anonid", "aeTypesTree");
+            this.mAeTreeTypesDatasource = new this.mAeMainAEChrome.TreeDatasource(typesTree, 'types', typesDatasource, null);
+          ]]>
+        </body>
+      </method>
+      
+      <method name="aeClearSelection">
+        <body>
+          <![CDATA[
+            var tree = document.getAnonymousElementByAttribute(this, "anonid", "aeTypesTree");
+            tree.view.selection.select(-1);
+            this.mAeSelectedTypeName = null;
+            this.mAeSelectedTypeURI = null;
+          ]]>
+        </body>
+      </method>
+      
+      <!-- =================== PRIVATE MEMBERS =================== -->
+      
+      <method name="aeOnDblClick">
+        <parameter name="tree"/>
+        <body>
+          <![CDATA[
+           this.aeSelectType(tree);
+           if (this.mAeSelectedTypeURI != null)
+            if (this.aeondblclick)
+             this.aeondblclick(this.mAeSelectedTypeURI, this.mAeSelectedTypeName, this.aeContext);
+          ]]>
+        </body>
+      </method>
+      
+      <method name="aeOnSelectType">
+        <parameter name="tree"/>
+        <body>
+          <![CDATA[
+           this.aeSelectType(tree);
+           if (this.mAeSelectedTypeURI != null)
+            if (this.aeonselecttype)
+             this.aeonselecttype(this.mAeSelectedTypeURI, this.mAeSelectedTypeName, this.aeContext);
+          ]]>
+        </body>
+      </method>
+      
+      <method name="aeSelectType">
+        <parameter name="tree"/>
+        <body>
+          <![CDATA[
+            var view = tree.view;
+          
+            var URI = this.aeGetSelectionPrimaryURI();
+            var linearizedURI;
+            
+            if (URI == null)
+            {
+              linearizedURI = null;
+            }
+            else
+            {
+              Components.utils.import("resource://annotationextension/functions.jsm");
+              linearizedURI = annotationExtension.functions.linearTypeURI(URI);
+            }
+           
+            this.mAeSelectedTypeURI = URI;
+            this.mAeSelectedTypeName = linearizedURI;
+          ]]>
+        </body>
+      </method>
+      
+      <method name="aeAddType">
+        <parameter name="type"/>
+        <body>
+          <![CDATA[
+            if (type == 'subtype')
+            {
+              var parentURI = this.aeGetSelectionPrimaryURI();
+              
+              if (parentURI == null)
+                //Pokud neni vybran zadny typ, pro ktery se ma vytvorit podtyp...
+                return;
+            }
+            else
+            {
+              var parentURI = "";      
+            }
+            
+            //Kontrola nazvu typu
+            var newTypeName = document.getAnonymousElementByAttribute(this, "anonid", "aeNewTypeNameTextbox").value;
+           
+            if (parentURI != "")
+              var uri = parentURI + '/' + newTypeName;
+            else
+              var uri = "";
+            
+            //Vytvoreni typu a pridani do pole pro klienta.
+            var newType = new this.aeMainAEChrome.type(newTypeName, parentURI, uri, "", null, "");
+        
+            this.aeMainAEChrome.createdTypes.addNew(newType);
+            this.aeMainAEChrome.client.addTypes(this.aeMainAEChrome.createdTypes);
+          ]]>
+        </body>
+      </method>
+      
+      <method name="aeRemoveType">
+        <body>
+          <![CDATA[
+            var typeURI = this.aeGetSelectionPrimaryURI();
+           
+            if (typeURI == null)
+              //Neni vybran typ ke smazani
+              return;
+            
+            if (!this.aeTreeTypesDatasource.datasource.containerIsEmpty(typeURI))
+            {//Je kontejner a neni prazdny, nemaz.
+              let stringBundle = document.createElement();
+              stringBundle.src = "chrome://annotationextension/locale/annotationExtension.properties";     
+              let alertLabel = stringBundle.getString("annotationextension.typesWindow.notEmpty.alert");
+              alert(alertLabel);
+              return;
+            }    
+            
+            var typeName = this.aeTreeTypesDatasource.getResourceProp(typeURI, 'name');
+            var typeAncestor = this.aeTreeTypesDatasource.getResourceProp(typeURI, 'ancestor');
+            
+            //Vytvoreni typu a pridani do pole pro klienta.
+            var deleteType = new this.aeMainAEChrome.type(typeName, typeAncestor, typeURI, "", null, "");
+            
+            this.aeMainAEChrome.deleteTypes.addNew(deleteType);
+            this.aeMainAEChrome.client.removeTypes();
+          ]]>
+        </body>
+      </method>
+                  
+      <method name="aeGetSelectionPrimaryURI">
+        <body>
+          <![CDATA[
+            if (this.aeTreeTypesDatasource)
+            {
+              var selectedTypeURI = this.aeTreeTypesDatasource.getSelectionURI();
+              if (selectedTypeURI == null)
+                return null;
+              else
+                return this.aeTreeTypesDatasource.datasource.getPrimaryTypeURI(selectedTypeURI);
+            }
+            
+            return null;
+          ]]>
+        </body>
+      </method>
+      
+    </implementation>
+    
+  </binding>
+</bindings>

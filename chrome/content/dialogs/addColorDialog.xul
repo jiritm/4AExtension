@@ -31,8 +31,12 @@
     function init()
     {
       var typeBox = document.getElementById("aeNewColorTypeName");
-      typeBox.aeOnTypeSelect = typeSelectHandler;
+      typeBox.aeontypeselect = typeSelectHandler;
       typeBox.aeMainAEChrome = window.arguments[0].inn.mainWindow.annotationExtensionChrome;
+      
+      var buttonBox = document.getElementById("aeDialogTypeSelectButton");
+      var button = document.getAnonymousElementByAttribute(buttonBox, "anonid", "type-button");
+      button.className = "";
     };
     
     function typeSelectHandler()
@@ -75,7 +79,8 @@
           type="aeTypeSelect"
 					aeConfirmTextHidden="true"
 					aeShowSimple="false"/>
-				<box type="aeTypeSelectButton"
+				<box id="aeDialogTypeSelectButton"
+          type="aeTypeSelectButton"
 					aeTypeSelect="aeNewColorTypeName"/>
       </row>
       <row>

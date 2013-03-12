@@ -10,9 +10,9 @@
     <em:version>1.1.4</em:version>
     <em:creator>Jiří Trhlík</em:creator>
     <em:iconURL>chrome://annotationextension/skin/icons/edit.png</em:iconURL>
-    <em:homepageURL>http://knot09.fit.vutbr.cz/annotations/firefox-extension</em:homepageURL>
+    <em:homepageURL>http://knot.fit.vutbr.cz/annotations/firefox-extension</em:homepageURL>
     <em:type>2</em:type>
-    <em:updateURL>http://knot09.fit.vutbr.cz/annotations/firefox-extension/updateManifest/annotationextension.rdf</em:updateURL>
+    <em:updateURL>http://knot.fit.vutbr.cz/annotations/firefox-extension/updateManifest/annotationextension.rdf</em:updateURL>
     <em:updateKey>
     MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDbJCVA8ROCbu
     3haCpVSc1L1nk+2jiZLk0wZsUOyzD79t4X6bA3ukF9Ky7DlaKQ

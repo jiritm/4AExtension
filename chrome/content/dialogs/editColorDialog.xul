@@ -62,7 +62,7 @@
   <vbox flex="1">
     <hbox>
       <label value="&annotationextension.editColorDialog.newColor;"/>
-      <textbox id="aeNewColorTextbox" class="aeTextbox" flex="1"/>
+      <textbox id="aeNewColorTextbox" flex="1"/>
       <colorpicker id="aeColorpicker" type="button" onchange="colorSelected(this.color);"/>
     </hbox>
   </vbox>

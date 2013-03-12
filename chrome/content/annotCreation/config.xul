@@ -53,7 +53,6 @@
         <hbox align="center">
           <radio value="default" />
           <textbox id="extensions.annotationextension.defaultHeight-textbox"
-            class="aeTextbox"
             preference="extensions.annotationextension.defaultHeight"
             style="width: 5em;" type="number"
             maxlength="4" size="4" max="9999" increment="10" />
@@ -125,14 +124,12 @@
         <row>
           <label value="&annotationextension.config.server.address;"/>
           <textbox id="extensions.annotationextension.serverAddress-textbox"
-            class="aeTextbox"
             preference="extensions.annotationextension.server.serverAddress"
             style="width: 9em;"/>
         </row>
         <row>
           <label value="&annotationextension.config.server.port;"/>
           <textbox id="extensions.annotationextension.serverPort-textbox"
-            class="aeTextbox"
             preference="extensions.annotationextension.server.serverPort"
             style="width: 5em;" type="number" max="65536"
             maxlength="5" size="5" increment="1" />
@@ -199,7 +196,6 @@
              tooltiptext="&annotationextension.config.groups.defaultUserGroup.tooltip;"
              control="aeDefaultUserGroupTextbox"/>
           <textbox id="aeDefaultUserGroupTextbox"
-            class="aeTextbox"
             readonly="true"/>
           <button id="aeSelectDefaultGroupButton" label="&annotationextension.config.groups.selectDefaultButton.label;"
             tooltiptext="&annotationextension.annotationWindow.chooseGroup.tooltip;"

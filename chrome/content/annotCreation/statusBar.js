@@ -14,7 +14,7 @@ annotationExtensionChrome.statusBar =
   //Vola se v annotationExtensionChrome.browserOverlay.init()
   init : function()
   {
-    var statusBar = document.getElementById('statusBar');
+    var statusBar = document.getElementById('aeStatusBar');
     let stringBundle = document.getElementById("annotationextension-string-bundle");
     this.barText = stringBundle.getString("annotationextension.Window.aeControlPanel.label");
     this.annotationText = this.barText;
@@ -27,7 +27,7 @@ annotationExtensionChrome.statusBar =
    */
   setTextToBar : function(text)
   {  
-    var statusBar = document.getElementById('statusBar');
+    var statusBar = document.getElementById('aeStatusBar');
     statusBar.setAttribute("value", text);
     this.barText = text;
   },
@@ -38,7 +38,7 @@ annotationExtensionChrome.statusBar =
    */
   addTextToBar : function(text)
   {
-    var statusBar = document.getElementById('statusBar');
+    var statusBar = document.getElementById('aeStatusBar');
     statusBar.setAttribute("value", this.barText + text);
     this.barText += text;
   },
@@ -53,7 +53,7 @@ annotationExtensionChrome.statusBar =
    */
   showMessage : function(text, time, color)
   {
-    var statusBar = document.getElementById('statusBar');
+    var statusBar = document.getElementById('aeStatusBar');
      
     if (!this.isShowing)
     {
@@ -71,7 +71,7 @@ annotationExtensionChrome.statusBar =
    */
   clearMessage : function()
   {
-    var statusBar = document.getElementById('statusBar');
+    var statusBar = document.getElementById('aeStatusBar');
     
     this.isShowing = false;
     statusBar.setAttribute("value", this.barText);

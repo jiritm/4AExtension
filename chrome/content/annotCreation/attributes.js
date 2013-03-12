@@ -50,30 +50,101 @@ annotationExtensionChrome.attributes =
   /**
    * Handler pro tlacitko pridat atribut
    */
-  openAddAttributeWindowRoot : function()
-  {
-    window.openDialog("chrome://annotationextension/content/windows/addAttributeWindow.xul", "annotationextension:addAttrWindow", "resizable,chrome,centerscreen,modal,height=430,width=600",
-      annotationExtensionChrome.attrDatasource.baseURI + annotationExtensionChrome.attrDatasource.rootName, //Ancestor
-      annotationExtensionChrome.bottomAnnotationWindow.selectedTypeURI, //URI TYPU(v typeAttr.rdf) KE KTEREMU SE MA PRIPOJIT NOVY ATRIBUT
-      annotationExtensionChrome.attrDatasource.baseURI + annotationExtensionChrome.attrDatasource.rootName,
-      'root');
+  addAttributeToRoot : function()
+  {    
+    var params = {out:null, input: {
+                                     mainAEChrome : annotationExtensionChrome
+                                  }};
+    
+    window.openDialog("chrome://annotationextension/content/windows/addAttributeWindow.xul", "annotationextension:addAttrWindow", "resizable,chrome,centerscreen,modal,height=430,width=600", params);
+  
+    if (params.out)
+      this.addAttribute(params.out,
+        annotationExtensionChrome.attrDatasource.baseURI + annotationExtensionChrome.attrDatasource.rootName, //Ancestor
+        annotationExtensionChrome.bottomAnnotationWindow.selectedTypeURI, //URI TYPU(v typeAttr.rdf) KE KTEREMU SE MA PRIPOJIT NOVY ATRIBUT
+        annotationExtensionChrome.attrDatasource.baseURI + annotationExtensionChrome.attrDatasource.rootName,
+        false);
   },
   
   /**
    * Handler pro tlacitko pridat atribut atributu
    */
-  openAddAttributeWindowAttr : function()
+  addAttributeToAttr : function()
   {
     //Po pridani atributu se vyber nastavi zpet na vybrany atribut
     var view = document.getElementById('aeAttrTree').view;
     var selection = view.selection.currentIndex;
     
-    window.openDialog("chrome://annotationextension/content/windows/addAttributeWindow.xul", "annotationextension:addAttrWindow", "resizable,chrome,centerscreen,modal,height=430,width=600",
-      //this.selectedAttrUIID,
-      annotationExtensionChrome.attrDatasource.baseURI + annotationExtensionChrome.attrDatasource.rootName, //Ancestor
-      this.selectedAttrType,  //URI TYPU(v typeAttr.rdf) KE KTEREMU SE MA PRIPOJIT NOVY ATRIBUT
-      this.getSelectionURI(),
-      'nested');
+    var params = {out:null, input: {
+                                     mainAEChrome : annotationExtensionChrome
+                                  }};
+    
+    window.openDialog("chrome://annotationextension/content/windows/addAttributeWindow.xul", "annotationextension:addAttrWindow", "resizable,chrome,centerscreen,modal,height=430,width=600", params);
+  
+    if (params.out)
+      this.addAttribute(params.out,
+        annotationExtensionChrome.attrDatasource.baseURI + annotationExtensionChrome.attrDatasource.rootName, //Ancestor
+        this.selectedAttrType,  //URI TYPU(v typeAttr.rdf) KE KTEREMU SE MA PRIPOJIT NOVY ATRIBUT
+        this.getSelectionURI(),
+        true);
+  },
+  
+  
+  /**
+   * Prida atribut, pomocna funkce pro addAttributeToRoot a addAttributeToAttr
+   * @param {Object} attr, to co vrati addAttributeWindow.xul
+   * @param {String} firstResourceURIInAttrRDF, uri resource, ke kteremu se pripojuje atribut jako prvni(v attr.rdf)
+   * @param {String} typeURIInTypeAttrRDF, URI TYPU(v typeAttr.rdf) - k tomuto typu se atribut prida do sablony
+   * @param {String} selectionURIInAttrTreeRDF, URI VYBERU(vybraneho atributu)(v attrTree.rdf)
+   * @param {Bool} isNested, chci vlozit atribut do atributu
+   */
+  addAttribute : function(aAttr, firstResourceURIInAttrRDF, typeURIInTypeAttrRDF, selectionURIInAttrTreeRDF, isNested)
+  {
+    try{
+    var attrName = aAttr.attrName;
+    var typeURI = aAttr.typeURI;
+    var def = aAttr.isDef;
+    var req = aAttr.isReq;
+    
+    if (def == true)
+    {
+      annotationExtensionChrome.bottomAnnotationWindow.addToChangedTypes(typeURIInTypeAttrRDF);
+    }
+
+    if (annotationExtension.attrConstants.isSimple(typeURI))
+      var isStruct = 'false';
+    else
+      var isStruct = 'true';  
+    
+    var attrTypeURI = "";
+    if (def == true)
+    {
+      //Pokud je default, pridej do default typu
+      attrTypeURI = typeURIInTypeAttrRDF + '/' + attrName;
+      
+      var attrToType = { name : attrName, req : req, def : def, type : typeURI, uri : attrTypeURI, ancestor : typeURIInTypeAttrRDF, struct : isStruct, comment : ""};
+      annotationExtensionChrome.typeAttrDatasource.addNewObject(attrToType);
+    }
+    
+    //PRIDANI ATRIBUTU DO STROMU ZOBRAZENYCH ATRIBUTU
+    var attr = { name : attrName, req : req, type : typeURI, def : def, struct : isStruct, attrTypeURI : attrTypeURI, edited : "", aLink : ""};
+    if (def == true)
+      this.addAtributeToTypeRecursive(typeURIInTypeAttrRDF, attr, firstResourceURIInAttrRDF);
+    else
+      this.addAtributeToType(attr, selectionURIInAttrTreeRDF);
+
+    if (isNested)
+    {//Pokud se vklada atribut do atributu, je potreba ho "znovu vybrat", aby se mu nacetl atributy.
+     //Pokud nema zatim zadny atribut, nezobrazi se mu nove pridany, ale az po kliknuti na jiny atribut a zpet na atribut do ktereho se pridavalo
+      var attrSelection = document.getElementById('aeAttrTree').view.selection;
+      this.selectedAttrUIID = "";
+      attrSelection.selectEventsSuppressed = true;
+      attrSelection.selectEventsSuppressed = false;
+    }
+    }catch(ex)
+    {
+      alert(ex.message);
+    }
   },
   
   /**
@@ -597,7 +668,7 @@ annotationExtensionChrome.attributes =
       attrGrid.setAttribute('flex', '1');
     var attrCols = document.createElement('columns');
     var firstAttrCol = document.createElement('column');
-      firstAttrCol.setAttribute('class', 'attrLabelColumn')
+      firstAttrCol.setAttribute('class', 'attrLabelColumn');
     var secondAttrCol = document.createElement('column');
       secondAttrCol.setAttribute('flex', '1');
     var thirdAttrCol = document.createElement('column');
@@ -712,7 +783,7 @@ annotationExtensionChrome.attributes =
         var fileButton = document.createElement('button');
         fileButton.setAttribute('onclick', 'annotationExtensionChrome.attributes.attrSelectFile("'+id+'", "'+this.getCurrentTabID()+'");');
         fileButton.setAttribute('label', stringBundle.getString('annotationextension.choose.button.label'));
-        fileButton.setAttribute('class', 'aeAttributeTypeSelect');
+        fileButton.setAttribute('class', 'aeButton');
         var boxForSecondColumn = document.createElement('hbox');
         var spacerForBoxForSecondColumn = document.createElement('spacer');
           spacerForBoxForSecondColumn.setAttribute("class", "spacerForAttrSecondColumn");
@@ -1124,11 +1195,9 @@ annotationExtensionChrome.attributes =
           aeSelectTextLabelBox.appendChild(deleteRangeBox);
           aeSelectTextLabelBox.appendChild(selectRangeBoxAnnot);
           aeSelectTextLabelBox.appendChild(addDeleteBox);
-          
       
         var rowTextbox = document.createElement('textbox');
           rowTextbox.setAttribute('id', id+'-textbox1-'+this.getCurrentTabID());
-          //rowTextbox.setAttribute('autocompletesearchparam', 'attrType');
           rowTextbox.setAttribute('multiline', 'true');
           rowTextbox.setAttribute('flex','1');
           rowTextbox.setAttribute('rows', '2');
@@ -1136,7 +1205,8 @@ annotationExtensionChrome.attributes =
           rowTextbox.setAttribute('class', 'aeTextbox');
         var selectButton = document.createElement('button');
           selectButton.setAttribute('id',id+'selectNestedButton-'+this.getCurrentTabID());
-          selectButton.setAttribute('class', 'aeSelectNestedAnnotButton');
+          selectButton.setAttribute('class', 'aeButton');
+          selectButton.style.color = "green";
           selectButton.setAttribute('label', chooseButtonLabel);
           selectButton.setAttribute('tooltiptext', stringBundle.getString("annotationextension.annotationWindow.chooseNested.tooltip"));
           selectButton.setAttribute('oncommand', "annotationExtensionChrome.bottomAnnotationWindow.selectNestedAnnotation('"+id+"');");
@@ -1215,7 +1285,7 @@ annotationExtensionChrome.attributes =
         typeBox.setAttribute('aeShowSimple', 'true');
         typeBox.setAttribute('id', id+'-typeBox-'+this.getCurrentTabID());
         typeBox.setAttribute("type", "aeTypeSelect");
-        typeBox.aeOnTypeSelect = this.newTypeSelectedHandler;
+        typeBox.aeontypeselect = this.newTypeSelectedHandler;
         typeBox.aeMainAEChrome = annotationExtensionChrome;
         typeBox.aeContext = annotationExtensionChrome.attributes;
         typeBox.setAttribute('aeAttrId', id);
@@ -2691,7 +2761,7 @@ annotationExtensionChrome.attributes =
         {
           this.deleteAttrInterfaceChilds(uri);
           this.deleteAttrInterface(uri);
-          annotationExtensionChrome.attrDatasource.deleteObject(uri, aParentURI);
+          annotationExtensionChrome.attrDatasource.deleteObject(uri, aParentURI, false);
         }
       }
     }
