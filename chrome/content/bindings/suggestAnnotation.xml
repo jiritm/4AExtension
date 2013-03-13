@@ -50,6 +50,7 @@
               type="aeTypeSelectButton"/>
             <xul:button
               anonid="aeAllTypesButton"
+              class="aeButton"
               label="&annotationextension.suggestAnnotation.type.all;"
               tooltiptext="&annotationextension.suggestAnnotation.type.all.tooltip;"
               oncommand="document.getBindingParent(this).setAllTypes();"/>

@@ -525,7 +525,6 @@ function appendAttributes(id,frame_doc, panel, showNestedP)
  */
 function saveFile(id, attrName)
 {
-	try{
 	var annotation = annotationExtensionChrome.annotationsView.ANNOTATIONS.getAnnotation(id);
 	var attr = annotation.getAttributeByName(attrName);
 	if (attr != null)
@@ -553,10 +552,6 @@ function saveFile(id, attrName)
 				
 			FileUtils.closeSafeFileOutputStream(stream);
 		}
-	}
-	}catch(ex)
-	{
-		alert(ex.message);
 	}
 }
 
