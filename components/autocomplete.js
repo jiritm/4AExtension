@@ -84,7 +84,7 @@ aeSearch.prototype =
 			listener.onSearchResult(thisObject, newResult);
 		};
 		
-		annotationExtension.typesStorageService.getTypes("%"+searchString+"%", 5, resultHandler);		
+		annotationExtension.typesStorageService.getTypes("%"+searchString+"%", 10, resultHandler);		
   },
   
   /**
