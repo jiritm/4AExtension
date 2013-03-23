@@ -7,7 +7,7 @@
     <em:id>annotationextension@fit.vutbr.cz</em:id>
     <em:name>4A Extension</em:name>
     <em:description>Anotační doplněk pro vytváření a zobrazení anotací 4A Frameworku v prostředí Firefoxu</em:description>
-    <em:version>1.1.5</em:version>
+    <em:version>2.0.0</em:version>
     <em:creator>Jiří Trhlík</em:creator>
     <em:iconURL>chrome://annotationextension/skin/icons/edit.png</em:iconURL>
     <em:homepageURL>http://knot.fit.vutbr.cz/annotations/firefox-extension</em:homepageURL>
