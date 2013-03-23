@@ -79,12 +79,9 @@
 	<broadcasterset id="mainBroadcasterSet"> 
     <broadcaster id="viewAnnotationsSidebar" 
                  label="&openDocumentAnnotationsSideBar.title;"
-                 autoCheck="false"
+                 checked="false"
                  type="checkbox"
-                 group="sidebar"
-                 sidebarurl="chrome://annotationextension/content/annotDisplay/sidebar.xul"
-                 sidebartitle="&openDocumentAnnotationsSideBar.title;"
-                 oncommand="toggleSidebar('viewAnnotationsSidebar');" />
+                 oncommand="annotationExtensionChrome.browserOverlay.toggleAnnotationSidebar();" />
      <broadcaster id="viewAnnotationWindow"
                   label="&annotationextension.ViewMenu.label;"
                   type="checkbox"
@@ -97,11 +94,6 @@
     <stringbundle id="annotationextension-string-bundle"
       src="chrome://annotationextension/locale/annotationExtension.properties" />
   </stringbundleset>
-  
-  <!-- Pridani polozky do bocnich panelu -->  
-  <menupopup id="viewSidebarMenu">
-    <menuitem key="aeKeyOpenSidebar" observes="viewAnnotationsSidebar"  />
-  </menupopup>
   
   <!-- Prida polozku do "Zobrazeni" -->
   <menupopup id="menu_viewPopup">
@@ -120,6 +112,23 @@
       tooltiptext="&annotationextension.Toolbar.tooltiptext;"
       oncommand="annotationExtensionChrome.browserOverlay.toggleAnnotationWindow();" />
   </toolbarpalette>
+  
+	<vbox id="browser">
+		
+		<!-- Splitter pro anotace celeho dokumentu -->
+    <splitter id="aeSidebarSplitter" class="aeSplitter" state="open" hidden="true"/>
+		<!-- Box pro anotace celeho dokumentu -->
+		<vbox id="aeSidebar" align="stretch" pack="start" hidden="true">
+			<vbox align="center">
+				<label value="&annotationextension.documentAnnotations.title;"/>
+			</vbox>
+			<vbox id="aeDocumentAnnotationsBox"
+				flex="1"
+				style="overflow-y:scroll">
+			</vbox>
+		</vbox>
+		
+	</vbox>
 	
   <vbox id="appcontent">
 

@@ -54,14 +54,7 @@ annotationExtensionChrome.annotationsView =
 		
 		//Smazani panelu anotaci
 		removeChildrens(document.getElementById('aePanels'));
-		
-		//Smazani vseho, co je v bocnim panelu (pokud tam neco zustalo)	
-		var sidebarDocument = document.getElementById("sidebar").contentDocument;
-    if (isAnnotationSidebarActive(sidebarDocument))
-    {
-      var sideBarAnnotBox = sidebarDocument.getElementById("aeDocumentAnnotationsBox");
-			removeChildrens(sideBarAnnotBox);
-		}
+		removeChildrens(document.getElementById('aeDocumentAnnotationsBox'));
 		
 		var aeView = annotationExtensionChrome.annotationsView;
 		aeView.ANNOTATIONS = new AnnotationsDB();

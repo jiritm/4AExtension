@@ -159,15 +159,13 @@
 
 <!ENTITY annotationextension.attrTypesWindow.title             "Attribute Type Select">
 
-<!ENTITY openDocumentAnnotationsSideBar.title           "4A Extension">
+<!ENTITY openDocumentAnnotationsSideBar.title           "Document Annotations Sidebar">
 <!ENTITY viewAnnotationsSidebar.commandkey      "A">
 <!ENTITY viewAnnotationsSidebar.modifierskey    "alt accel">
 <!ENTITY viewAnnotationWindow.commandkey        "R">
 <!ENTITY viewAnnotationWindow.modifierskey      "alt accel">
 <!ENTITY annotationextension.saveAnnotations.commandkey        "S">
 <!ENTITY annotationextension.saveAnnotations.modifierskey      "accel shift">
-
-<!ENTITY annotationextension.sidebar.annotationContent.label  "Annotation:">
 
 <!ENTITY annotationextension.addSettingsDialog.title         "Add New Setting">
 <!ENTITY annotationextension.addSettingsDialog.name          "Name:">

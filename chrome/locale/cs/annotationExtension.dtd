@@ -158,15 +158,13 @@
 
 <!ENTITY annotationextension.attrTypesWindow.title             "Výběr typu atributu">
 
-<!ENTITY openDocumentAnnotationsSideBar.title           "Anotační doplněk">
+<!ENTITY openDocumentAnnotationsSideBar.title   "Panel anotací dokumentu">
 <!ENTITY viewAnnotationsSidebar.commandkey      "A">
 <!ENTITY viewAnnotationsSidebar.modifierskey    "alt accel">
 <!ENTITY viewAnnotationWindow.commandkey        "R">
 <!ENTITY viewAnnotationWindow.modifierskey      "alt accel">
 <!ENTITY annotationextension.saveAnnotations.commandkey        "S">
 <!ENTITY annotationextension.saveAnnotations.modifierskey      "accel shift">
-
-<!ENTITY annotationextension.sidebar.annotationContent.label  "Anotace:">
 
 <!ENTITY annotationextension.addSettingsDialog.title         "Přidat nové nastavení">
 <!ENTITY annotationextension.addSettingsDialog.name          "Jméno:">

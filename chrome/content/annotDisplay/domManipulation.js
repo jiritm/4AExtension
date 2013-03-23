@@ -532,7 +532,7 @@ function injectAnnotation(annotation, frame_doc)
     }
     else
     {
-				var sideBarPanel = createAnnotationToSidebar(annotation);
+				var sideBarPanel = createAnnotationSidebarPanel(annotation, document.getElementById('aeDocumentAnnotationsBox'));
         return sideBarPanel;
     }
 };
@@ -545,25 +545,12 @@ function injectAnnotation(annotation, frame_doc)
  */
 function removeAnnotationFromDoc(annotation, frame_doc)
 {
-    //Pokusi se odstranit fragmenty z dokumentu i bocniho panelu,
-    //protoze pokud se editovala anotace a z anotace se stala anotace
-    //celeho dokumentu (a naopak), pri editaci by se zde nepokusil
-    //smazat fragmenty (pripadne polozku v bocnim panelu),
-    //protoze editovana anotace nebude mit v sobe zadny fragment (a naopak)
-    
-    //if(annotation.fragments.length > 0)
-    //{
-				removeFragments(annotation.id,frame_doc);
-    //}
-    //else
-    //{
-        try
-        {
-            removeAnnotationFromSidebar(annotation);
-        }
-        catch(ex)
-        {}
-    //} 
+    try
+    {
+        removeFragments(annotation.id,frame_doc);
+    }
+    catch(ex)
+    {}
 };
 
 /**
@@ -575,92 +562,11 @@ function removeAnnotationFromDoc(annotation, frame_doc)
 
 function removeAnnotation(annotation, frame_doc)
 {
-    removeAnnotationFromDoc(annotation, frame_doc);
     if (annotation.id != "")
-        deleteRTAPanel(annotation.id);
-};
-
-/**
- * Vlozi vsechny anotace "DB" do bocniho panelu anotacniho doplnku
- * @param {AnnotationsDB} annotDB, "databaze" obsahujici anotace k vlozeni
- */
-function addAnnotationsToSidebar(annotDB)
-{		
-		$.each(annotDB.annotations, function(ind, annotation)
-		{
-				if(annotation.fragments.length < 1)
-				{                
-						createAnnotationToSidebar(annotation);
-				} 
-		});
-};
-
-/**
- * Vlozi anotaci do bocniho panelu anotacniho doplnku
- * @param {Annotation object} annotation, objekt anotace
- * @returns {Node} vytvorena anotace
- */
-function createAnnotationToSidebar(annotation)
-{
-		var sidebarDocument = document.getElementById("sidebar").contentDocument;
-		if(isAnnotationSidebarActive(sidebarDocument))
-		{
-				try
-				{
-            var documentAnnotationsBox = sidebarDocument.getElementById('aeDocumentAnnotationsBox');
-						var sidebarAnnotationPanel = createAnnotationSidebarPanel(annotation, documentAnnotationsBox);
-            return sidebarAnnotationPanel;
-				}
-				catch(ex)
-		    {}
-		}
-    
-    return null;
-};
-
-/**
- * Odstrani anotaci z bocniho panelu anotacniho doplnku
- * @param {Annotation} annotation, objekt anotace
- */
-function removeAnnotationFromSidebar(annotation)
-{
-		var sidebarDocument = document.getElementById("sidebar").contentDocument;
-		if (isAnnotationSidebarActive(sidebarDocument))
-		{
-				try
-				{
-					var sidebarAnnotationPanel = sidebarDocument.getElementById(annotation.id);
-					sidebarAnnotationPanel.parentNode.removeChild(sidebarAnnotationPanel);
-				}
-				catch(ex)
-				{}
-		}
-};
-
-/**
- * Odstrani vsechny anotace "DB" z bocniho panelu anotacniho doplnku
- * @param {AnnotationsDB} annotDB, "databaze" obsahujici anotace k odstraneni
- */
-function removeAnnotationsFromSidebar(annotDB)
-{		
-		$.each(annotDB.annotations, function(ind, annotation)
-		{
-				if(annotation.fragments.length < 1)
-				{
-						removeAnnotationFromSidebar(annotation);
-				} 
-		});
-};
-
-/**
- * Test, zda je bocni panel anotacniho doplnku otevreny
- */
-function isAnnotationSidebarActive(sidebarDocument)
-{
-		if (sidebarDocument.location.href == "chrome://annotationextension/content/annotDisplay/sidebar.xul")
-				return true;
-		else
-				return false;
+    {
+        removeAnnotationFromDoc(annotation, frame_doc);
+        deleteAnnotationPanel(annotation.id);
+    }
 };
 
 /**

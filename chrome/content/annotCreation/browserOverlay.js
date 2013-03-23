@@ -84,8 +84,9 @@ annotationExtensionChrome.browserOverlay = {
     annotationExtensionChrome.statusBar.init();
   },
     
-  showStatus : false,  /**< Status, zda je anotacni okno zobrazeno. */
-  preferences : null,  /**< Nastaveni. */
+  showStatus : false,         /**< Status, zda je anotacni okno zobrazeno. */
+  sidebarShowStatus : false,  /**< Status, zda je otevreny sidebar. */
+  preferences : null,         /**< Nastaveni. */
 
 
   /**
@@ -176,6 +177,44 @@ annotationExtensionChrome.browserOverlay = {
     //Prenastav indikator otevreni okna
     this.showStatus = !hideFlag;
   },
+  
+  /**
+   * Preklopi sidebar
+   * @param {Bool} open, pokud je nastaveny zavre/otevre sidebar podle hodnoty
+   */
+  toggleAnnotationSidebar : function(open)
+  {
+    var annotationSidebar =  document.getElementById('aeSidebar');
+    var annotationSidebarSplitter = document.getElementById('aeSidebarSplitter');
+    if (open != undefined && open != null)
+    {
+      annotationSidebar.hidden = open;
+      annotationSidebarSplitter.hidden = open;
+      this.sidebarShowStatus = open;
+    }
+    else
+    {
+      if (this.sidebarShowStatus)
+      {//Sidebar je zobrazeny -> skryj
+        annotationSidebar.hidden = true;
+        annotationSidebarSplitter.hidden = true;
+        this.sidebarShowStatus = false;
+      }
+      else
+      {//Sidebar je skryty -> zobraz
+        annotationSidebar.hidden = false;
+        annotationSidebarSplitter.hidden = false;
+        this.sidebarShowStatus = true;
+      }
+    }
+    
+    if (!this.sidebarShowStatus)
+    {
+      closeDocumentAnnotationsNestedAnnotations(annotationExtensionChrome.annotationsView.ANNOTATIONS,
+                                                annotationExtensionChrome.annotationsView.frame_doc);
+    }
+  },
+
 
   /**
    * Zobrazi okno s nastavenim

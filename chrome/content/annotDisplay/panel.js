@@ -9,12 +9,6 @@
 Components.utils.import("resource://annotationextension/functions.jsm");
 Components.utils.import("resource://annotationextension/constants.jsm");
 
-//Anotacni panely v sidebaru jsou v jinem chrome kodu. Funkce (onclick apod.)
-//musi mit predponu mainWindow, aby se "spravne" volaly. 
-//mainWindow v sidebaru odpovida window, ktere ma "hlavni" kod
-//no je to takova berlicka
-var mainWindow = window;
-
 function createAnnotationSidebarPanel(annotation, anchor)
 {
   var annotId = annotation.id;
@@ -22,8 +16,8 @@ function createAnnotationSidebarPanel(annotation, anchor)
 	var sidebarPanel = document.createElement('vbox');
 			sidebarPanel.setAttribute('id', annotId);
 			sidebarPanel.setAttribute('class', 'aeAnnotationSidebarPanel');
-      sidebarPanel.setAttribute('onmouseover', 'mainWindow.showNestedAnnotationsFragments("'+annotId+'", mainWindow.annotationExtensionChrome.annotationsView.frame_doc);');
-			sidebarPanel.setAttribute('onmouseout', 'mainWindow.panelOnMouseOut(this, mainWindow.annotationExtensionChrome.annotationsView.frame_doc);');
+      sidebarPanel.setAttribute('onmouseover', 'showNestedAnnotationsFragments("'+annotId+'", annotationExtensionChrome.annotationsView.frame_doc);');
+			sidebarPanel.setAttribute('onmouseout', 'panelOnMouseOut(this, annotationExtensionChrome.annotationsView.frame_doc);');
 
 	var controlBox = createAnnotationControlBox(annotation);
   var closeButton = $(controlBox).children('.aeCloseAnnotationButton').get(0);
@@ -62,9 +56,9 @@ function createAnnotationPanel(annotation, anchor)
 			panel.setAttribute('persist', 'false');
 			//panel.setAttribute('type', 'arrow');
 			panel.setAttribute('backdrag', 'true');
-			panel.setAttribute('onpopuphiding', "mainWindow.closeNested(mainWindow.annotationExtensionChrome.annotationsView.ANNOTATIONS, mainWindow.annotationExtensionChrome.annotationsView.frame_doc,'" + annotID +"');");
-			panel.setAttribute('onmouseover', 'mainWindow.panelOnMouseOver(this, mainWindow.annotationExtensionChrome.annotationsView.frame_doc);');
-			panel.setAttribute('onmouseout', 'mainWindow.panelOnMouseOut(this ,mainWindow.annotationExtensionChrome.annotationsView.frame_doc);');
+			panel.setAttribute('onpopuphiding', "closeNested(annotationExtensionChrome.annotationsView.ANNOTATIONS, annotationExtensionChrome.annotationsView.frame_doc,'" + annotID +"');");
+			panel.setAttribute('onmouseover', 'panelOnMouseOver(this, annotationExtensionChrome.annotationsView.frame_doc);');
+			panel.setAttribute('onmouseout', 'panelOnMouseOut(this ,annotationExtensionChrome.annotationsView.frame_doc);');
 
 	var controlBox = createAnnotationControlBox(annotation);
 	
@@ -98,15 +92,15 @@ function createAnnotationControlBox(annotation)
 			controlBox.setAttribute('pack', 'end');
 			var closeButton = document.createElement('image');
 					closeButton.setAttribute('class','aeCloseAnnotationButton');
-					closeButton.setAttribute('onclick',"mainWindow.closePanel(document.getElementById('" + annotID + "'),'true');");
+					closeButton.setAttribute('onclick',"closePanel(document.getElementById('" + annotID + "'),'true');");
 					closeButton.setAttribute('tooltiptext', stringBundle.getString("annotationextension.panel.closeAnnotationButton.tooltip"));
 			var deleteButton = document.createElement('image');
 					deleteButton.setAttribute('class','aeDeleteAnnotationButton');
-					deleteButton.setAttribute('onclick',"mainWindow.panelRemoveAnnotation('" + annotID + "');");
+					deleteButton.setAttribute('onclick',"panelRemoveAnnotation('" + annotID + "');");
 					deleteButton.setAttribute('tooltiptext', stringBundle.getString("annotationextension.panel.deleteAnnotationButton.tooltip"));
 			var editButton = document.createElement('image');
 					editButton.setAttribute('class','aeEditAnnotationButton');
-					editButton.setAttribute('onclick',"mainWindow.panelChangeAnnotation('" + annotID + "');");
+					editButton.setAttribute('onclick',"panelChangeAnnotation('" + annotID + "');");
 					editButton.setAttribute('tooltiptext', stringBundle.getString("annotationextension.panel.editAnnotationButton.tooltip"));
 			var buttonSpacer = document.createElement('spacer');
 					buttonSpacer.setAttribute('flex', '1');
@@ -138,13 +132,13 @@ function createCollapseButtons(collapseButtonClass, collapseNestedButtonClass)
 	
 	var collapseButton = document.createElement('box');
 			collapseButton.setAttribute('class', 'aeSmallImageButton aeToggleButton ' + collapseButtonClass);
-			collapseButton.setAttribute('onclick',"mainWindow.panelToggleAttributes(this);");
+			collapseButton.setAttribute('onclick',"panelToggleAttributes(this);");
 			collapseButton.setAttribute('tooltiptext', stringBundle.getString("annotationextension.panel.toggleAttributesButton.tooltip"));
 			var collapseButtonImage = document.createElement('image');
 			collapseButton.appendChild(collapseButtonImage);
 	var collapseNestedButton = document.createElement('box');
 			collapseNestedButton.setAttribute('class', 'aeSmallImageButton aeToggleButton2 ' + collapseNestedButtonClass);
-			collapseNestedButton.setAttribute('onclick',"mainWindow.panelToggleNestedAnnotAttributes(this);");
+			collapseNestedButton.setAttribute('onclick',"panelToggleNestedAnnotAttributes(this);");
 			collapseNestedButton.setAttribute('tooltiptext', stringBundle.getString("annotationextension.panel.toggleNestedAnnotAttributesButton.tooltip"));
 			var collapseNestedButtonImage = document.createElement('image');
 			collapseNestedButton.appendChild(collapseNestedButtonImage);
@@ -205,7 +199,7 @@ function createAnnotationView(annotation, viewLevel)
 									typeSpacer.setAttribute('flex', '1');
 							var colorButton = document.createElement('image');
 									colorButton.setAttribute('class','aeChangeAnnotationColorButton');
-									colorButton.setAttribute('onclick',"mainWindow.panelChangeAnnotationColor('" + annotation.type + "');");
+									colorButton.setAttribute('onclick',"panelChangeAnnotationColor('" + annotation.type + "');");
 									colorButton.setAttribute('tooltiptext', stringBundle.getString("annotationextension.panel.changeAnnotationColorButton.tooltip"));
 							typeBox.appendChild(typeLabel);
 							typeBox.appendChild(typeSpacer);
@@ -303,7 +297,7 @@ function appendAttributes(annotation, attributesBox, aViewLevel)
 					box.appendChild(text);
 					box.appendChild(imageBox);
 				//Pokud se zalozka ma udelat aktivni: gBrowser.selectedTab = gBrowser.addTab('"+uri+"');
-				richlistitem.setAttribute('onclick', "mainWindow.gBrowser.addTab('"+imageURI+"');");
+				richlistitem.setAttribute('onclick', "gBrowser.addTab('"+imageURI+"');");
 				richlistitem.appendChild(box);
 				break;
 			
@@ -317,7 +311,7 @@ function appendAttributes(annotation, attributesBox, aViewLevel)
 					box.setAttribute('align', 'center');
 					box.appendChild(description);
 					box.appendChild(image);
-				richlistitem.setAttribute('onclick', 'mainWindow.saveFile("'+annotId+'", "'+attribute.name+'")');
+				richlistitem.setAttribute('onclick', 'saveFile("'+annotId+'", "'+attribute.name+'")');
 				richlistitem.appendChild(box);
 				break;
 			
@@ -332,7 +326,7 @@ function appendAttributes(annotation, attributesBox, aViewLevel)
 					box.setAttribute('align', 'center');
 					box.appendChild(description);
 					box.appendChild(image);
-				richlistitem.setAttribute('onclick', "mainWindow.gBrowser.addTab('"+uri+"');");
+				richlistitem.setAttribute('onclick', "gBrowser.addTab('"+uri+"');");
 				richlistitem.appendChild(box);
 				break;
 				
@@ -347,7 +341,7 @@ function appendAttributes(annotation, attributesBox, aViewLevel)
 					box.setAttribute('align', 'center');
 					box.appendChild(description);
 					box.appendChild(image);
-				richlistitem.setAttribute('onclick', "mainWindow.gBrowser.addTab('"+url+"');");
+				richlistitem.setAttribute('onclick', "gBrowser.addTab('"+url+"');");
 				richlistitem.appendChild(box);
 				break;
 			
@@ -373,16 +367,16 @@ function appendAttributes(annotation, attributesBox, aViewLevel)
 					//Pokud existuje alespon jeden span anotace odkazovane aLinkem
 					if (annotationLink.fragments.length > 0)
 					{
-							richlistitem.setAttribute('onclick', "mainWindow.openPanel(mainWindow.document.getElementById('" + annotationLinkId + "')," + 
-									"mainWindow.annotationExtensionChrome.annotationsView.frame_doc.getElementsByName('" + annotationLinkId + "')[0]," + "'" + annotationLinkId + "', 'true');");
-							richlistitem.setAttribute('onmouseover', "mainWindow.openPanel(mainWindow.document.getElementById('" + annotationLinkId + "')," + 
-								"mainWindow.annotationExtensionChrome.annotationsView.frame_doc.getElementsByName('" + annotationLinkId + "')[0]," + "'" + annotationLinkId + "', 'false');");
-							richlistitem.setAttribute('onmouseout', "mainWindow.closePanel(mainWindow.document.getElementById('" + annotationLinkId + "'), 'false');");
+							richlistitem.setAttribute('onclick', "openPanel(document.getElementById('" + annotationLinkId + "')," + 
+									"annotationExtensionChrome.annotationsView.frame_doc.getElementsByName('" + annotationLinkId + "')[0]," + "'" + annotationLinkId + "', 'true');");
+							richlistitem.setAttribute('onmouseover', "openPanel(document.getElementById('" + annotationLinkId + "')," + 
+								"annotationExtensionChrome.annotationsView.frame_doc.getElementsByName('" + annotationLinkId + "')[0]," + "'" + annotationLinkId + "', 'false');");
+							richlistitem.setAttribute('onmouseout', "closePanel(document.getElementById('" + annotationLinkId + "'), 'false');");
 						
 					}
 					else
 					{
-							richlistitem.setAttribute('onclick', 'mainWindow.openAnnotInSidebar("' + annotationLinkId + '");');
+							richlistitem.setAttribute('onclick', 'openAnnotInSidebar("' + annotationLinkId + '");');
 					}
 					
 					var annotationLinkText = "";
@@ -460,10 +454,10 @@ function appendAttributes(annotation, attributesBox, aViewLevel)
 							attrNameBox.appendChild(collapseButtons[1]);
 							
 						if (nestedAnnotation.fragments.length > 0)                    
-							descriptionBox.setAttribute('onclick', "mainWindow.openPanel(mainWindow.document.getElementById('" + nestedAnnotationId + "')," + 
-								"mainWindow.annotationExtensionChrome.annotationsView.frame_doc.getElementsByName('" + nestedAnnotationId + "')[0]," + "'" + nestedAnnotationId + "', 'true');");
+							descriptionBox.setAttribute('onclick', "openPanel(document.getElementById('" + nestedAnnotationId + "')," + 
+								"annotationExtensionChrome.annotationsView.frame_doc.getElementsByName('" + nestedAnnotationId + "')[0]," + "'" + nestedAnnotationId + "', 'true');");
 						else
-							descriptionBox.setAttribute('onclick', 'mainWindow.openAnnotInSidebar("' + nestedAnnotationId + '");');
+							descriptionBox.setAttribute('onclick', 'openAnnotInSidebar("' + nestedAnnotationId + '");');
 							
 						box.appendChild(attrNameBox);
 						var nestedAnnotationView = createAnnotationView(nestedAnnotation, viewLevel);
@@ -486,15 +480,15 @@ function appendAttributes(annotation, attributesBox, aViewLevel)
 						
 						if (nestedAnnotation.fragments.length > 0)
 						{
-							richlistitem.setAttribute('onclick', "mainWindow.openPanel(mainWindow.document.getElementById('" + nestedAnnotationId + "')," + 
-								"mainWindow.annotationExtensionChrome.annotationsView.frame_doc.getElementsByName('" + nestedAnnotationId + "')[0]," + "'" + nestedAnnotationId + "', 'true');");
-							richlistitem.setAttribute('onmouseover', "mainWindow.openPanel(mainWindow.document.getElementById('" + nestedAnnotationId + "')," + 
-								"mainWindow.annotationExtensionChrome.annotationsView.frame_doc.getElementsByName('" + nestedAnnotationId + "')[0]," + "'" + nestedAnnotationId + "', 'false');");
-							richlistitem.setAttribute('onmouseout', "mainWindow.closePanel(mainWindow.document.getElementById('" + nestedAnnotationId + "'), 'false');");
+							richlistitem.setAttribute('onclick', "openPanel(document.getElementById('" + nestedAnnotationId + "')," + 
+								"annotationExtensionChrome.annotationsView.frame_doc.getElementsByName('" + nestedAnnotationId + "')[0]," + "'" + nestedAnnotationId + "', 'true');");
+							richlistitem.setAttribute('onmouseover', "openPanel(document.getElementById('" + nestedAnnotationId + "')," + 
+								"annotationExtensionChrome.annotationsView.frame_doc.getElementsByName('" + nestedAnnotationId + "')[0]," + "'" + nestedAnnotationId + "', 'false');");
+							richlistitem.setAttribute('onmouseout', "closePanel(document.getElementById('" + nestedAnnotationId + "'), 'false');");
 						}
 						else
 						{
-							richlistitem.setAttribute('onclick', 'mainWindow.openAnnotInSidebar("' + nestedAnnotationId + '");');
+							richlistitem.setAttribute('onclick', 'openAnnotInSidebar("' + nestedAnnotationId + '");');
 						}
 					}
 				}
@@ -909,16 +903,8 @@ function saveFile(id, attrName)
 function openAnnotInSidebar(annotId)
 {
     //Otevri sidebar
-    toggleSidebar('viewAnnotationsSidebar', true);
-    //pokus se otevrit anotaci v sidebaru
-    try
-    {
-			//TODO: animace, zvyrazneni nebo neco podobneho s panelem
-      //var sidebarWin = document.getElementById("sidebar").contentWindow;
-			//var panel = sidebarWin.document.getElementById(annotId);
-    }
-    catch(ex)
-    {}
+    annotationExtensionChrome.browserOverlay.toggleAnnotationSidebar(true);
+		//TODO: animace, zvyrazneni nebo neco podobneho s panelem
 }
 
 function panelRemoveAnnotation(id)
@@ -939,10 +925,10 @@ function panelChangeAnnotationColor(typeURI)
 }
 
 /**
- * Smaze panel z dokumentu
+ * Smaze panel anotace
  * @param {String} id id panelu, ktery se ma odstranit
  */
-function deleteRTAPanel(id)
+function deleteAnnotationPanel(id)
 {
 		var panel_node = document.getElementById(id);
 		if (panel_node != null)
@@ -963,7 +949,7 @@ function dateConversion(date)
     return ret;
 }
 
-function closeNested(annotDB,frame_doc,id)
+function closeNested(annotDB, frame_doc, id)
 {
     $.each(annotDB.annotations, function(ind, annotation)
 		{
@@ -981,6 +967,16 @@ function closeNested(annotDB,frame_doc,id)
             document.getElementById(annotation.id).hidePopup();
         }
     });
+}
+
+function closeDocumentAnnotationsNestedAnnotations(annotDB, frame_doc)
+{
+	var documentAnnots = $('#aeDocumentAnnotationsBox').children();
+	for (var i = 0; i < documentAnnots.length; ++i)
+	{
+		var documentAnnotId = documentAnnots[i].id;
+		closeNested(annotDB, frame_doc, documentAnnotId);	
+	}
 }
 
 

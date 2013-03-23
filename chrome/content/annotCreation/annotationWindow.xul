@@ -24,7 +24,7 @@
     <!-- Ovladaci panel -->
     <hbox id="aeControlPanel" pack="center" align="center">
       <image id="aeShowSidebarButton"
-        onclick="toggleSidebar('viewAnnotationsSidebar');"
+        onclick="annotationExtensionChrome.browserOverlay.toggleAnnotationSidebar();"
         tooltiptext="&annotationextension.annotationWindow.sidebar;"/>
       <image id="aeAnnotateDocumentButton"
         onclick="annotationExtensionChrome.bottomAnnotationWindow.annotateDocument();"
