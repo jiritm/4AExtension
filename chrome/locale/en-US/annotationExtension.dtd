@@ -105,7 +105,7 @@
 <!ENTITY annotationextension.config.annotationPanelOption.defaultFont.tooltip        "If an annotation type has no font color set, use this color instead. If the field remains blank, the font color will match the color of the font of the document.">
 
 
-<!ENTITY annotationextension.config.tab.suggestionOption        "Suggestion">
+<!ENTITY annotationextension.config.tab.suggestionOption        "Suggestions">
 <!ENTITY annotationextension.config.suggestion.confidence.label "Suggestion confidence:">
 <!ENTITY annotationextension.config.suggestion.confidence.text  "Suggestion confidence is a number in percents. Every suggest annotation contains a value in percent reflecting the level of confidence that suggestion is right. If this value of any of suggest annotation is lower than choosen suggestion confidence, client will drop this annotation.">
 

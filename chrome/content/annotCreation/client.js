@@ -691,6 +691,10 @@ annotationExtensionChrome.client.processResponseMessage =  function(responseXML,
 				var parser = new AnnotParser();
 				var annotChanges = parser.parseSuggestionsResponse(messagesElemChildNode);
 				
+				//Odmitni low confidence nabidky
+				if (annotChanges.suggestionsLowConfidence.length > 0)
+					annotationExtensionChrome.client.refusedSuggestions(annotChanges.suggestionsLowConfidence, "automatically");
+				
 				annotationExtensionChrome.annotationsView.showAnnotations(annotChanges);
 			}
 			
@@ -1404,7 +1408,7 @@ annotationExtensionChrome.client.confirmSuggestionManuallyEdited = function(anno
   body += '</annotations>';
   body += '</messages>';
 	
-	alert(body);
+	//alert(body);
   this.sendMessage(httpRequest, body);
 };
 

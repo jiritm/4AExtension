@@ -837,7 +837,11 @@ function addSuggestionInfoToPanel(panel)
  */
 function refuseSuggestion(id, tmpId)
 {
-	closePanel(document.getElementById(id),'true');
+	var panel = document.getElementById(id);
+	if (panel.nodeName == 'panel')
+	{//Nabidka neni pro cely dokument
+		closePanel(panel,'true');
+	}
 	
 	annotationExtensionChrome.client.refusedSuggestions([tmpId], "manually");
 };
@@ -854,7 +858,11 @@ function confirmSuggestion(id)
 	var annotationXML = annotation.XMLText;
 	var tmpId = annotation.tmpId;
 	
-	closePanel(document.getElementById(id),'true');
+	var panel = document.getElementById(id);
+	if (panel.nodeName == 'panel')
+	{//Nabidka neni pro cely dokument
+		closePanel(panel,'true');
+	}
 	
 	annotationExtensionChrome.client.confirmSuggestionManually(annotation.XMLText, tmpId);
 };

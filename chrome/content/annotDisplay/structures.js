@@ -247,8 +247,9 @@ AnnotChanges = function()
     this.add = [];    //array of annotations to be added
     this.change = []; //array of annotations to be changed
     this.remove = []; //array of annotations to be removed
-    this.suggestionsAdd = [];      //array of new suggested annotations
-    this.suggestionsDelete = [];   //array of deleted suggested annotations (STRINGS)
+    this.suggestionsAdd = [];              //array of new suggested annotations
+    this.suggestionsDelete = [];           //array of deleted suggested annotations (STRINGS - ids)
+    this.suggestionsLowConfidence = [];    //array of suggested annotations with low confidence (STRINGS - ids)
 };
 
 AnnotChanges.prototype =

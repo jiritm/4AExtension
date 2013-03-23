@@ -76,30 +76,6 @@
 
   </prefpane>
   
-  <!-- NASTAVENI PRI VYBERU TEXTU -->
-  <prefpane id="aeTextSelectOption" label="&annotationextension.config.tab.aeTextSelectOption;"
-    image="chrome://annotationextension/skin/icons/edit.png">
-    
-    <preferences>           
-      <preference id="extensions.annotationextension.separateMode"
-        name="extensions.annotationextension.separateMode"
-        type="string" />
-    </preferences>
-    
-    <groupbox>
-      <caption label="&annotationextension.config.caption.separateMode;" />
-      <radiogroup orient="vertical"
-        id="extensions.annotationextension.separateMode-radiogroup"
-        preference="extensions.annotationextension.separateMode">
-
-        <radio label="&annotationextension.config.separate.noSepar;" value="nosepar" />
-        <radio label="&annotationextension.config.separate.newLine;" value="newline" />
-        <radio label="&annotationextension.config.separate.space;" value="space" />
-      </radiogroup>
-    </groupbox>
-    
-  </prefpane>
-  
   <!-- NASTAVENI SERVERU -->
   <prefpane id="serverOption" label="&annotationextension.config.tab.serverOption;"
     image="chrome://annotationextension/skin/icons/server.png"
@@ -143,145 +119,124 @@
     </grid>
   </prefpane>
   
-  <!-- NASTAVENI SKUPINY -->
-  <prefpane id="aeGroupOption" label="&annotationextension.config.tab.aeGroupOption;"
-    image="chrome://annotationextension/skin/icons/group.png"
-    onpaneload="annotationExtensionChrome.config.initGroups()">
+  <!-- NASTAVENI PRI VYBERU TEXTU -->
+  <prefpane id="aeTextSelectOption" label="&annotationextension.config.tab.aeTextSelectOption;"
+    image="chrome://annotationextension/skin/icons/edit.png">
     
-    <deck id="aeGroupDeck" selectedIndex="1" flex="1">
-      <vbox>
-        <tree id="aeGroupTree"
-          flex="1"
-          class="plain aeTree"
-          editable="true"
-          hidecolumnpicker="true"
-          seltype="single"
-          datasources="rdf:null" ref="chrome://annotationextension/groups"
-          ondblclick="annotationExtensionChrome.config.joinOrLeaveGroup()"
-          sort="chrome://annotationextension/rdf#name"
-          sortDirection="ascending">
-          
-          <treecols>
-            <treecol id="aeGroupCheckTreeCol" width="20" hideheader="true" editable="true" type="checkbox"/>
-            <treecol id="aeGroupNameTreeCol" flex="1" hideheader="true" sortActive="true" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
-            <treecol id="aeGroupURITreeCol" flex="1" hideheader="true"/>
-          </treecols>
-          
-          <template>
-            <rule>
-              <conditions>
-                <content uri="?groups"/>
-                <member container="?groups" child="?group"/>
-                <triple subject="?group"
-                        predicate="chrome://annotationextension/rdf#name"
-                        object="?name"/>
-                <triple subject="?group"
-                        predicate="chrome://annotationextension/rdf#logged"
-                        object="?logged"/>
-              </conditions>
-               
-              <action>
-                <treechildren>
-                 <treeitem uri="?group">
-                   <treerow>
-                     <treecell value="?logged" editable="false"/>
-                     <treecell label="?name" editable="false"/>
-                     <treecell label="?group" editable="false"/>
-                   </treerow>
-                 </treeitem>
-                </treechildren>
-              </action>
-            </rule>
-            
-          </template>
-        </tree>
-        
-        <hbox id="aeDefaultGroupAndSelectGroupBox" align="center" pack="center">
-          <label id="aeDefaultUserGroupLabel" value="&annotationextension.config.groups.defaultUserGroup;"
-             tooltiptext="&annotationextension.config.groups.defaultUserGroup.tooltip;"
-             control="aeDefaultUserGroupTextbox"/>
-          <textbox id="aeDefaultUserGroupTextbox"
-            readonly="true"/>
-          <button id="aeSelectDefaultGroupButton" label="&annotationextension.config.groups.selectDefaultButton.label;"
-            tooltiptext="&annotationextension.annotationWindow.chooseGroup.tooltip;"
-            oncommand='annotationExtensionChrome.config.selectDefaultGroup();'/>
-          <spacer flex="1"/>
-          <image id="aeJoinGroupButton" tooltiptext="&annotationextension.config.groups.join;"
-            onclick="annotationExtensionChrome.config.joinGroup();"/>
-          <image id="aeLeaveGroupButton" tooltiptext="&annotationextension.config.groups.leave;"
-            onclick="annotationExtensionChrome.config.leaveGroup();"/>
-        </hbox>
-      </vbox>
-      <vbox pack="center" align="center">
-        <label value="&annotationextension.config.notAvailable;"/>
-      </vbox>
-    </deck>
+    <preferences>           
+      <preference id="extensions.annotationextension.separateMode"
+        name="extensions.annotationextension.separateMode"
+        type="string" />
+    </preferences>
+    
+    <groupbox>
+      <caption label="&annotationextension.config.caption.separateMode;" />
+      <radiogroup orient="vertical"
+        id="extensions.annotationextension.separateMode-radiogroup"
+        preference="extensions.annotationextension.separateMode">
+
+        <radio label="&annotationextension.config.separate.noSepar;" value="nosepar" />
+        <radio label="&annotationextension.config.separate.newLine;" value="newline" />
+        <radio label="&annotationextension.config.separate.space;" value="space" />
+      </radiogroup>
+    </groupbox>
     
   </prefpane>
   
-  <!-- OSTATNI NASTAVENI SERVERU -->
-  <prefpane id="aeOtherOption" label="&annotationextension.config.tab.aeOtherOption;"
-    image="chrome://annotationextension/skin/icons/misc.png"
-    onpaneload="annotationExtensionChrome.config.initOtherOption()">
+  <!-- NASTAVENI ZOBRAZENI ANOTACI -->
+  <prefpane id="annotationPanelOption" label="&annotationextension.config.tab.annotationPanelOption;"
+    image="chrome://annotationextension/skin/icons/annotation.png"
+    onpaneload="annotationExtensionChrome.config.initAnnotation();">
+
+    <preferences>
+      <preference id="extensions.annotationextension.annotationPanel.showType"
+        name="extensions.annotationextension.annotationPanel.showType"
+        type="bool" />
+
+      <preference id="extensions.annotationextension.annotationPanel.showAuthor"
+        name="extensions.annotationextension.annotationPanel.showAuthor"
+        type="bool" />
+
+      <preference id="extensions.annotationextension.annotationPanel.showDate"
+        name="extensions.annotationextension.annotationPanel.showDate"
+        type="bool" />
+  
+      <preference id="extensions.annotationextension.annotationPanel.viewLevel"
+        name="extensions.annotationextension.annotationPanel.viewLevel"
+        type="int" />
+      
+      <preference id="extensions.annotationextension.annotationPanel.showViewLevel"
+        name="extensions.annotationextension.annotationPanel.showViewLevel"
+        type="int" />
+      
+      <preference id="extensions.annotationextension.annotationFragment.defaultBackground"
+        name="extensions.annotationextension.annotationFragment.defaultBackground"
+        type="string" />
+      
+      <preference id="extensions.annotationextension.annotationFragment.defaultFont"
+        name="extensions.annotationextension.annotationFragment.defaultFont"
+        type="string" />
+      
+    </preferences>
     
-    <deck id="aeSettingsDeck" selectedIndex="1" flex="1">
-      <vbox>        
-        <tree id="aeOtherOptionTree"
-          flex="1"
-          class="plain aeTree"
-          hidecolumnpicker="true"
-          seltype="single"
-          datasources="rdf:null" ref=""
-          onclick="annotationExtensionChrome.config.aeOtherOptionTreeSelected(event);"
-          sort="chrome://annotationextension/rdf#name"
-          sortDirection="ascending">
-          
-          <treecols>
-            <treecol id="aeOtherOptionNameTreeCol" flex="2" hideheader="true" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
-            <treecol id="aeOtherOptionColonTreeCol" hideheader="true"/>
-            <treecol id="aeOtherOptionValueTreeCol" flex="1" hideheader="true"/>
-          </treecols>
-          
-          <template>
-            <rule>
-              <conditions>
-                <content uri="?settings"/>
-                <member container="?settings" child="?setting"/>
-                <triple subject="?setting"
-                        predicate="chrome://annotationextension/rdf#name"
-                        object="?name"/>
-                <triple subject="?setting"
-                        predicate="chrome://annotationextension/rdf#value"
-                        object="?value"/>
-              </conditions>
-               
-              <action>
-                <treechildren>
-                 <treeitem uri="?setting">
-                   <treerow>
-                     <treecell label="?name"/>
-                     <treecell label="="/>
-                     <treecell label="?value"/>
-                   </treerow>
-                 </treeitem>
-                </treechildren>
-              </action>
-            </rule>
-            
-          </template>
-        </tree>
-        
-        <hbox>
-          <spacer flex="1"/>
-          <image id="aeAddNewConfig" tooltiptext="&annotationextension.config.others.add;"
-            onclick="annotationExtensionChrome.config.addNewConfig();"/>
-        </hbox>
-      </vbox>
-      <vbox pack="center" align="center">
-        <label value="&annotationextension.config.notAvailable;"/>
-      </vbox>
-    </deck>
-    
+    <groupbox align="start">
+      <caption label="&annotationextension.config.annotationPanelOption.caption.fragment;" />
+        <grid>
+          <columns>
+            <column/>
+            <column/>
+            <column/>
+          </columns>
+          <rows>
+            <row>
+              <label value="&annotationextension.config.annotationPanelOption.defaultBackground;"
+                control="aeannotationPanelOptionBackground"
+                tooltiptext="&annotationextension.config.annotationPanelOption.defaultBackground.tooltip;"/>
+              <textbox id="aeannotationPanelOptionBackground"
+                preference="extensions.annotationextension.annotationFragment.defaultBackground"/>
+              <colorpicker id="aeannotationPanelOptionBackgroundColorPicker"
+                type="button" onchange="annotationExtensionChrome.config.colorSelected(this.color, 'aeannotationPanelOptionBackground');"/>
+            </row>
+            <row>
+              <label value="&annotationextension.config.annotationPanelOption.defaultFont;"
+                control="aeannotationPanelOptionFont"
+                tooltiptext="&annotationextension.config.annotationPanelOption.defaultFont.tooltip;"/>
+              <textbox id="aeannotationPanelOptionFont"
+                preference="extensions.annotationextension.annotationFragment.defaultFont"/>
+              <colorpicker id="aeannotationPanelOptionFontColorPicker"
+                type="button" onchange="annotationExtensionChrome.config.colorSelected(this.color, 'aeannotationPanelOptionFont');"/>
+            </row>
+          </rows>
+        </grid>
+    </groupbox>
+
+    <groupbox align="start">
+      <caption label="&annotationextension.config.annotationPanelOption.caption.panel;" />
+      <checkbox label="&annotationextension.config.annotationPanelOption.showType;"
+        preference="extensions.annotationextension.annotationPanel.showType"/>
+      <checkbox label="&annotationextension.config.annotationPanelOption.showAuthor;"
+        preference="extensions.annotationextension.annotationPanel.showAuthor"/>
+      <checkbox label="&annotationextension.config.annotationPanelOption.showDate;"
+        preference="extensions.annotationextension.annotationPanel.showDate"/>
+      
+      <description>&annotationextension.config.annotationPanelOption.viewLevel;</description>
+      <textbox style="width: 4em;"
+              type="number"
+              decimalplaces="0"
+              increment="1"
+              min="0"
+              max="5"
+              preference="extensions.annotationextension.annotationPanel.viewLevel"/>
+      <description>&annotationextension.config.annotationPanelOption.showViewLevel;</description>
+      <textbox style="width: 4em;"
+              type="number"
+              decimalplaces="0"
+              increment="1"
+              min="0"
+              max="5"
+              preference="extensions.annotationextension.annotationPanel.showViewLevel"/>
+    </groupbox>
+
   </prefpane>
   
   <!-- NASTAVENI BAREV TYPU ANOTACI -->
@@ -362,6 +317,82 @@
             onclick="annotationExtensionChrome.config.addNewColor();"/>
         </hbox>
           
+      </vbox>
+      <vbox pack="center" align="center">
+        <label value="&annotationextension.config.notAvailable;"/>
+      </vbox>
+    </deck>
+    
+  </prefpane>
+  
+  <!-- NASTAVENI SKUPINY -->
+  <prefpane id="aeGroupOption" label="&annotationextension.config.tab.aeGroupOption;"
+    image="chrome://annotationextension/skin/icons/group.png"
+    onpaneload="annotationExtensionChrome.config.initGroups()">
+    
+    <deck id="aeGroupDeck" selectedIndex="1" flex="1">
+      <vbox>
+        <tree id="aeGroupTree"
+          flex="1"
+          class="plain aeTree"
+          editable="true"
+          hidecolumnpicker="true"
+          seltype="single"
+          datasources="rdf:null" ref="chrome://annotationextension/groups"
+          ondblclick="annotationExtensionChrome.config.joinOrLeaveGroup()"
+          sort="chrome://annotationextension/rdf#name"
+          sortDirection="ascending">
+          
+          <treecols>
+            <treecol id="aeGroupCheckTreeCol" width="20" hideheader="true" editable="true" type="checkbox"/>
+            <treecol id="aeGroupNameTreeCol" flex="1" hideheader="true" sortActive="true" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
+            <treecol id="aeGroupURITreeCol" flex="1" hideheader="true"/>
+          </treecols>
+          
+          <template>
+            <rule>
+              <conditions>
+                <content uri="?groups"/>
+                <member container="?groups" child="?group"/>
+                <triple subject="?group"
+                        predicate="chrome://annotationextension/rdf#name"
+                        object="?name"/>
+                <triple subject="?group"
+                        predicate="chrome://annotationextension/rdf#logged"
+                        object="?logged"/>
+              </conditions>
+               
+              <action>
+                <treechildren>
+                 <treeitem uri="?group">
+                   <treerow>
+                     <treecell value="?logged" editable="false"/>
+                     <treecell label="?name" editable="false"/>
+                     <treecell label="?group" editable="false"/>
+                   </treerow>
+                 </treeitem>
+                </treechildren>
+              </action>
+            </rule>
+            
+          </template>
+        </tree>
+        
+        <hbox id="aeDefaultGroupAndSelectGroupBox" align="center" pack="center">
+          <label id="aeDefaultUserGroupLabel" value="&annotationextension.config.groups.defaultUserGroup;"
+             tooltiptext="&annotationextension.config.groups.defaultUserGroup.tooltip;"
+             control="aeDefaultUserGroupTextbox"/>
+          <textbox id="aeDefaultUserGroupTextbox"
+            readonly="true"/>
+          <button id="aeSelectDefaultGroupButton" label="&annotationextension.config.groups.selectDefaultButton.label;"
+            tooltiptext="&annotationextension.annotationWindow.chooseGroup.tooltip;"
+            oncommand='annotationExtensionChrome.config.selectDefaultGroup();'/>
+          <spacer flex="1"/>
+          <image id="aeJoinGroupButton" tooltiptext="&annotationextension.config.groups.join;"
+            onclick="annotationExtensionChrome.config.joinGroup();"/>
+          <image id="aeLeaveGroupButton" tooltiptext="&annotationextension.config.groups.leave;"
+            onclick="annotationExtensionChrome.config.leaveGroup();"/>
+        </hbox>
       </vbox>
       <vbox pack="center" align="center">
         <label value="&annotationextension.config.notAvailable;"/>
@@ -483,102 +514,6 @@
     
   </prefpane>
   
-  <!-- NASTAVENI ZOBRAZENI ANOTACI -->
-  <prefpane id="annotationPanelOption" label="&annotationextension.config.tab.annotationPanelOption;"
-    image="chrome://annotationextension/skin/icons/annotation.png"
-    onpaneload="annotationExtensionChrome.config.initAnnotation();">
-
-    <preferences>
-      <preference id="extensions.annotationextension.annotationPanel.showType"
-        name="extensions.annotationextension.annotationPanel.showType"
-        type="bool" />
-
-      <preference id="extensions.annotationextension.annotationPanel.showAuthor"
-        name="extensions.annotationextension.annotationPanel.showAuthor"
-        type="bool" />
-
-      <preference id="extensions.annotationextension.annotationPanel.showDate"
-        name="extensions.annotationextension.annotationPanel.showDate"
-        type="bool" />
-  
-      <preference id="extensions.annotationextension.annotationPanel.viewLevel"
-        name="extensions.annotationextension.annotationPanel.viewLevel"
-        type="int" />
-      
-      <preference id="extensions.annotationextension.annotationPanel.showViewLevel"
-        name="extensions.annotationextension.annotationPanel.showViewLevel"
-        type="int" />
-      
-      <preference id="extensions.annotationextension.annotationFragment.defaultBackground"
-        name="extensions.annotationextension.annotationFragment.defaultBackground"
-        type="string" />
-      
-      <preference id="extensions.annotationextension.annotationFragment.defaultFont"
-        name="extensions.annotationextension.annotationFragment.defaultFont"
-        type="string" />
-      
-    </preferences>
-    
-    <groupbox align="start">
-      <caption label="&annotationextension.config.annotationPanelOption.caption.fragment;" />
-        <grid>
-          <columns>
-            <column/>
-            <column/>
-            <column/>
-          </columns>
-          <rows>
-            <row>
-              <label value="&annotationextension.config.annotationPanelOption.defaultBackground;"
-                control="aeannotationPanelOptionBackground"
-                tooltiptext="&annotationextension.config.annotationPanelOption.defaultBackground.tooltip;"/>
-              <textbox id="aeannotationPanelOptionBackground"
-                preference="extensions.annotationextension.annotationFragment.defaultBackground"/>
-              <colorpicker id="aeannotationPanelOptionBackgroundColorPicker"
-                type="button" onchange="annotationExtensionChrome.config.colorSelected(this.color, 'aeannotationPanelOptionBackground');"/>
-            </row>
-            <row>
-              <label value="&annotationextension.config.annotationPanelOption.defaultFont;"
-                control="aeannotationPanelOptionFont"
-                tooltiptext="&annotationextension.config.annotationPanelOption.defaultFont.tooltip;"/>
-              <textbox id="aeannotationPanelOptionFont"
-                preference="extensions.annotationextension.annotationFragment.defaultFont"/>
-              <colorpicker id="aeannotationPanelOptionFontColorPicker"
-                type="button" onchange="annotationExtensionChrome.config.colorSelected(this.color, 'aeannotationPanelOptionFont');"/>
-            </row>
-          </rows>
-        </grid>
-    </groupbox>
-
-    <groupbox align="start">
-      <caption label="&annotationextension.config.annotationPanelOption.caption.panel;" />
-      <checkbox label="&annotationextension.config.annotationPanelOption.showType;"
-        preference="extensions.annotationextension.annotationPanel.showType"/>
-      <checkbox label="&annotationextension.config.annotationPanelOption.showAuthor;"
-        preference="extensions.annotationextension.annotationPanel.showAuthor"/>
-      <checkbox label="&annotationextension.config.annotationPanelOption.showDate;"
-        preference="extensions.annotationextension.annotationPanel.showDate"/>
-      
-      <description>&annotationextension.config.annotationPanelOption.viewLevel;</description>
-      <textbox style="width: 4em;"
-              type="number"
-              decimalplaces="0"
-              increment="1"
-              min="0"
-              max="5"
-              preference="extensions.annotationextension.annotationPanel.viewLevel"/>
-      <description>&annotationextension.config.annotationPanelOption.showViewLevel;</description>
-      <textbox style="width: 4em;"
-              type="number"
-              decimalplaces="0"
-              increment="1"
-              min="0"
-              max="5"
-              preference="extensions.annotationextension.annotationPanel.showViewLevel"/>
-    </groupbox>
-
-  </prefpane>
-  
   <!-- NASTAVENI NABIDEK -->
   <prefpane id="annotationSuggestionOption" label="&annotationextension.config.tab.suggestionOption;"
     image="chrome://annotationextension/skin/icons/suggestion.png">
@@ -607,6 +542,71 @@
                max="100"
                preference="extensions.annotationextension.suggestion.confidenceNumber"/>
     </hbox>
+  </prefpane>
+  
+  <!-- OSTATNI NASTAVENI SERVERU -->
+  <prefpane id="aeOtherOption" label="&annotationextension.config.tab.aeOtherOption;"
+    image="chrome://annotationextension/skin/icons/misc.png"
+    onpaneload="annotationExtensionChrome.config.initOtherOption()">
+    
+    <deck id="aeSettingsDeck" selectedIndex="1" flex="1">
+      <vbox>        
+        <tree id="aeOtherOptionTree"
+          flex="1"
+          class="plain aeTree"
+          hidecolumnpicker="true"
+          seltype="single"
+          datasources="rdf:null" ref=""
+          onclick="annotationExtensionChrome.config.aeOtherOptionTreeSelected(event);"
+          sort="chrome://annotationextension/rdf#name"
+          sortDirection="ascending">
+          
+          <treecols>
+            <treecol id="aeOtherOptionNameTreeCol" flex="2" hideheader="true" sortDirection="ascending" sort="chrome://annotationextension/rdf#name"/>
+            <treecol id="aeOtherOptionColonTreeCol" hideheader="true"/>
+            <treecol id="aeOtherOptionValueTreeCol" flex="1" hideheader="true"/>
+          </treecols>
+          
+          <template>
+            <rule>
+              <conditions>
+                <content uri="?settings"/>
+                <member container="?settings" child="?setting"/>
+                <triple subject="?setting"
+                        predicate="chrome://annotationextension/rdf#name"
+                        object="?name"/>
+                <triple subject="?setting"
+                        predicate="chrome://annotationextension/rdf#value"
+                        object="?value"/>
+              </conditions>
+               
+              <action>
+                <treechildren>
+                 <treeitem uri="?setting">
+                   <treerow>
+                     <treecell label="?name"/>
+                     <treecell label="="/>
+                     <treecell label="?value"/>
+                   </treerow>
+                 </treeitem>
+                </treechildren>
+              </action>
+            </rule>
+            
+          </template>
+        </tree>
+        
+        <hbox>
+          <spacer flex="1"/>
+          <image id="aeAddNewConfig" tooltiptext="&annotationextension.config.others.add;"
+            onclick="annotationExtensionChrome.config.addNewConfig();"/>
+        </hbox>
+      </vbox>
+      <vbox pack="center" align="center">
+        <label value="&annotationextension.config.notAvailable;"/>
+      </vbox>
+    </deck>
+    
   </prefpane>
   
   <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/namespace.js" />

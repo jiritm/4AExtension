@@ -32,7 +32,10 @@ AnnotParser.prototype.parseSuggestionsResponse = function(annotationsNode)
     var $annotation_nodes = $root.find('>annotation');
     var annotations = [];
     var deleteSug = [];
-    var this_class = this;    
+    var lowConfideceSug = [];
+    var this_class = this;
+    
+    var userConfidenceNumber = annotationExtension.PREFERENCE.getIntPref("suggestion.confidenceNumber");
     
     //alert(annotationsNode.childNodes.length);
     for (var i = 0; i < annotationsNode.childNodes.length; i++)
@@ -44,12 +47,18 @@ AnnotParser.prototype.parseSuggestionsResponse = function(annotationsNode)
             var ser = new XMLSerializer();
             
             var $annotation_node = $(annotation_node);
+            
+            var tmpId = $annotation_node.attr("tmpId");
+            var confidence = $annotation_node.attr("confidence");
+            if (confidence < userConfidenceNumber)
+            {
+                lowConfideceSug.push(tmpId);
+                continue;
+            }
             //TODO: je tohle bezpecne?:
             var descriptionNode = annotation_node.childNodes[0];
             var annotationXML = ser.serializeToString(descriptionNode);
             //alert(annotationXML);
-            var tmpId = $annotation_node.attr("tmpId");
-            var confidence = $annotation_node.attr("confidence");
             
             var annot = this_class.parseNodeAnnotation(annotation_node, annotations, 0, annotationExtension.SUGGESTED_ANNOTATION + tmpId, null);
             annot.tmpId = tmpId;
@@ -68,6 +77,7 @@ AnnotParser.prototype.parseSuggestionsResponse = function(annotationsNode)
     
     annotChanges.suggestionsAdd = annotations;    
     annotChanges.suggestionsDelete = deleteSug;
+    annotChanges.suggestionsLowConfidence = lowConfideceSug;
 
     //annotChanges.alert();
     return annotChanges;
