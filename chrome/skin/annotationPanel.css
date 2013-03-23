@@ -1,0 +1,167 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+/* ::::: zobrazeni anotaci ::::: */
+
+.aeAnnotationPanelControlBox {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+/* INFO "BUTTON"*/
+.aeInfoButton {
+  margin: 3px 3px 3px 3px;
+  list-style-image: url("chrome://annotationextension/skin/icons/info16.png");
+}
+
+/* CLOSE "BUTTON" */
+.aeCloseAnnotationButton {
+  margin: 0 3px 0 0;
+  list-style-image: url("chrome://annotationextension/skin/icons/close16.png");
+}
+
+.aeCloseAnnotationButton:hover {
+  list-style-image: url("chrome://annotationextension/skin/icons/close16dark.png");
+}
+
+.aeCloseAnnotationButton:hover:active {
+  list-style-image: url("chrome://annotationextension/skin/icons/close16light.png");
+}
+
+/* DELETE "BUTTON" */
+.aeDeleteAnnotationButton {
+  margin: 0 3px 0 3px;
+  list-style-image: url("chrome://annotationextension/skin/icons/deleteAnnotation16.png");
+}
+
+.aeDeleteAnnotationButton:hover {
+  list-style-image: url("chrome://annotationextension/skin/icons/deleteAnnotation16dark.png");
+}
+
+.aeDeleteAnnotationButton:hover:active {
+  list-style-image: url("chrome://annotationextension/skin/icons/deleteAnnotation16light.png");
+}
+
+/* EDIT "BUTTON" */
+.aeEditAnnotationButton {
+  margin: 0 0 0 3px;
+  list-style-image: url("chrome://annotationextension/skin/icons/editAnnotation16.png");
+}
+
+.aeEditAnnotationButton:hover {
+  list-style-image: url("chrome://annotationextension/skin/icons/editAnnotation16dark.png");
+}
+
+.aeEditAnnotationButton:hover:active {
+  list-style-image: url("chrome://annotationextension/skin/icons/editAnnotation16light.png");
+}
+
+/* CHANGE COLOR "BUTTON" */
+.aeChangeAnnotationColorButton {
+  margin: 0 3px 0 0;
+  list-style-image: url("chrome://annotationextension/skin/icons/color16.png");
+}
+
+.aeChangeAnnotationColorButton:hover {
+  list-style-image: url("chrome://annotationextension/skin/icons/color16dark.png");
+}
+
+.aeChangeAnnotationColorButton:hover:active {
+  list-style-image: url("chrome://annotationextension/skin/icons/color16light.png");
+}
+
+/* BOX S POPISKEM, ZE SE JEDNA O NABIDNUTOU ANOTACI */
+.ap-suggestbox {
+  background-color: #fdfa80;
+  border-radius: 4px 4px 0px 0px; 
+  /*border: 1px solid #d2ef0c;*/
+}
+
+/* BOX S TLACITKEM PRO ULOZENI NABIDNUTE ANOTACE */
+.ap-confirmbuttonbox {
+  background-color: #fdfa80;
+  border-radius: 0px 0px 4px 4px; 
+  /*border: 1px solid #d2ef0c;*/
+}
+
+.aeAnnotationView-suggestion {
+  border-radius: 4px 4px 4px 4px; 
+  border: 3px solid #d2ef0c;
+}
+
+/* Panely anotaci v bocnim panelu */
+.annotExtSidebarPanel {
+  border : 2px solid #FFFFFF;
+  margin : 3px;
+  padding : 3px;
+  background-color: #DDDDDD;
+  border-radius: 4px 4px 4px 4px;
+}
+
+.annotExtSidebarPanel:hover {
+  background-color: #AAAAAA;
+}
+
+/** TOGGLE ANNOT BUTTON **/
+.aeSmallImageButton {
+  width: 14px;
+  height: 14px;
+  -moz-box-align: center;
+  -moz-box-pack: center;
+  border-radius: 3px;
+  /*box-shadow:  0px 1px 1px rgba(255, 255, 255, 0.2) inset, 0px 1px 3px rgba(0, 0, 0, 0.5);*/
+  background: rgb(107, 107, 107);
+}
+
+.aeSmallImageButton:hover {
+  background: rgb(65, 65, 65);
+}
+
+.aeSmallImageButton[disabled="true"] {
+  background: rgb(191, 191, 191);
+}
+
+.aeToggleAnnotationButtonDown, .aeToggleAnnotationButtonUp {
+  margin: 0 2px 0 0;
+}
+
+.aeToggleAnnotationButton2Down, .aeToggleAnnotationButton2Up {
+  margin: 0 3px 0 0;
+}
+
+.aeToggleAnnotationButtonDown > image {
+  list-style-image: url("chrome://annotationextension/skin/icons/arrowDown8.png");
+}
+
+.aeToggleAnnotationButtonUp > image {
+  list-style-image: url("chrome://annotationextension/skin/icons/arrowUp8.png");
+}
+
+.aeToggleAnnotationButton2Down > image {
+  list-style-image: url("chrome://annotationextension/skin/icons/arrow2Down8.png");
+}
+
+.aeToggleAnnotationButton2Up > image {
+  list-style-image: url("chrome://annotationextension/skin/icons/arrow2Up8.png");
+}
+
+.aeAnnotationViewNested {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.aeAnnotationContent {
+  white-space: pre;
+}
+
+.aeAnnotationPanelAttributeImage {
+  margin-right: 3px;
+}
+
+.aeAnnotationSidebarPanel {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-left: 1px;
+  margin-right: 1px;
+  border: 3px solid #202020;
+  border-radius: 3px;
+}

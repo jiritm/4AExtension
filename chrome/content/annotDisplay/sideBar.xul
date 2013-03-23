@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!--
- - Soubor: browserOverlay.xul
+ - Soubor: sidebar.xul
  -  Autor: Jiri Trhlik
  -  Datum: 5.6.2012
  -  Popis: Pridava uzivatelske rozhrani bocniho panelu.
@@ -16,13 +16,11 @@
 
 <page id="aeDocumentAnnotationSB" title="&openDocumentAnnotationsSideBar.title;"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-         onload="annotationExtensionChrome.sideBar.init();">
+         onload="init();">
   
   <script type="application/javascript" src="chrome://annotationextension/content/jquery-1.5.js"/>
-  
-  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/namespace.js"/>
-  <script type="application/x-javascript" src="chrome://annotationextension/content/annotDisplay/sideBar.js"/>
-  <script type="application/x-javascript" src="chrome://annotationextension/content/annotDisplay/panelsDocumentAnnotations.js" />
+
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotDisplay/sidebar.js"/>
 
   <vbox flex="1" id="aeDocumentAnnotationsBox" style="overflow-y:scroll"> 
   </vbox>

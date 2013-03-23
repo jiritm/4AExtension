@@ -3,6 +3,8 @@
 <!ENTITY annotationextension.Toolbar.tooltiptext  "Open Annotation Window">
 <!ENTITY annotationextension.aeSelectedText.selectedText.wholeDocument  "Whole document annotation...">
 
+<!ENTITY annotationextension.documentAnnotations.title    "Document Annotations">
+
 <!ENTITY annotationextension.Window.title                 "4A Extension">
 <!ENTITY annotationextension.Window.close                 "Close">
 <!ENTITY annotationextension.Window.annotateDocument      "Document Annotation">
@@ -76,7 +78,7 @@
 <!ENTITY annotationextension.config.groups.selectDefaultButton.label  "Select">
 
 <!ENTITY annotationextension.config.tab.aeOtherOption       "Other">
-<!ENTITY annotationextension.config.tab.aeColorsOption      "Colors of Annotations">
+<!ENTITY annotationextension.config.tab.aeColorsOption      "Colors">
 <!ENTITY annotationextension.config.others.add              "Add New Setting">
 <!ENTITY annotationextension.config.colors.add              "Add New Color">
 
@@ -88,6 +90,25 @@
 <!ENTITY annotationextension.config.subscriptions.typeCol.label       "Type">
 <!ENTITY annotationextension.config.subscriptions.saveSubscriptions.label              "Save current subscriptions">
 <!ENTITY annotationextension.config.subscriptions.loadDefaultSubscriptions.label       "Load default subsriptions">
+
+<!ENTITY annotationextension.config.tab.annotationPanelOption            "Annotation">
+<!ENTITY annotationextension.config.annotationPanelOption.caption.panel  "Annotation panel">
+<!ENTITY annotationextension.config.annotationPanelOption.showType       "Show type">
+<!ENTITY annotationextension.config.annotationPanelOption.showAuthor     "Show author">
+<!ENTITY annotationextension.config.annotationPanelOption.showDate       "Show date of creation">
+<!ENTITY annotationextension.config.annotationPanelOption.viewLevel      "Maximum depth of nested annotation, which is loaded into the panel of the root annotation:">
+<!ENTITY annotationextension.config.annotationPanelOption.showViewLevel  "Maximum depth of nested annotation, which will have displayed attributes by default:">
+<!ENTITY annotationextension.config.annotationPanelOption.caption.fragment           "Default color of an annotation fragment">
+<!ENTITY annotationextension.config.annotationPanelOption.defaultBackground          "Background:">
+<!ENTITY annotationextension.config.annotationPanelOption.defaultBackground.tooltip  "If an annotation type has no background color set, use this color instead.">
+<!ENTITY annotationextension.config.annotationPanelOption.defaultFont                "Font:">
+<!ENTITY annotationextension.config.annotationPanelOption.defaultFont.tooltip        "If an annotation type has no font color set, use this color instead. If the field remains blank, the font color will match the color of the font of the document.">
+
+
+<!ENTITY annotationextension.config.tab.suggestionOption        "Suggestion">
+<!ENTITY annotationextension.config.suggestion.confidence.label "Suggestion confidence:">
+<!ENTITY annotationextension.config.suggestion.confidence.text  "Suggestion confidence is a number in percents. Every suggest annotation contains a value in percent reflecting the level of confidence that suggestion is right. If this value of any of suggest annotation is lower than choosen suggestion confidence, client will drop this annotation.">
+
 
 <!ENTITY annotationextension.typesWindow.title                     "Type Select">
 <!ENTITY annotationextension.typesWindow.selectButton.label        "Select">
@@ -152,15 +173,17 @@
 <!ENTITY annotationextension.addSettingsDialog.name          "Name:">
 <!ENTITY annotationextension.addSettingsDialog.value         "New Value:">
 
-<!ENTITY annotationextension.addColorDialog.title         "Add New Color of Annotation">
-<!ENTITY annotationextension.addColorDialog.type          "Type Name:">
-<!ENTITY annotationextension.addColorDialog.color         "Color:">
+<!ENTITY annotationextension.addColorDialog.title            "Add New Color of Annotation">
+<!ENTITY annotationextension.addColorDialog.type             "Type Name:">
+<!ENTITY annotationextension.addColorDialog.backgroundColor  "Background Color:">
+<!ENTITY annotationextension.addColorDialog.fontColor        "Font Color:">
 
 <!ENTITY annotationextension.editSettingsDialog.title     "Edit Setting">
 <!ENTITY annotationextension.editSettingsDialog.newValue  "New Value:">
 
-<!ENTITY annotationextension.editColorDialog.title     "Change Color">
-<!ENTITY annotationextension.editColorDialog.newColor  "New Color:">
+<!ENTITY annotationextension.editColorDialog.title               "Change Color">
+<!ENTITY annotationextension.editColorDialog.newBackgroundColor  "New Background Color:">
+<!ENTITY annotationextension.editColorDialog.newFontColor        "New Font Color:">
 
 <!ENTITY annotationextension.addSubscriptionDialog.title         "Add new subscription">
 <!ENTITY annotationextension.addSubscriptionDialog.type          "Type">

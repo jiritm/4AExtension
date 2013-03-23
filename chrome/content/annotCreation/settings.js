@@ -17,7 +17,7 @@ annotationExtensionChrome.settings =
   {
     annotationExtensionChrome.groupsDatasource = new annotationExtensionChrome.Datasource('groups', [{ type : 'annotGroup', props : ['name', 'logged']}]);
 		annotationExtensionChrome.usersDatasource = new annotationExtensionChrome.Datasource('users', [{ type : 'user', props : ['name', 'email', 'login']}]);
-    annotationExtensionChrome.colorsDatasource = new annotationExtensionChrome.Datasource('colors', [{ type : 'annotColor', props : ['name', 'value']}]);
+    annotationExtensionChrome.colorsDatasource = new annotationExtensionChrome.Datasource('colors', [{ type : 'annotColor', props : ['name', 'backgroundColor', 'fontColor']}]);
     annotationExtensionChrome.otherSettingsDatasource = new annotationExtensionChrome.Datasource('settings', [{ type : 'annotSetting', props : ['name', 'value']}]); 
 		annotationExtensionChrome.subscriptionsDatasource = new annotationExtensionChrome.Datasource('subscriptions', [{ type : 'subscription', props : ['type', 'list', 'user', 'subsURI', 'saved', 'serializedType', 'serializedSubsURI', 'serializedUser']}]);
 		//Je pouzito k udrzeni spravneho nastaveni (pokud se smaze subscription a pote se odesle nastaveni bez ulozeni aktualniho seznamu subscriptions)
@@ -64,10 +64,26 @@ annotationExtensionChrome.settings =
       }
       else if (name.match(annotationExtension.TYPECOLOROPTION))
       {//...jedna se o barvu typu anotace (anotacniho doplnku pro firefox)...
-        var newColorSetting = {
+				var colors = value.split(";");
+				var backgroundColor = colors[0];
+
+				if (colors.length > 1) {
+					var fontColor = colors[1];
+				}
+				else
+					var fontColor = "";
+					
+				if (fontColor == "" || fontColor.match(/^\s*$/g))
+					fontColor = annotationExtension.SETTING_NOT_SET;
+				if (backgroundColor == "" || fontColor.match(/^\s*$/g))
+					backgroundColor = annotationExtension.SETTING_NOT_SET;
+        
+				var newColorSetting = {
                                 uri : 'annotationExtension://' + name.slice(annotationExtension.TYPECOLOROPTION.length),
                                 name : name.slice(annotationExtension.TYPECOLOROPTION.length),
-                                value : value};
+                                backgroundColor : backgroundColor,
+																fontColor : fontColor};
+																
         annotationExtensionChrome.colorsDatasource.addNewObject(newColorSetting);
       }
 			else if (name.match(annotationExtension.SUBSCRIPTIONOPTION))
@@ -108,6 +124,47 @@ annotationExtensionChrome.settings =
         getService(Components.interfaces.nsIObserverService);
     observerService.notifyObservers(null, "annotationextension-settingsChange-topic", "all");
   },
+	
+	/**
+	 * Nastavi typu novou barvu, pokud typ ma nastavenou barvu, zmeni ji.
+	 * @param {String} typeURI, uri typu, kteremu se ma nastavit barva
+	 */
+	setTypeColor : function(typeURI)
+	{
+		var linType = annotationExtension.functions.linearTypeURI(typeURI);
+		var colorURI = 'annotationExtension://' + linType;
+		var oldBackgroundColor = annotationExtensionChrome.colorsDatasource.getResourceProp(colorURI, 'backgroundColor');
+		var oldFontColor = annotationExtensionChrome.colorsDatasource.getResourceProp(colorURI, 'fontColor');
+		
+		var params = {out:null, settValue:{oldBackgroundColor : oldBackgroundColor, oldFontColor : oldFontColor}};
+    window.openDialog("chrome://annotationextension/content/dialogs/editColorDialog.xul", "annotationextension:changeColorWindow", "chrome,centerscreen,modal", params).focus();  
+      
+    if (params.out)
+    {//Pridano nove nastaveni
+			if (oldBackgroundColor)
+			{
+				if (params.out.backgroundColor != null && params.out.fontColor != null
+						&& (params.out.backgroundColor != oldBackgroundColor || params.out.fontColor != oldFontColor))
+				{
+					annotationExtensionChrome.colorsDatasource.changeResourceProp(colorURI, 'backgroundColor', params.out.backgroundColor);
+					annotationExtensionChrome.colorsDatasource.changeResourceProp(colorURI, 'fontColor', params.out.fontColor);
+					annotationExtensionChrome.client.sendSettings();
+				}
+			}
+			else
+			{
+				if (params.out.backgroundColor != null && params.out.fontColor != null)
+				{				
+					var newColor = { uri : colorURI,
+													 name : linType,
+													 backgroundColor : params.out.backgroundColor,
+													 fontColor : params.out.fontColor}
+					annotationExtensionChrome.colorsDatasource.addNewObject(newColor);
+					annotationExtensionChrome.client.sendSettings();
+				}
+			}
+    }
+	},
   
   /**
    * Vytvori z nastaveni XML zpravu, ktera se muze odeslat na server
@@ -170,16 +227,32 @@ annotationExtensionChrome.settings =
       return "";
     
     theSectionContainer.Init(datasource, theSectionHeading);
+		
+		var defaultTypeName = settingsDatasource.defaultType;
+		var props = settingsDatasource.types[defaultTypeName];
     
-    var childElems = theSectionContainer.GetElements();
-    
+		var childElems = theSectionContainer.GetElements();
     while(childElems.hasMoreElements())
     {
       var child = childElems.getNext();
       child.QueryInterface(Components.interfaces.nsIRDFResource);
 
-      var settingName = settingsDatasource.getResourceProp(child.ValueUTF8, 'name');
-      var settingValue = settingsDatasource.getResourceProp(child.ValueUTF8, 'value');
+			var settingName = settingsDatasource.getResourceProp(child.ValueUTF8, 'name');
+			
+			var settingValue = "";
+			for (var i = 1; i < props.length; ++i)
+			{// na indexu 0 je jmeno
+				var prop = props[i];
+				if (prop == 'name')
+					continue;
+				
+				if (i != 1)
+					settingValue += ';';
+				
+				var propValue = settingsDatasource.getResourceProp(child.ValueUTF8, prop);
+				if (propValue != annotationExtension.SETTING_NOT_SET)
+					settingValue += propValue;
+			}
       
       XMLString += '<param name="'+settingPrefix+settingName+'" value="'+settingValue+'"/>';
     }
@@ -627,7 +700,25 @@ annotationExtensionChrome.settings =
 		annotationExtensionChrome.usersDatasource.deleteAll();
 		annotationExtensionChrome.subscriptionsDatasource.deleteAll();
 		annotationExtensionChrome.deletedAndSavedSubscriptionsDatasource.deleteAll();
-  }  
+  },
+	
+	/**
+	 * Prida jmeno serveru, ke kteremu je uzivatel prave prihlasen
+	 * do historie.
+	 */
+	addServerAddressToHistory : function()
+	{
+		let application = Cc["@mozilla.org/fuel/application;1"].getService(Ci.fuelIApplication);
+    let serverAddress = application.prefs.get("extensions.annotationextension.server.serverAddress").value;
+			
+		let formHistory = Components.classes["@mozilla.org/satchel/form-history;1"]
+			.getService(Components.interfaces.nsIFormHistory2 || Components.interfaces.nsIFormHistory);
+		
+		if (!formHistory.entryExists("annotationextensionserver-form-history", serverAddress))
+		{
+			formHistory.addEntry("annotationextensionserver-form-history", serverAddress); 
+		}
+	}
 };
 
 (function() { this.init(); }).apply(annotationExtensionChrome.settings);

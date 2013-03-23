@@ -89,7 +89,6 @@ annotationExtensionChrome.attributes =
         true);
   },
   
-  
   /**
    * Prida atribut, pomocna funkce pro addAttributeToRoot a addAttributeToAttr
    * @param {Object} attr, to co vrati addAttributeWindow.xul
@@ -100,7 +99,6 @@ annotationExtensionChrome.attributes =
    */
   addAttribute : function(aAttr, firstResourceURIInAttrRDF, typeURIInTypeAttrRDF, selectionURIInAttrTreeRDF, isNested)
   {
-    try{
     var attrName = aAttr.attrName;
     var typeURI = aAttr.typeURI;
     var def = aAttr.isDef;
@@ -140,10 +138,6 @@ annotationExtensionChrome.attributes =
       this.selectedAttrUIID = "";
       attrSelection.selectEventsSuppressed = true;
       attrSelection.selectEventsSuppressed = false;
-    }
-    }catch(ex)
-    {
-      alert(ex.message);
     }
   },
   
@@ -389,6 +383,8 @@ annotationExtensionChrome.attributes =
       var attrUITypebox = document.getElementById(uiID+'-typeBox-'+this.getCurrentTabID());
       if (attrUITypebox != null)
       {//ATRIBUT MA ZOBRAZENE(VYTVORENE) UI, ZMEN HO
+        
+        //Nastaveni typu do textboxu
         var name = this.getTypeStringToTextbox(type);
         attrUITypebox.aeSetType(type, name);
 
@@ -398,9 +394,9 @@ annotationExtensionChrome.attributes =
         var firstRow = document.getElementById(uiID + '-row1-'+this.getCurrentTabID());
         var secondRow = document.getElementById(uiID + '-row2-'+this.getCurrentTabID());
         
-        var nestedAnnotObj = annotationExtensionChrome.bottomAnnotationWindow.getCurrentTab().getNestedAnnotation(uri);
         var attrIsALink = this.attributeIsALink(uri);
-        if (nestedAnnotObj != null && !attrIsALink && !annotationExtension.attrConstants.isSimple(type))
+        
+        if (!attrIsALink && !annotationExtension.attrConstants.isSimple(type))
         {//Pokud se zmenil typ vnorene anotace na jiny typ vnorene anotace, ponechej v UI atributu ulozene hodnoty
           this.deleteNotFilledAttrs(uri);
           this.setNotDefaultToAttrs(uri);
@@ -1759,10 +1755,11 @@ annotationExtensionChrome.attributes =
   },
   
   /**
-   * Pripoji atribut do stromu atributu, ke vsem atributum daneho typu, rekurzivni fce
-   * @param {string} type, typ anotace ke kteremu se pripoji novy atribut
-   * @param {objekt ktery obsahuje name, req a type noveho atributu} attr, novy atribut
+   * Pripoji atribut do stromu atributu - ke vsem atributum daneho typu, rekurzivni fce
+   * @param {string} type, typ anotace ke kteremu se ma pripojit novy atribut
+   * @param {objekt ktery minimalne obsahuje name, req a type noveho atributu} attr, novy atribut
    * @param {startURI} pri volani funkce se nastavi na root element stromu atributu
+   * 
    */
   addAtributeToTypeRecursive : function(type, attr, startURI)
   {
@@ -1772,12 +1769,9 @@ annotationExtensionChrome.attributes =
       if (datasource == null)
         return;
 
-      var rdfService = Components.classes["@mozilla.org/rdf/rdf-service;1"].
-        getService(Components.interfaces.nsIRDFService);
-      var theSectionContainer = Components.classes["@mozilla.org/rdf/container;1"].
-        createInstance(Components.interfaces.nsIRDFContainer);
-      var containerTools = Components.classes["@mozilla.org/rdf/container-utils;1"].
-        getService(Components.interfaces.nsIRDFContainerUtils);
+      var rdfService = Components.classes["@mozilla.org/rdf/rdf-service;1"].getService(Components.interfaces.nsIRDFService);
+      var theSectionContainer = Components.classes["@mozilla.org/rdf/container;1"].createInstance(Components.interfaces.nsIRDFContainer);
+      var containerTools = Components.classes["@mozilla.org/rdf/container-utils;1"].getService(Components.interfaces.nsIRDFContainerUtils);
 
       //Kontejner   
       var theSectionHeading = rdfService.GetResource(startURI);
@@ -1788,20 +1782,19 @@ annotationExtensionChrome.attributes =
         
       theSectionContainer.Init(datasource, theSectionHeading);
      
-      if (!this.attributeIsEdited(startURI))
-      {//TODO: DOPLNENA TATO PODMINKA KVULI EDITACI V BUDOUCNU SE BUDE MUSET FUNKCE UPRAVIT?
-        if(!this.hasChildElements(startURI) && startURI != (annotationExtensionChrome.attrDatasource.baseURI + annotationExtensionChrome.attrDatasource.rootName))
-          return;
-      }
+      if(!this.hasChildElements(startURI) && startURI != (annotationExtensionChrome.attrDatasource.baseURI + annotationExtensionChrome.attrDatasource.rootName))
+        return;
 
-      var checkStart = false;
       if(startURI == (annotationExtensionChrome.attrDatasource.baseURI + annotationExtensionChrome.attrDatasource.rootName))
       {//startURI je kořenový kontejner
         var typePar = annotationExtensionChrome.bottomAnnotationWindow.selectedTypeURI;
-        checkStart = true;
+      }
+      else
+      {
+        var typePar = annotationExtensionChrome.attrDatasource.getResourceProp(startURI, 'type'); 
       }
 
-      if (!checkStart || (checkStart == true && typePar == type))
+      if (typePar == type)
       {//checkStart je true ve chvili kdy se pridava "korenovy" atribut, potom se prida pouze pokud parametr type odpovida vybranemu typu anotace 
         //Pripojeni atributu
         var ancestor = startURI;
@@ -1819,19 +1812,15 @@ annotationExtensionChrome.attributes =
       {
         var attributeElem = attributeElems.getNext();
         attributeElem.QueryInterface(Components.interfaces.nsIRDFResource);
-
-        var typeP = annotationExtensionChrome.attrDatasource.getResourceProp(attributeElem, 'type');       
-        
-        if (typeP == null || typeP != type || this.attributeIsALink(attributeElem))
-          continue;
         
         this.addAtributeToTypeRecursive(type, attr, attributeElem.ValueUTF8);
       }
            
-      if (!checkStart || (checkStart == true && typePar == type))
+      if (typePar == type)
+      {
         //Nastaveni typu atributu - na konci - kvuli zacykleni
         this.setTypeToAttribute(attr.type, newAttr.uri, false, false);
-
+      }
     }
     catch(ex)
     {
@@ -2021,6 +2010,15 @@ annotationExtensionChrome.attributes =
         annotationExtensionChrome.attrDatasource.deleteObject(id,attrParentURI);
         /*****************************************************************************************************/
         
+        //Nefunguje dobre:(
+        /*if (def)
+        {//Musi se provest po smazani atributu - obcas se atribut nesmazal ze stromu
+          this.setDefaultToAttrsInType(annotationExtensionChrome.attrDatasource.baseURI + annotationExtensionChrome.attrDatasource.rootName,
+                                          typeURIwhichHasAttribute,
+                                          attrName,
+                                          false);
+        }*/
+        
         //Smazani UI a celeho podstromu UI
         this.deleteAttrInterface(id);
         this.deleteAttrInterfaceChilds(id);      
@@ -2039,6 +2037,7 @@ annotationExtensionChrome.attributes =
   {
     var typeURIwhichHasAttribute = this.getTypeURIinWhichIsSelectedAttribute();
     var attrParentURI = this.getParentURIOfSelectedAttribute();
+    var selectedAttrID = this.selectedAttrUIID;
     
     if (typeURIwhichHasAttribute != null && attrParentURI != null)
     {       
@@ -2049,34 +2048,50 @@ annotationExtensionChrome.attributes =
       attrTree.view.selection.clearSelection();
       
       /*****Zmena v ds typeAttr a attr**************************************/
-      var attrUriInTypeAttr = annotationExtensionChrome.attrDatasource.getResourceProp(this.selectedAttrUIID, 'attrTypeURI');
-      var attrName = annotationExtensionChrome.attrDatasource.getResourceProp(this.selectedAttrUIID, 'name');
+      var attrUriInTypeAttr = annotationExtensionChrome.attrDatasource.getResourceProp(selectedAttrID, 'attrTypeURI');
+      var attrName = annotationExtensionChrome.attrDatasource.getResourceProp(selectedAttrID, 'name');
       
       //////////////////////////////////////////////////////////////////////////
       //////////////////////////////////////////////////////////////////////////
       try
       {
-        if ((!this.attributeIsDefault(this.selectedAttrUIID) || attrUriInTypeAttr == "" || attrUriInTypeAttr == null)
+        if ((!this.attributeIsDefault(selectedAttrID) || attrUriInTypeAttr == "" || attrUriInTypeAttr == null)
              && isDefault == true)
         //ZMENA DEFAULT PARAMETRU Z FALSE -> TRUE
         {//Atribut neni ulozen v typeAttr datasource
           var typeUriOfAttr = this.getTypeURIinWhichIsSelectedAttribute();
           var attrUriInTypeAttr = typeUriOfAttr + '/' + attrName;
         
-          var attrToType = { name : annotationExtensionChrome.attrDatasource.getResourceProp(this.selectedAttrUIID, 'name'),
-                             req : annotationExtensionChrome.attrDatasource.getResourceProp(this.selectedAttrUIID, 'req'),
-                             def : annotationExtensionChrome.attrDatasource.getResourceProp(this.selectedAttrUIID, 'def'),
-                             type : annotationExtensionChrome.attrDatasource.getResourceProp(this.selectedAttrUIID, 'type'),
+          var attrToType = { name : annotationExtensionChrome.attrDatasource.getResourceProp(selectedAttrID, 'name'),
+                             req : annotationExtensionChrome.attrDatasource.getResourceProp(selectedAttrID, 'req'),
+                             def : annotationExtensionChrome.attrDatasource.getResourceProp(selectedAttrID, 'def'),
+                             type : annotationExtensionChrome.attrDatasource.getResourceProp(selectedAttrID, 'type'),
                              uri : attrUriInTypeAttr,
                              ancestor : typeUriOfAttr,
-                             struct : annotationExtensionChrome.attrDatasource.getResourceProp(this.selectedAttrUIID, 'struct'),
-                             comment : annotationExtensionChrome.attrDatasource.getResourceProp(this.selectedAttrUIID, 'comment')}
+                             struct : annotationExtensionChrome.attrDatasource.getResourceProp(selectedAttrID, 'struct'),
+                             comment : annotationExtensionChrome.attrDatasource.getResourceProp(selectedAttrID, 'comment')}
          
           annotationExtensionChrome.typeAttrDatasource.addNewObject(attrToType);
           //Aktualizace atributu ve stromu atributu - navazani na atribut v sablone atributu
-          annotationExtensionChrome.attrDatasource.changeResourceProp(this.selectedAttrUIID, 'attrTypeURI', attrUriInTypeAttr);
+          annotationExtensionChrome.attrDatasource.changeResourceProp(selectedAttrID, 'attrTypeURI', attrUriInTypeAttr);
+       
+          var attr = {
+            name : attrName,
+            req : false,
+            type : annotationExtensionChrome.attrDatasource.getResourceProp(selectedAttrID, 'type'),
+            def : true,
+            struct : annotationExtensionChrome.attrDatasource.getResourceProp(selectedAttrID, 'struct'),
+            attrTypeURI : attrUriInTypeAttr,
+            edited : "",
+            aLink : "",
+            comment : ""};
           
+          //Neni potreba volat, default se nastavi diky funkci addAtributeToTypeRecursive()
+          //annotationExtensionChrome.attrDatasource.changeResourceProp(selectedAttrID, 'def', isDefault);
           
+          this.addAtributeToTypeRecursive(typeURIwhichHasAttribute,
+                                attr,
+                                annotationExtensionChrome.attrDatasource.baseURI + annotationExtensionChrome.attrDatasource.rootName);
         }
       }
       catch(ex)
@@ -2085,12 +2100,7 @@ annotationExtensionChrome.attributes =
       }
       //////////////////////////////////////////////////////////////////////////
       //////////////////////////////////////////////////////////////////////////
-    
       annotationExtensionChrome.typeAttrDatasource.changeResourceProp(attrUriInTypeAttr, 'def', isDefault);
-      annotationExtensionChrome.attrDatasource.changeResourceProp(this.selectedAttrUIID, 'def', isDefault);
-      /*******************************************************************/
-      
-      attrTree.view.selection.select(savedSelection);
     }
   },
   
@@ -2112,8 +2122,16 @@ annotationExtensionChrome.attributes =
       /*****Zmena v ds typeAttr a attr**************************************/
       var attrTypeURI = annotationExtensionChrome.attrDatasource.getResourceProp(this.selectedAttrUIID, 'attrTypeURI');
       annotationExtensionChrome.typeAttrDatasource.changeResourceProp(attrTypeURI, 'req', isRequired);
+      //Neni potreba nastavovat, nastavi se v rekurzivni funkci setRequiredToAttrsInType
       annotationExtensionChrome.attrDatasource.changeResourceProp(this.selectedAttrUIID, 'req', isRequired);
       /*******************************************************************/
+      
+      //Nefunguje dobre:(
+      /*var attrName = annotationExtensionChrome.attrDatasource.getResourceProp(this.selectedAttrUIID, 'name');
+      this.setRequiredToAttrsInType(annotationExtensionChrome.attrDatasource.baseURI + annotationExtensionChrome.attrDatasource.rootName,
+                                    typeURIwhichHasAttribute,
+                                    attrName,
+                                    isRequired);*/
   
       attrTree.view.selection.select(savedSelection);
     }
@@ -2717,7 +2735,7 @@ annotationExtensionChrome.attributes =
   /**
    * Smaze ze stromu atributu nevyplnene atributy
    * Smaze atribut i pokud ma atribut vyplneneho potomka a sam je nevyplneny
-   * @param {String} aParentURI rodice, od ktereho se maji atributy zkontrolovat a smazat
+   * @param {String} aParentURI rodic, od ktereho se maji atributy zkontrolovat a smazat
    * @returns {Bool} aKeepAllNonDefault, pokud je true nevyplnene NEdefaultni atributy se nesmazou
    *                                    defaultne false
    */
@@ -2768,7 +2786,7 @@ annotationExtensionChrome.attributes =
   },
   
   /**
-   * Zrusi vsem atributum ve stromu atributu defaultni hodnotu
+   * Zrusi vsem atributum, ktere jsou v aParentURI atributu, defaultni hodnotu
    * @param {String} aParentURI rodice, od ktereho se maji atributy zkontrolovat
    */
   setNotDefaultToAttrs : function(aParentURI)
@@ -2777,12 +2795,9 @@ annotationExtensionChrome.attributes =
     if (datasource == null)
       return;
     
-    var rdfService = Components.classes["@mozilla.org/rdf/rdf-service;1"].
-      getService(Components.interfaces.nsIRDFService);
-    var theSectionContainer = Components.classes["@mozilla.org/rdf/container;1"].
-      createInstance(Components.interfaces.nsIRDFContainer);
-    var containerTools = Components.classes["@mozilla.org/rdf/container-utils;1"].
-      getService(Components.interfaces.nsIRDFContainerUtils);
+    var rdfService = Components.classes["@mozilla.org/rdf/rdf-service;1"].getService(Components.interfaces.nsIRDFService);
+    var theSectionContainer = Components.classes["@mozilla.org/rdf/container;1"].createInstance(Components.interfaces.nsIRDFContainer);
+    var containerTools = Components.classes["@mozilla.org/rdf/container-utils;1"].getService(Components.interfaces.nsIRDFContainerUtils);
      
     //Kontejner   
     var theSectionHeading = rdfService.GetResource(aParentURI);
@@ -2799,7 +2814,126 @@ annotationExtensionChrome.attributes =
       var child = childElems.getNext();
       child.QueryInterface(Components.interfaces.nsIRDFResource);
       annotationExtensionChrome.attrDatasource.changeResourceProp(child, 'def', 'false');
-      this.setNotDefaultToAttrs(child.ValueUTF8);
+      annotationExtensionChrome.attrDatasource.changeResourceProp(child, 'req', 'false');
+    }
+  },
+  
+  /**
+   * Zrusi defaultni polozku vsem atributum se jmenem aAttrName, ktere jsou defaultni v typu aTypeURI
+   * @param {String} aStartURI, odkud se ma v attrDatasource zacit (nastavi se jako
+   *                 annotationExtensionChrome.attrDatasource.baseURI + annotationExtensionChrome.attrDatasource.rootName,
+   *                 pro prulez celym stromem atributu)
+   * @param {String} aTypeURI, typ u ktereho se ma nalezt atribut aAttrName
+   * @param {String} aAttrName, jmeno atributu, kteremu se ma zrusit defaultni polozka
+   * @param {Bool} aSetDefault, true - nastav atributy jako defaultni
+   *                             false - zrus atributum defaultni polozku
+   */
+  setDefaultToAttrsInType : function(aStartURI, aTypeURI, aAttrName, aSetDefault)
+  {
+    var datasource = annotationExtensionChrome.attrDatasource.datasource.getDatasource();
+    if (datasource == null)
+      return;
+    
+    var rdfService = Components.classes["@mozilla.org/rdf/rdf-service;1"].getService(Components.interfaces.nsIRDFService);
+    var theSectionContainer = Components.classes["@mozilla.org/rdf/container;1"].createInstance(Components.interfaces.nsIRDFContainer);
+    var containerTools = Components.classes["@mozilla.org/rdf/container-utils;1"].getService(Components.interfaces.nsIRDFContainerUtils);
+     
+    //Kontejner   
+    var theSectionHeading = rdfService.GetResource(aStartURI);
+    //Neni kontejner...
+    if (!containerTools.IsContainer(datasource, theSectionHeading))
+      return;
+    
+    theSectionContainer.Init(datasource, theSectionHeading);
+    
+    
+    if(aStartURI == (annotationExtensionChrome.attrDatasource.baseURI + annotationExtensionChrome.attrDatasource.rootName))
+    {
+      var currentType = annotationExtensionChrome.bottomAnnotationWindow.selectedTypeURI;
+    }
+    else
+    {
+      var currentType = annotationExtensionChrome.attrDatasource.getResourceProp(aStartURI, 'type'); 
+    }
+    
+    var childElems = theSectionContainer.GetElements();  
+    while(childElems.hasMoreElements())
+    {
+      var child = childElems.getNext();
+      child.QueryInterface(Components.interfaces.nsIRDFResource);
+      
+      if (this.attributeIsStruct(child))
+      {
+        this.setDefaultToAttrsInType(child.ValueUTF8, aTypeURI, aAttrName, aSetDefault);
+      }
+      
+      if (currentType == aTypeURI)
+      {
+        var attrName = annotationExtensionChrome.attrDatasource.getResourceProp(child, 'name');
+        if (attrName == aAttrName)
+        {
+          annotationExtensionChrome.attrDatasource.changeResourceProp(child, 'def', aSetDefault);
+          if (aSetDefault == false)
+            annotationExtensionChrome.attrDatasource.changeResourceProp(child, 'req', 'false');
+        }
+      }
+    }
+  },
+  
+  /**
+   * Nastavi atributy se jmenem aAttrName jako (ne)povinne, ktere jsou v typu typeURI
+   * @param {String} aStartURI, odkud se ma v attrDatasource zacit (nastavi se jako
+   *                 annotationExtensionChrome.attrDatasource.baseURI + annotationExtensionChrome.attrDatasource.rootName,
+   *                 pro prulez celym stromem atributu)
+   * @param {String} aTypeURI, typ u ktereho se ma nalezt atribut aAttrName
+   * @param {String} aAttrName, jmeno atributu, ktery se ma nastavit jako (ne)povinny
+   * @param {Bool} aSetRequired, true - nastav atributy jako povinne
+   *                             false - nastav atributy jako nepovinne
+   */
+  setRequiredToAttrsInType : function(aStartURI, aTypeURI, aAttrName, aSetRequired)
+  {
+    var datasource = annotationExtensionChrome.attrDatasource.datasource.getDatasource();
+    if (datasource == null)
+      return;
+    
+    var rdfService = Components.classes["@mozilla.org/rdf/rdf-service;1"].getService(Components.interfaces.nsIRDFService);
+    var theSectionContainer = Components.classes["@mozilla.org/rdf/container;1"].createInstance(Components.interfaces.nsIRDFContainer);
+    var containerTools = Components.classes["@mozilla.org/rdf/container-utils;1"].getService(Components.interfaces.nsIRDFContainerUtils);
+     
+    //Kontejner   
+    var theSectionHeading = rdfService.GetResource(aStartURI);
+    //Neni kontejner...
+    if (!containerTools.IsContainer(datasource, theSectionHeading))
+      return;
+    
+    theSectionContainer.Init(datasource, theSectionHeading);
+    
+    if(aStartURI == (annotationExtensionChrome.attrDatasource.baseURI + annotationExtensionChrome.attrDatasource.rootName))
+    {
+      var currentType = annotationExtensionChrome.bottomAnnotationWindow.selectedTypeURI;
+    }
+    else
+    {
+      var currentType = annotationExtensionChrome.attrDatasource.getResourceProp(aStartURI, 'type'); 
+    }
+    
+    var childElems = theSectionContainer.GetElements();  
+    while(childElems.hasMoreElements())
+    {
+      var child = childElems.getNext();
+      child.QueryInterface(Components.interfaces.nsIRDFResource);
+      
+      if (this.attributeIsStruct(child))
+      {
+        this.setRequiredToAttrsInType(child.ValueUTF8, aTypeURI, aAttrName, aSetRequired);
+      }
+      
+      if (currentType == aTypeURI)
+      {
+        var attrName = annotationExtensionChrome.attrDatasource.getResourceProp(child, 'name');
+        if (attrName == aAttrName)
+          annotationExtensionChrome.attrDatasource.changeResourceProp(child, 'req', aSetRequired);
+      }
     }
   }
 };

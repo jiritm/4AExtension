@@ -97,7 +97,7 @@ annotationExtensionChrome.addAttributeWindow =
 			{//Vybrany simple a strukt atributy
 				var types = document.getElementById('aeTypes');
 				
-				typeURI = types.aeSelectedTypeName;
+				typeURI = types.aeSelectedTypeURI;
 				
 				if (typeURI == null)
 					return;  //Nic neni vybrano

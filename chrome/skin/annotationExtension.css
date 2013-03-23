@@ -4,6 +4,7 @@
 @import url(chrome://annotationextension/skin/listbox.css);
 @import url(chrome://annotationextension/skin/splitter.css);
 @import url(chrome://annotationextension/skin/button.css);
+@import url(chrome://annotationextension/skin/annotationPanel.css);
 
 @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
 @namespace html url("http://www.w3.org/1999/xhtml");
@@ -34,12 +35,12 @@ toolbar[iconsize="small"] #aeButton {
 }
 
 /* Hlavni cast anotacniho okna */
-#aeAnnotationContentRow1 {
+#Row1 {
   padding-top: 3px;
   background-color: #acacac;
 }
 
-#aeAnnotationContentRow2 {
+#Row2 {
   padding-bottom: 3px;
   background-color: #acacac;
 }
@@ -494,119 +495,6 @@ toolbar[iconsize="small"] #aeButton {
 
 #aeSaveSubscriptions.subscriptionsChanged {
   color: #fa4545;
-}
-
-
-/*//////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-//////////////                 Zobrazeni anotaci                     ///////////
-////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////*/
-/* INFO "BUTTON"*/
-#aeInfoButton {
-  margin: 3px 3px 3px 3px;
-  list-style-image: url("chrome://annotationextension/skin/icons/info16.png");
-}
-
-/* CLOSE "BUTTON" */
-#aeCloseAnnotationButton {
-  margin: 3px 3px 0 0;
-  list-style-image: url("chrome://annotationextension/skin/icons/close16.png");
-}
-
-#aeCloseAnnotationButton:hover {
-  list-style-image: url("chrome://annotationextension/skin/icons/close16dark.png");
-}
-
-#aeCloseAnnotationButton:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/icons/close16light.png");
-}
-
-/* DELETE "BUTTON" */
-#aeDeleteAnnotationButton {
-  margin: 3px 0 0 3px;
-  list-style-image: url("chrome://annotationextension/skin/icons/deleteAnnotation16.png");
-}
-
-#aeDeleteAnnotationButton:hover {
-  list-style-image: url("chrome://annotationextension/skin/icons/deleteAnnotation16dark.png");
-}
-
-#aeDeleteAnnotationButton:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/icons/deleteAnnotation16light.png");
-}
-
-/* EDIT "BUTTON" */
-#aeEditAnnotationButton {
-  margin: 3px 0 0 3px;
-  list-style-image: url("chrome://annotationextension/skin/icons/editAnnotation16.png");
-}
-
-#aeEditAnnotationButton:hover {
-  list-style-image: url("chrome://annotationextension/skin/icons/editAnnotation16dark.png");
-}
-
-#aeEditAnnotationButton:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/icons/editAnnotation16light.png");
-}
-
-/* BOX S POPISKEM, ZE SE JEDNA O NABIDNUTOU ANOTACI */
-#ap-suggestbox {
-  background-color: #fdfa80;
-  border-radius: 4px 4px 0px 0px; 
-  /*border: 1px solid #d2ef0c;*/
-}
-
-/* BOX S TLACITKEM PRO ULOZENI NABIDNUTE ANOTACE */
-#ap-confirmbuttonbox {
-  background-color: #fdfa80;
-  border-radius: 0px 0px 4px 4px; 
-  /*border: 1px solid #d2ef0c;*/
-}
-
-.ap-vbox-suggestion {
-  border-radius: 4px 4px 4px 4px; 
-  border: 3px solid #d2ef0c;
-}
-
-/* Panely anotaci v bocnim panelu */
-.annotExtSidebarPanel {
-  border : 2px solid #FFFFFF;
-  margin : 3px;
-  padding : 3px;
-  background-color: #DDDDDD;
-  border-radius: 4px 4px 4px 4px;
-}
-
-.annotExtSidebarPanel:hover {
-  background-color: #AAAAAA;
-}
-
-/** TOGGLE ANNOT BUTTON **/
-.toggleAnnotationButtonDown {
-  margin: 3px 3px 0 0;
-  list-style-image: url("chrome://annotationextension/skin/icons/arrowDown16.png");
-}
-
-.toggleAnnotationButtonDown:hover {
-  list-style-image: url("chrome://annotationextension/skin/icons/arrowDown16.png");
-}
-
-.toggleAnnotationButtonDown:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/icons/arrowDown16.png");
-}
-
-.toggleAnnotationButtonUp {
-  margin: 3px 3px 0 0;
-  list-style-image: url("chrome://annotationextension/skin/icons/arrowUp16.png");
-}
-
-.toggleAnnotationButtonUp:hover {
-  list-style-image: url("chrome://annotationextension/skin/icons/arrowUp16.png");
-}
-
-.toggleAnnotationButtonUp:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/icons/arrowUp16.png");
 }
 
 

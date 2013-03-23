@@ -12,8 +12,7 @@
 <?xml-stylesheet type="text/css" href="chrome://annotationextension/skin/annotationExtension.css" ?>
 <?xml-stylesheet type="text/css" href="chrome://annotationextension/skin/bindings.css" ?>
 
-<!DOCTYPE overlay SYSTEM
-  "chrome://annotationextension/locale/annotationExtension.dtd">
+<!DOCTYPE overlay SYSTEM "chrome://annotationextension/locale/annotationExtension.dtd">
   
 <dialog id="aeNewColorDialog" title="&annotationextension.Window.title; - &annotationextension.addColorDialog.title;"
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
@@ -47,8 +46,17 @@
     function doAccept()
     {
       var settingName = document.getElementById("aeNewColorTypeName").aeSelectedTypeName;
+      var fontColor = document.getElementById("aeNewFontColorValue").value;
+      var backgroundColor = document.getElementById("aeNewBackgroundColorValue").value;
+      
+      if (fontColor == "" || fontColor.match(/^\s*$/g))
+        fontColor = annotationExtension.SETTING_NOT_SET;
+      if (backgroundColor == "" || fontColor.match(/^\s*$/g))
+        backgroundColor = annotationExtension.SETTING_NOT_SET;
+      
       window.arguments[0].out = {name:settingName,
-                                 newValue:document.getElementById("aeNewColorValue").value};
+                                 backgroundColor:backgroundColor,
+                                 fontColor:fontColor};
        
       return true;
     };
@@ -58,10 +66,10 @@
       return true;
     };
     
-    function colorSelected(hColor)
+    function colorSelected(hColor, colorTextboxId)
     {
       var rgba = annotationExtensionChrome.typesColors.hexColorToRgbaColor(hColor, 1);
-      document.getElementById('aeNewColorValue').value = rgba;
+      var colorTextbox = document.getElementById(colorTextboxId).value = rgba;
     };
 
   </script>  
@@ -84,14 +92,25 @@
 					aeTypeSelect="aeNewColorTypeName"/>
       </row>
       <row>
-        <label value="&annotationextension.addColorDialog.color;"/>
-        <textbox id="aeNewColorValue"
+        <label value="&annotationextension.addColorDialog.backgroundColor;"/>
+        <textbox id="aeNewBackgroundColorValue"
           class="aeTextbox"
           flex="1"
           oninput="return(true);"
           onpaste="return(true);"/>
         <hbox flex="1">
-          <colorpicker flex="1" type="button" onchange="colorSelected(this.color);"/>
+          <colorpicker flex="1" type="button" onchange="colorSelected(this.color, 'aeNewBackgroundColorValue');"/>
+        </hbox>
+      </row>
+      <row>
+        <label value="&annotationextension.addColorDialog.fontColor;"/>
+        <textbox id="aeNewFontColorValue"
+          class="aeTextbox"
+          flex="1"
+          oninput="return(true);"
+          onpaste="return(true);"/>
+        <hbox flex="1">
+          <colorpicker flex="1" type="button" onchange="colorSelected(this.color, 'aeNewFontColorValue');"/>
         </hbox>
       </row>
     </rows>

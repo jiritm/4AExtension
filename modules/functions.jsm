@@ -29,6 +29,14 @@ annotationExtension.functions =
     return linearized;
   },
   
+  /**
+   * Vrati jmeno typu z uri
+   */
+  getTypeName :  function(uri)
+  {
+    return uri.replace(/.*\//i, "");
+  },
+  
   /* randomUUID.js - Version 1.0
   *
   * Copyright 2008, Robert Kieffer

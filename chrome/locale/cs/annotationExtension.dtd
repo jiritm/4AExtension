@@ -3,6 +3,8 @@
 <!ENTITY annotationextension.Toolbar.tooltiptext  "Otevře anotační okno">
 <!ENTITY annotationextension.aeSelectedText.selectedText.wholeDocument  "Anotace celého dokumentu...">
 
+<!ENTITY annotationextension.documentAnnotations.title    "Anotace dokumentu">
+
 <!ENTITY annotationextension.Window.title                 "Anotační doplněk">
 <!ENTITY annotationextension.Window.close                 "Zavřít">
 <!ENTITY annotationextension.Window.annotateDocument      "Anotace celého dokumentu">
@@ -76,11 +78,11 @@
 <!ENTITY annotationextension.config.groups.selectDefaultButton.label  "Vybrat">
 
 <!ENTITY annotationextension.config.tab.aeOtherOption       "Různé">
-<!ENTITY annotationextension.config.tab.aeColorsOption      "Barvy anotací">
+<!ENTITY annotationextension.config.tab.aeColorsOption      "Barvy">
 <!ENTITY annotationextension.config.others.add              "Přidat nové nastavení">
 <!ENTITY annotationextension.config.colors.add              "Přidat novou barvu">
 
-<!ENTITY annotationextension.config.tab.aeSubscription      "Odběr anotací">
+<!ENTITY annotationextension.config.tab.aeSubscription      "Odběr">
 <!ENTITY annotationextension.config.subscriptions.add       "Přidat nový odběr anotací">
 <!ENTITY annotationextension.config.subscriptions.listCol.label       "List">
 <!ENTITY annotationextension.config.subscriptions.URICol.label        "URI">
@@ -88,6 +90,24 @@
 <!ENTITY annotationextension.config.subscriptions.typeCol.label       "Typ">
 <!ENTITY annotationextension.config.subscriptions.saveSubscriptions.label              "Uložit aktuální odběr anotací">
 <!ENTITY annotationextension.config.subscriptions.loadDefaultSubscriptions.label       "Načíst defaultní odběr anotací">
+
+<!ENTITY annotationextension.config.tab.annotationPanelOption            "Anotace">
+<!ENTITY annotationextension.config.annotationPanelOption.caption.panel  "Zobrazení anotace">
+<!ENTITY annotationextension.config.annotationPanelOption.showType       "Zobrazit typ anotace">
+<!ENTITY annotationextension.config.annotationPanelOption.showAuthor     "Zobrazit autora anotace">
+<!ENTITY annotationextension.config.annotationPanelOption.showDate       "Zobrazit čas vytvoření anotace">
+<!ENTITY annotationextension.config.annotationPanelOption.viewLevel      "Maximální hloubka zanořené anotace, která se načte do panelu kořenové anotace:">
+<!ENTITY annotationextension.config.annotationPanelOption.showViewLevel  "Maximální hloubka anotace, která bude mít defaultně zobrazené atributy:">
+<!ENTITY annotationextension.config.annotationPanelOption.caption.fragment   "Defaultní barva fragmentu anotace">
+<!ENTITY annotationextension.config.annotationPanelOption.defaultBackground          "Pozadí:">
+<!ENTITY annotationextension.config.annotationPanelOption.defaultBackground.tooltip  "Pokud nemá typ anotace nastavenou barvu pozadí, použije tato.">
+<!ENTITY annotationextension.config.annotationPanelOption.defaultFont                "Písmo:">
+<!ENTITY annotationextension.config.annotationPanelOption.defaultFont.tooltip        "Pokud nemá typ anotace nastevenou barvu písma, použije se tato. Pokud barva není nastavena ani zde, bude odpovídat barvě písma dokumentu.">
+
+<!ENTITY annotationextension.config.tab.suggestionOption        "Nabídky">
+<!ENTITY annotationextension.config.suggestion.confidence.label "Důvěra v nabídky:">
+<!ENTITY annotationextension.config.suggestion.confidence.text  "Důvěra v nabídky je číslo v procentech. Každá nabídnutá anotace obsahuje hodnotu v procentech udávající míru důvěry ve správnost nabídky. Pokud je tato hodnota u některé z nabídnutých anotací menší než zvolená důvěra v nabídky, klient takovou anotací zahodí.">
+
 
 <!ENTITY annotationextension.typesWindow.title                     "Výběr typu">
 <!ENTITY annotationextension.typesWindow.selectButton.label        "Vybrat">
@@ -152,15 +172,17 @@
 <!ENTITY annotationextension.addSettingsDialog.name          "Jméno:">
 <!ENTITY annotationextension.addSettingsDialog.value         "Nová Hodnota:">
 
-<!ENTITY annotationextension.addColorDialog.title         "Přidat novou barvu anotace">
-<!ENTITY annotationextension.addColorDialog.type          "Název typu:">
-<!ENTITY annotationextension.addColorDialog.color         "Barva:">
+<!ENTITY annotationextension.addColorDialog.title            "Přidat novou barvu anotace">
+<!ENTITY annotationextension.addColorDialog.type             "Název typu:">
+<!ENTITY annotationextension.addColorDialog.backgroundColor  "Barva pozadí:">
+<!ENTITY annotationextension.addColorDialog.fontColor        "Barva písma:">
 
 <!ENTITY annotationextension.editSettingsDialog.title     "Uprav nastavení">
 <!ENTITY annotationextension.editSettingsDialog.newValue  "Nová hodnota:">
 
-<!ENTITY annotationextension.editColorDialog.title     "Změň barvu">
-<!ENTITY annotationextension.editColorDialog.newColor  "Nová barva:">
+<!ENTITY annotationextension.editColorDialog.title               "Změna barvy">
+<!ENTITY annotationextension.editColorDialog.newBackgroundColor  "Nová barva pozadí:">
+<!ENTITY annotationextension.editColorDialog.newFontColor        "Nová barva písma:">
 
 <!ENTITY annotationextension.addSubscriptionDialog.title         "Přidat nový odběr anotací">
 <!ENTITY annotationextension.addSubscriptionDialog.type          "Typ:">

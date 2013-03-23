@@ -77,9 +77,6 @@ annotationExtensionChrome.selectedAnnotation.prototype =
    *              -1 vsechny
    *              0 prave vlozena
    *              jinak se neprovede nic
-   * @param {Bool} showButtons, pokud se ma pokusit pri pridani zobrazit i tlacitka
-   *               na vyber anotace apod. (pokud pridavam anotaci pokud vybiram
-   *               vnorenou nastavuje se na false)
    */
   addAnnotation : function(annot, selecAnnot)
   {
@@ -425,8 +422,7 @@ annotationExtensionChrome.selectedAnnotation.prototype =
         this.showSelectNestedButton();
       }
       
-      this.setAnnotSelectedLabel(selAnnotText);
-      
+      this.setAnnotSelectedLabel(selAnnotText);      
     }
     catch(ex)
     {

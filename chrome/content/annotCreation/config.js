@@ -9,6 +9,7 @@
 Components.utils.import("resource://annotationextension/namespace.jsm");
 Components.utils.import("resource://annotationextension/user.jsm");
 Components.utils.import("resource://annotationextension/functions.jsm");
+Components.utils.import("resource://annotationextension/constants.jsm");
 
 annotationExtensionChrome.config =
 {
@@ -147,6 +148,7 @@ annotationExtensionChrome.config =
       var portTextbox = document.getElementById('extensions.annotationextension.serverPort-textbox');
       
       ipTextbox.disabled = true;
+      ipTextbox.setAttribute('enablehistory', 'false');
       portTextbox.disabled = true;
     }
   },
@@ -279,7 +281,7 @@ annotationExtensionChrome.config =
     }
   },
   
-    /**
+  /**
    * Handler pro vybrani radku v listboxu
    * strom id=aeColorsOptionListbox
    */
@@ -306,22 +308,23 @@ annotationExtensionChrome.config =
         
         return;
       }
-      
+
       //Ostatni tlacitka
       ////////////////////////////////
-      var settName = annotationExtensionChrome.colorsOptionListboxDatasource.getResourcePropOnIndex(selection, 'name');
-      var settValue = annotationExtensionChrome.colorsOptionListboxDatasource.getResourcePropOnIndex(selection, 'value');
+      var oldBackgroundColor = annotationExtensionChrome.colorsOptionListboxDatasource.getResourceProp(settURI, 'backgroundColor');
+      var oldFontColor = annotationExtensionChrome.colorsOptionListboxDatasource.getResourceProp(settURI, 'fontColor');
         
-      //Podle inn:tabNumber se otevre prislusny formular v dialogovem okne pro editaci
-      var params = {out:null, settValue:settValue};
-      window.openDialog("chrome://annotationextension/content/dialogs/editColorDialog.xul", "annotationextension:addColorWindow", "chrome,centerscreen,modal", params).focus();  
+      var params = {out:null, settValue:{oldBackgroundColor : oldBackgroundColor, oldFontColor : oldFontColor}};
+      window.openDialog("chrome://annotationextension/content/dialogs/editColorDialog.xul", "annotationextension:changeColorWindow", "chrome,centerscreen,modal", params).focus();  
       
       if (params.out)
-      {//Pridano nove nastaveni
-        if (params.out.newValue != "" && params.out.newValue != null && params.out.newValue != settValue)
+      {
+        if (params.out.backgroundColor != null && params.out.fontColor != null
+              && (params.out.backgroundColor != oldBackgroundColor || params.out.fontColor != oldFontColor))
         {//Nastavi novou hodnotu a odesle nove nastaveni na server 
-          annotationExtensionChrome.colorsOptionListboxDatasource.changeResourceProp(settURI, 'value', params.out.newValue);
-          opener.annotationExtensionChrome.client.sendSettings();
+            annotationExtensionChrome.colorsOptionListboxDatasource.changeResourceProp(settURI, 'backgroundColor', params.out.backgroundColor);
+            annotationExtensionChrome.colorsOptionListboxDatasource.changeResourceProp(settURI, 'fontColor', params.out.fontColor);
+            opener.annotationExtensionChrome.client.sendSettings();      
         }
       }
       else
@@ -339,22 +342,17 @@ annotationExtensionChrome.config =
   {
     var params = {inn: {mainWindow : opener},
                   out:null}; 
-    window.openDialog("chrome://annotationextension/content/dialogs/addColorDialog.xul", "annotationextension:changeColorWindow", "chrome,centerscreen,modal", params).focus();  
+    window.openDialog("chrome://annotationextension/content/dialogs/addColorDialog.xul", "annotationextension:addColorWindow", "chrome,centerscreen,modal", params).focus();  
   
     if (params.out)
     {//Pridano nove nastaveni
-      if (params.out.name != "" && params.out.newValue != "")
-      {//Odesle nove nastaveni na server
-        if (opener.annotationExtensionChrome.settings.settingIsKnown(params.out.name))
-        {//Nastaveni je "zname a zpracovano v jinem formulari"
-          //TODO: muze vyhodit hlasku, ze toto nastaveni nelze pridat
-          return;
-        }
-        
-        var newColor = {
-                          uri : 'annotationExtension://' + params.out.name,
-                          name : params.out.name,
-                          value : params.out.newValue}
+      if (params.out.backgroundColor != null && params.out.fontColor != null
+          && (params.out.backgroundColor != "" || params.out.fontColor != ""))
+      {//Odesle nove nastaveni na server        
+        var newColor = { uri : 'annotationExtension://' + params.out.name,
+                         name : params.out.name,
+												 backgroundColor : params.out.backgroundColor,
+												 fontColor : params.out.fontColor}
         annotationExtensionChrome.colorsOptionListboxDatasource.addNewObject(newColor);
         opener.annotationExtensionChrome.client.sendSettings();
       }
@@ -394,7 +392,7 @@ annotationExtensionChrome.config =
     var params = {inn: {mainWindow : opener},
                   out:null}; 
     window.openDialog("chrome://annotationextension/content/dialogs/addSubscriptionDialog.xul", "annotationextension:addSubscriptionWindow", "chrome,centerscreen,modal", params).focus();  
-  try{
+
     if (params.out)
     {//Pridan novy odber
      
@@ -433,7 +431,6 @@ annotationExtensionChrome.config =
     else
     {//Kliknuto na cancel
     }
-  }catch(ex){alert(ex.message);}
   },
   
   saveSubscriptions : function()
@@ -533,6 +530,31 @@ annotationExtensionChrome.config =
     {
       opener.annotationExtensionChrome.settings[setting] = textbox.value;
       opener.annotationExtensionChrome.client.sendSettings();
+    }
+  },
+  
+/////////////////////////////////////////////////////////////////////////////////
+//PANEL ANOTACE APOD.
+  
+  initAnnotation : function()
+  {
+    document.getElementById('aeannotationPanelOptionBackgroundColorPicker').color = document.getElementById('aeannotationPanelOptionBackground').value;
+    document.getElementById('aeannotationPanelOptionFontColorPicker').color = document.getElementById('aeannotationPanelOptionFont').value;
+  },
+
+  colorSelected : function(hColor, colorTextboxId)
+  {
+    var preferences = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.annotationextension.annotationFragment.");
+    var rgba = annotationExtensionChrome.typesColors.hexColorToRgbaColor(hColor, 1);
+    var colorTextbox = document.getElementById(colorTextboxId).value = rgba;
+    
+    if (colorTextboxId == 'aeannotationPanelOptionFont')
+    {
+      preferences.setCharPref("defaultFont", rgba);
+    }
+    else if (colorTextboxId == 'aeannotationPanelOptionBackground')
+    {
+      preferences.setCharPref("defaultBackground", rgba);
     }
   }
 }

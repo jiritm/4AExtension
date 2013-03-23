@@ -73,9 +73,9 @@ annotationExtension.users =
     var formHistory = Components.classes["@mozilla.org/satchel/form-history;1"]
         .getService(Components.interfaces.nsIFormHistory2 || Components.interfaces.nsIFormHistory);
     //Prida uzivatelske jmeno do historie textboxu - zobrazi se pri dalsim vyplnovani jmena
-    if (!formHistory.entryExists("aeusername-form-history", username))
+    if (!formHistory.entryExists("annotationextensionusername-form-history", username))
     {
-      formHistory.addEntry("aeusername-form-history", username);
+      formHistory.addEntry("annotationextensionusername-form-history", username);
     }
     
     var nsLoginInfo = new Components.Constructor("@mozilla.org/login-manager/loginInfo;1",
@@ -126,9 +126,9 @@ annotationExtension.users =
       var formHistory = Components.classes["@mozilla.org/satchel/form-history;1"]
             .getService(Components.interfaces.nsIFormHistory2 || Components.interfaces.nsIFormHistory);
       //Smazani z ulozene hodnoty v textboxu
-      if (formHistory.entryExists("aeusername-form-history", username))
+      if (formHistory.entryExists("annotationextensionusername-form-history", username))
       {
-        formHistory.removeEntry("aeusername-form-history", username); 
+        formHistory.removeEntry("annotationextensionusername-form-history", username); 
       }
     }  
     

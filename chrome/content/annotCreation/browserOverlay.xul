@@ -82,7 +82,7 @@
                  autoCheck="false"
                  type="checkbox"
                  group="sidebar"
-                 sidebarurl="chrome://annotationextension/content/annotDisplay/sideBar.xul"
+                 sidebarurl="chrome://annotationextension/content/annotDisplay/sidebar.xul"
                  sidebartitle="&openDocumentAnnotationsSideBar.title;"
                  oncommand="toggleSidebar('viewAnnotationsSidebar');" />
      <broadcaster id="viewAnnotationWindow"
@@ -120,15 +120,13 @@
       tooltiptext="&annotationextension.Toolbar.tooltiptext;"
       oncommand="annotationExtensionChrome.browserOverlay.toggleAnnotationWindow();" />
   </toolbarpalette>
-  
-  <!-- Pridani anotacniho okna do Firefoxu -->
-  <vbox id="appcontent"
-        flex="1">
-    <tabbrowser id="content"/>
+	
+  <vbox id="appcontent">
 
+		<!-- Splitter pro anotacni okno -->
     <splitter id="aeBottomSplitter" class="aeSplitter" state="open" 
               resizebefore="farthest" resizeafter="closest"/>
-    <!-- Pripni anotacni okynko dolu ve firefoxu -->
+    <!-- Anotacni okno -->
     <box id="aeBottomWindow">
       <deck id="aeMainDeck" selectedIndex="0" flex="1">
         <vbox id="aeLoginPrompt">
@@ -137,6 +135,7 @@
         </vbox>
       </deck>
     </box>
-  </vbox>  
+		
+  </vbox>
   
 </overlay>

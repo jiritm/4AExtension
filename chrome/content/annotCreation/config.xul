@@ -124,6 +124,11 @@
         <row>
           <label value="&annotationextension.config.server.address;"/>
           <textbox id="extensions.annotationextension.serverAddress-textbox"
+            type="autocomplete"
+            autocompletesearch="form-history"
+            autocompletesearchparam="annotationextensionserver-form-history"
+            enablehistory="true"
+            completedefaultindex="true"
             preference="extensions.annotationextension.server.serverAddress"
             style="width: 9em;"/>
         </row>
@@ -288,7 +293,7 @@
       <vbox>               
         <listbox
           id="aeColorsOptionListbox"
-          class="plain aeListbox"
+          class="aeListbox"
           datasources="rdf:null"
           seltype="single"
           ref=""
@@ -304,6 +309,7 @@
           </listcols>
           
           <template>
+            <!-- Pokud neni zadana barva textu -->
             <rule>
               <conditions>
                 <content uri="?colors"/>
@@ -312,12 +318,37 @@
                         predicate="chrome://annotationextension/rdf#name"
                         object="?name"/>
                 <triple subject="?color"
-                        predicate="chrome://annotationextension/rdf#value"
-                        object="?value"/>
+                        predicate="chrome://annotationextension/rdf#backgroundColor"
+                        object="?backgroundColor"/>
+                <triple subject="?color"
+                        predicate="chrome://annotationextension/rdf#fontColor"
+                        object="notSet"/>
               </conditions>
               <action>
                 <listitem uri="?color" crop="end">
-                  <listcell style="background-color: ?value ;" label=" "/>
+                  <listcell style="background-color: ?backgroundColor ; color: ?fontColor ;" label=" "/>
+                  <listcell crop="end" label="?name"/>
+                </listitem>
+              </action>
+            </rule>
+            
+            <rule>
+              <conditions>
+                <content uri="?colors"/>
+                <member container="?colors" child="?color"/>
+                <triple subject="?color"
+                        predicate="chrome://annotationextension/rdf#name"
+                        object="?name"/>
+                <triple subject="?color"
+                        predicate="chrome://annotationextension/rdf#backgroundColor"
+                        object="?backgroundColor"/>
+                <triple subject="?color"
+                        predicate="chrome://annotationextension/rdf#fontColor"
+                        object="?fontColor"/>
+              </conditions>
+              <action>
+                <listitem uri="?color" crop="end">
+                  <listcell style="background-color: ?backgroundColor ; color: ?fontColor ;" label="ABC  "/>
                   <listcell crop="end" label="?name"/>
                 </listitem>
               </action>
@@ -452,17 +483,138 @@
     
   </prefpane>
   
-  <script type="application/x-javascript"
-    src="chrome://annotationextension/content/annotCreation/namespace.js" />
-  <script type="application/x-javascript"
-    src="chrome://annotationextension/content/annotCreation/config.js" />
-  <script type="application/x-javascript"
-    src="chrome://annotationextension/content/annotCreation/datasource.js" />
-  <script type="application/x-javascript"
-    src="chrome://annotationextension/content/annotCreation/treeDatasource.js" />
-  <script type="application/x-javascript"
-    src="chrome://annotationextension/content/annotCreation/listboxDatasource.js" />
-  <script type="application/x-javascript"
-    src="chrome://annotationextension/content/annotCreation/subscription.js" />
+  <!-- NASTAVENI ZOBRAZENI ANOTACI -->
+  <prefpane id="annotationPanelOption" label="&annotationextension.config.tab.annotationPanelOption;"
+    image="chrome://annotationextension/skin/icons/annotation.png"
+    onpaneload="annotationExtensionChrome.config.initAnnotation();">
+
+    <preferences>
+      <preference id="extensions.annotationextension.annotationPanel.showType"
+        name="extensions.annotationextension.annotationPanel.showType"
+        type="bool" />
+
+      <preference id="extensions.annotationextension.annotationPanel.showAuthor"
+        name="extensions.annotationextension.annotationPanel.showAuthor"
+        type="bool" />
+
+      <preference id="extensions.annotationextension.annotationPanel.showDate"
+        name="extensions.annotationextension.annotationPanel.showDate"
+        type="bool" />
+  
+      <preference id="extensions.annotationextension.annotationPanel.viewLevel"
+        name="extensions.annotationextension.annotationPanel.viewLevel"
+        type="int" />
+      
+      <preference id="extensions.annotationextension.annotationPanel.showViewLevel"
+        name="extensions.annotationextension.annotationPanel.showViewLevel"
+        type="int" />
+      
+      <preference id="extensions.annotationextension.annotationFragment.defaultBackground"
+        name="extensions.annotationextension.annotationFragment.defaultBackground"
+        type="string" />
+      
+      <preference id="extensions.annotationextension.annotationFragment.defaultFont"
+        name="extensions.annotationextension.annotationFragment.defaultFont"
+        type="string" />
+      
+    </preferences>
+    
+    <groupbox align="start">
+      <caption label="&annotationextension.config.annotationPanelOption.caption.fragment;" />
+        <grid>
+          <columns>
+            <column/>
+            <column/>
+            <column/>
+          </columns>
+          <rows>
+            <row>
+              <label value="&annotationextension.config.annotationPanelOption.defaultBackground;"
+                control="aeannotationPanelOptionBackground"
+                tooltiptext="&annotationextension.config.annotationPanelOption.defaultBackground.tooltip;"/>
+              <textbox id="aeannotationPanelOptionBackground"
+                preference="extensions.annotationextension.annotationFragment.defaultBackground"/>
+              <colorpicker id="aeannotationPanelOptionBackgroundColorPicker"
+                type="button" onchange="annotationExtensionChrome.config.colorSelected(this.color, 'aeannotationPanelOptionBackground');"/>
+            </row>
+            <row>
+              <label value="&annotationextension.config.annotationPanelOption.defaultFont;"
+                control="aeannotationPanelOptionFont"
+                tooltiptext="&annotationextension.config.annotationPanelOption.defaultFont.tooltip;"/>
+              <textbox id="aeannotationPanelOptionFont"
+                preference="extensions.annotationextension.annotationFragment.defaultFont"/>
+              <colorpicker id="aeannotationPanelOptionFontColorPicker"
+                type="button" onchange="annotationExtensionChrome.config.colorSelected(this.color, 'aeannotationPanelOptionFont');"/>
+            </row>
+          </rows>
+        </grid>
+    </groupbox>
+
+    <groupbox align="start">
+      <caption label="&annotationextension.config.annotationPanelOption.caption.panel;" />
+      <checkbox label="&annotationextension.config.annotationPanelOption.showType;"
+        preference="extensions.annotationextension.annotationPanel.showType"/>
+      <checkbox label="&annotationextension.config.annotationPanelOption.showAuthor;"
+        preference="extensions.annotationextension.annotationPanel.showAuthor"/>
+      <checkbox label="&annotationextension.config.annotationPanelOption.showDate;"
+        preference="extensions.annotationextension.annotationPanel.showDate"/>
+      
+      <description>&annotationextension.config.annotationPanelOption.viewLevel;</description>
+      <textbox style="width: 4em;"
+              type="number"
+              decimalplaces="0"
+              increment="1"
+              min="0"
+              max="5"
+              preference="extensions.annotationextension.annotationPanel.viewLevel"/>
+      <description>&annotationextension.config.annotationPanelOption.showViewLevel;</description>
+      <textbox style="width: 4em;"
+              type="number"
+              decimalplaces="0"
+              increment="1"
+              min="0"
+              max="5"
+              preference="extensions.annotationextension.annotationPanel.showViewLevel"/>
+    </groupbox>
+
+  </prefpane>
+  
+  <!-- NASTAVENI NABIDEK -->
+  <prefpane id="annotationSuggestionOption" label="&annotationextension.config.tab.suggestionOption;"
+    image="chrome://annotationextension/skin/icons/suggestion.png">
+    
+    <preferences>
+      
+      <preference id="extensions.annotationextension.suggestion.confidenceNumber"
+        name="extensions.annotationextension.suggestion.confidenceNumber"
+        type="int" />
+      
+    </preferences>
+    
+    <textbox class="plain" style="background-color: transparent;"
+        multiline="true" readonly="true"
+        onoverflow="this.height = this.inputField.scrollHeight;"
+        value="&annotationextension.config.suggestion.confidence.text;" />
+    <hbox align="start" style="margin-top: 10px;">
+      <label value="&annotationextension.config.suggestion.confidence.label;"
+             control="aeSuggestionOptionConfidence"/>
+      <textbox id="aeSuggestionOptionConfidence"
+               style="width: 4em;"
+               type="number"
+               decimalplaces="0"
+               increment="1"
+               min="0"
+               max="100"
+               preference="extensions.annotationextension.suggestion.confidenceNumber"/>
+    </hbox>
+  </prefpane>
+  
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/namespace.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/config.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/datasource.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/treeDatasource.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/listboxDatasource.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/subscription.js" />
+  <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/typesColors.js" />
 
 </prefwindow>

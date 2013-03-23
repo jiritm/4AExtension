@@ -26,12 +26,22 @@
   <script type="application/x-javascript" src="chrome://annotationextension/content/annotCreation/typesColors.js" />
 
   <script type="application/x-javascript">
+    <![CDATA[
     Components.utils.import("resource://annotationextension/namespace.jsm");
     Components.utils.import("resource://annotationextension/constants.jsm");
     
     function doAccept()
     {
-      window.arguments[0].out = {newValue:document.getElementById("aeNewColorTextbox").value};
+      var fontColor = document.getElementById("aeNewFontColorValue").value;
+      var backgroundColor = document.getElementById("aeNewBackgroundColorValue").value;
+      
+      if (fontColor == "" || fontColor.match(/^\s*$/g))
+        fontColor = annotationExtension.SETTING_NOT_SET;
+      if (backgroundColor == "" || backgroundColor.match(/^\s*$/g))
+        backgroundColor = annotationExtension.SETTING_NOT_SET;
+      
+      window.arguments[0].out = { backgroundColor:backgroundColor,
+                                  fontColor:fontColor};
        
       return true;
     };
@@ -42,29 +52,65 @@
     };
     
     function onLoad()
-    {      
-      document.getElementById('aeNewColorTextbox').value = window.arguments[0].settValue;
-      document.getElementById('aeColorpicker').color = window.arguments[0].settValue;
+    {
+      var oldBackgroundColor = window.arguments[0].settValue.oldBackgroundColor;
+      var oldFontColor = window.arguments[0].settValue.oldFontColor;
+      if (oldBackgroundColor && oldBackgroundColor != annotationExtension.SETTING_NOT_SET)
+      {
+        document.getElementById('aeNewBackgroundColorValue').value = oldBackgroundColor;
+        document.getElementById('aeNewBackgroundColorPicker').color = oldBackgroundColor;
+      }
+      if (oldFontColor && oldFontColor != annotationExtension.SETTING_NOT_SET)
+      {
+        document.getElementById('aeNewFontColorValue').value = oldFontColor;
+        document.getElementById('aeNewFontColorPicker').color = oldFontColor;
+      }
     };
     
-    function colorSelected(hColor)
+    function colorSelected(hColor, colorTextboxId)
     {
-      var oldColor = document.getElementById('aeNewColorTextbox').value;
+      var colorTextbox = document.getElementById(colorTextboxId);
+      var oldColor = colorTextbox.value;
       var oldAlpha = annotationExtensionChrome.typesColors.getAlphaForRGBAColor(oldColor);
       if (oldAlpha == null)
         oldAlpha = 1;
       
       var rgba = annotationExtensionChrome.typesColors.hexColorToRgbaColor(hColor, oldAlpha);
-      document.getElementById('aeNewColorTextbox').value = rgba;
+      colorTextbox.value = rgba;
     };
+    ]]>
   </script>
   
-  <vbox flex="1">
-    <hbox>
-      <label value="&annotationextension.editColorDialog.newColor;"/>
-      <textbox id="aeNewColorTextbox" flex="1"/>
-      <colorpicker id="aeColorpicker" type="button" onchange="colorSelected(this.color);"/>
-    </hbox>
-  </vbox>
+  <grid>
+    <columns>
+      <column/>
+      <column flex="1"/>
+      <column/>
+    </columns>
+    <rows>
+      <row>
+        <label value="&annotationextension.editColorDialog.newBackgroundColor;"/>
+        <textbox id="aeNewBackgroundColorValue"
+          class="aeTextbox"
+          flex="1"
+          oninput="return(true);"
+          onpaste="return(true);"/>
+        <hbox flex="1">
+          <colorpicker id="aeNewBackgroundColorPicker" flex="1" type="button" onchange="colorSelected(this.color, 'aeNewBackgroundColorValue');"/>
+        </hbox>
+      </row>
+      <row>
+        <label value="&annotationextension.editColorDialog.newFontColor;"/>
+        <textbox id="aeNewFontColorValue"
+          class="aeTextbox"
+          flex="1"
+          oninput="return(true);"
+          onpaste="return(true);"/>
+        <hbox flex="1">
+          <colorpicker id="aeNewFontColorPicker" flex="1" type="button" onchange="colorSelected(this.color, 'aeNewFontColorValue');"/>
+        </hbox>
+      </row>
+    </rows>
+  </grid>
               
 </dialog>

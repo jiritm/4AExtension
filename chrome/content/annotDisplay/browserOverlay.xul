@@ -30,11 +30,10 @@
 	<script type="application/javascript" src="chrome://annotationextension/content/annotDisplay/structures.js"/>
 	<script type="application/javascript" src="chrome://annotationextension/content/annotDisplay/AnnotParser.js"/>
 	<script type="application/javascript" src="chrome://annotationextension/content/annotDisplay/communication.js"/>
-	<script type="application/javascript" src="chrome://annotationextension/content/annotDisplay/panels.js"/>
+	<script type="application/javascript" src="chrome://annotationextension/content/annotDisplay/panel.js"/>
 	<script type="application/javascript" src="chrome://annotationextension/content/annotDisplay/domManipulation.js"/>
 	<script type="application/javascript" src="chrome://annotationextension/content/annotDisplay/sidePanel.js"/>
 	<script type="application/javascript" src="chrome://annotationextension/content/annotDisplay/browserOverlay.js"/>
-	<script type="application/javascript" src="chrome://annotationextension/content/annotDisplay/panelsDocumentAnnotations.js"/>
 	
 	<!-- K aePanels se pripojuji panely s anotacemi, ktere se pozdeji zobrazi nad anotovanym textem
 	  Drive:

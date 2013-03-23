@@ -22,7 +22,7 @@ annotationExtensionChrome.client =
   address : "",            /**< Adresa serveru, na kterou se klient pripojuje.(vcetne protokolu a portu) */
   serverAddress : "",      /**< Adresa serveru(IP), na kterou se klient pripojuje. */
   serverPort : "",         /**< Port serveru, na ktery se klient pripojuje. */
-  sessionID : "",          /**< Uklada session obdrzene od serveru. */
+  sessionID : null,        /**< Uklada session obdrzene od serveru. */
   url : "Annotations/AnnotEditorsComet",
   
   /**
@@ -333,6 +333,8 @@ annotationExtensionChrome.client.processLoginMessage =  function(ev)
   
     //Uspesne prihlaseni
     annotationExtensionChrome.user.loggedOn();
+		
+		annotationExtensionChrome.settings.addServerAddressToHistory();
   }
   catch(ex)
   {
@@ -553,9 +555,14 @@ annotationExtensionChrome.client.processLogoutMessage =  function(ev)
     
     var connectedElem = XMLMessage.getElementsByTagName('ok');
     if (connectedElem.length == 0)
+		{
       throw "badResponse";
-    else    
+		}
+    else
+		{
+			annotationExtensionChrome.client.sessionID = null;
       annotationExtensionChrome.user.loggedOff();
+		}
   }
   catch(ex)
   {
@@ -588,7 +595,11 @@ annotationExtensionChrome.client.processResponseMessage =  function(responseXML,
   var functionNameParam = functionName || null;
 	
 	try
-  {		
+  {
+		//Zprava prisla mimo sezeni (pravdepodobne po odhlaseni)
+		if(!annotationExtensionChrome.client.sessionID)
+			return;
+		
     var XMLMessage = responseXML;
     if(XMLMessage == null)
       throw "badResponse";

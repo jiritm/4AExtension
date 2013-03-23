@@ -58,7 +58,7 @@
         <column flex="1"/>
       </columns>
       <rows>
-        <row id="aeAnnotationContentRow1">
+        <row id="Row1">
           <!-- Popisek: "vybrany text" -->
           <vbox id="aeSelectTextLabelBox" flex="1">
 						<label class="aeLabel"
@@ -93,7 +93,7 @@
             </hbox>
           </deck>
         </row>
-        <row id="aeAnnotationContentRow2">
+        <row id="Row2">
           <!-- Popisek: "anotace" -->
           <vbox>
 						<label class="aeLabel"

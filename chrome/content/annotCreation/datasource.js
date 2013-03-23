@@ -294,9 +294,9 @@ annotationExtensionChrome.Datasource.prototype =
     }
     catch (ex)
     {
-      alert('datasource.js : deleteObject:\n' + ex.message);
-      alert(typeOfObject + '\n' + resourceURI);
-      alert(this.types['annotTypeRef']);
+      //alert('datasource.js : deleteObject:\n' + ex.message);
+      //alert(typeOfObject + '\n' + resourceURI);
+      //alert(this.types['annotTypeRef']);
       return false;
     }
   },
@@ -721,22 +721,25 @@ annotationExtensionChrome.Datasource.prototype =
       var prop = this.namespace + propP;  
         
       var thePredicate = rdfService.GetResource(prop);
-      var theTarget = dataSource.GetTarget(theSubject,thePredicate,true);
+      var theTarget = dataSource.GetTarget(theSubject, thePredicate, true);
+      
+      var theNewObject = rdfService.GetLiteral(newValue);
     
       if (theTarget != null)
-        dataSource.Unassert(theSubject,thePredicate,theTarget,true);
+      {
+        dataSource.Change(theSubject, thePredicate, theTarget, theNewObject, true);
+      }
+      else
+      {
+        dataSource.Assert(theSubject, thePredicate, theNewObject, true);
+      }
       //else
       //Pozadovana vlastnost neexistuje
-        //return;
-
-      var theObject = rdfService.GetLiteral(newValue);
-    
-      dataSource.Assert(theSubject, thePredicate, theObject, true);
-      
+        //return;      
     }
     catch (e)
     {
-      alert(e.message);
+      alert('datasource.js : changeResourceProp:\n' + e.message);
     }
   },
   

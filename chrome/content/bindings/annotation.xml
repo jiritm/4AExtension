@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://annotationextension/locale/annotationExtension.dtd">
+
+<bindings xmlns="http://www.mozilla.org/xbl"
+  xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  
+  <binding id="aeAnnotation">
+    
+    <resources>
+      <stylesheet src="chrome://annotationextension/skin/bindings/annotation.css"/>
+    </resources>
+    
+    <content>
+      
+      <xul:vbox
+        anonid="aeVbox">
+        <!-- Zavrit, vymazat, editovat anotaci -->
+        <xul:hbox
+          anonid="aePanelBox"
+          align="end" pack="end">
+          <xul:image
+            anonid="aeDeleteAnnotationImage"
+            onclick="document.getBindingParent(this).aeOnDeleteAnnotation(this);"
+            tooltiptext="&annotationextension.annotation.deleteAnnotationImage.tooltip;"/>
+          <xul:image
+            anonid="aeEditAnnotationImage"
+            onclick="document.getBindingParent(this).aeOnEditAnnotation(this);"
+            tooltiptext="&annotationextension.annotation.closeAnnotationImage.tooltip;"/>
+          <xul:spacer flex="1"/>
+          <xul:image
+            anonid="aeCloseAnnotationImage"
+            onclick="document.getBindingParent(this).aeOnCloseAnnotation(this);"
+            tooltiptext="&annotationextension.annotation.closeAnnotationImage.tooltip;"/>
+        </xul:hbox>
+        <!-- Autor a datum anotace -->
+        <xul:hbox
+          anonid="aeAuthorBox">
+          <xul:label
+            anonid="aeAuthorLabel"
+            value="creator"/>
+          <xul:label
+            anonid="aeDateLabel"
+            value="date"/>
+        </xul:hbox>
+        <!-- Typ anotace -->
+        <xul:label
+          anonid="aeTypeLabel"
+          value="type"
+          crop="start"/>
+        <!-- Obsah anotace -->
+        <xul:textbox
+          anonid="aeContentTextbox"
+          readonly="true"
+          value="annotation content"
+          multiline="true"/>
+        <!-- Atributy -->
+        <xul:richlistbox
+          anonid="aeAttributesBox"
+          rows="3"/>
+      </xul:vbox>
+        
+    </content>
+    
+    <implementation>
+      
+      <!-- =================== PUBLIC MEMBERS =================== -->
+      
+      <property name="aeAnnotation"
+        onget="return this.mAeAnnotation;">
+        <setter><![CDATA[
+         try{
+          this.mAeAnnotation = val;
+          this.mAeAnnotaionId = val.id;
+           
+          if (val.nested_id)
+          {//Jde o vnorenou anotaci
+             document.getAnonymousElementByAttribute(this, "anonid", "aeDeleteAnnotationImage").hidden = true;
+             document.getAnonymousElementByAttribute(this, "anonid", "aeEditAnnotationImage").hidden = true;
+          }
+				
+          this.aeActualize();
+          }catch(ex){alert(ex.message);}
+        ]]></setter>
+      </property>
+      
+      <property name="aeAnnotationDB"
+        onget="return this.mAeAnnotationDB;"
+        onset="this.mAeAnnotationDB = val;">
+      </property>
+      
+      <method name="aeActualize">
+        <body><![CDATA[
+          Components.utils.import("resource://annotationextension/functions.jsm");
+          
+          var typeLabel = document.getAnonymousElementByAttribute(this, "anonid", "aeTypeLabel");
+          var type = annotationExtension.functions.linearTypeURI(this.mAeAnnotation.type);
+          typeLabel.value = type;
+          typeLabel.setAttribute('tooltiptext', type);
+          
+          var authorLabel = document.getAnonymousElementByAttribute(this, "anonid", "aeAuthorLabel");
+          authorLabel.value = this.mAeAnnotation.author.name;
+          
+          var dateLabel = document.getAnonymousElementByAttribute(this, "anonid", "aeDateLabel");
+          dateLabel.value = this.mAeAnnotation.dateTime;
+          
+          var contentText = document.getAnonymousElementByAttribute(this, "anonid", "aeContentTextbox");
+          contentText.value = this.mAeAnnotation.content;
+        ]]></body>
+      </method>
+      
+      <!-- =================== PRIVATE MEMBERS =================== -->
+      
+      <method name="aeOnCloseAnnotation">
+        <body><![CDATA[
+          closePanel(this, 'true');
+        ]]></body>
+      </method>
+      
+      <method name="aeOnDeleteAnnotation">
+        <body><![CDATA[
+          this.aeAnnotationDB.removeAnnotation(this.mAeAnnotaionId);
+        ]]></body>
+      </method>
+            
+      <method name="aeOnEditAnnotation">
+        <body><![CDATA[
+          this.aeAnnotationDB.changeAnnotation(this.mAeAnnotaionId);
+        ]]></body>
+      </method>
+      
+    </implementation>
+    
+  </binding>
+</bindings>

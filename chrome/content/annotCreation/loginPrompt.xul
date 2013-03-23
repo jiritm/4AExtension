@@ -64,7 +64,7 @@
                 <textbox id="aeUsername" rows="1" flex="1"
                   type="autocomplete"
                   autocompletesearch="form-history"
-                  autocompletesearchparam="aeusername-form-history"
+                  autocompletesearchparam="annotationextensionusername-form-history"
                   enablehistory="true"
                   completedefaultindex="true"
                   onchange="annotationExtensionChrome.user.usernameTextboxInputHandler()"

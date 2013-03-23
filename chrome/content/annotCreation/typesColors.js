@@ -13,49 +13,7 @@
 annotationExtensionChrome.typesColors =
 {      
   /**
-   * Vrati barvu pro typ v rgba tvaru
-   * @param {String} type, typ pro ktery chceme ziskat baarvu
-   * @returns barva pro typ z argumentu
-   */
-  getRgbaColorForType : function(type)
-  {
-    var color = annotationExtensionChrome.colorsDatasource.getResourceProp('annotationExtension://' + type, 'value');
-    if (color != null && color != undefined)
-    {
-      if (this.checkRGBAColor(color))
-      {
-        return color;
-      }
-      else if (this.checkHexColor(color))
-      {
-        return this.hexColorToRgbaColor(color, 1);
-      }
-      else
-      {
-        return this.hexColorToRgbaColor(annotationExtension.ANNOTATION_COLOR, 1); 
-      }
-    }
-    else
-    {
-      return this.hexColorToRgbaColor(annotationExtension.ANNOTATION_COLOR, 1);
-    }
-  },
-  
-  /**
-   * Vrati barvu (jak je ulozena) pro typ
-   * @param {String} type, typ pro ktery chceme ziskat baarvu
-   * @returns barva pro typ z argumentu
-   */
-  getColorForType : function(type)
-  {
-    var color = annotationExtensionChrome.colorsDatasource.getResourceProp('annotationExtension://' + type, 'value');
-    if (color != null)
-      return color;
-    else
-      return annotationExtension.ANNOTATION_COLOR;
-  },
-  
-  /**
+   * PRO ZISKANI BARVY BY SE MELA POUZIT POUZE TATO FUNKCE
    * Vrati barvu pro typ, pritom zohledni uroven typu
    * @param {String} type, typ pro ktery chceme ziskat baarvu
    * @param {Int} level, uroven zanoreni typu
@@ -81,6 +39,64 @@ annotationExtensionChrome.typesColors =
     //color = this.hexColorToRgbaColor(color, alfa);
     var color = this.getRgbaColorForType(type);
     
+    return color;
+  },
+  
+  /**
+   * Private
+   * Vrati barvu pro typ v rgba tvaru
+   * @param {String} type, typ pro ktery chceme ziskat baarvu
+   * @returns barva pro typ z argumentu
+   */
+  getRgbaColorForType : function(type)
+  {
+    var backgroundColor = annotationExtensionChrome.colorsDatasource.getResourceProp('annotationExtension://' + type, 'backgroundColor');
+    var fontColor = annotationExtensionChrome.colorsDatasource.getResourceProp('annotationExtension://' + type, 'fontColor');
+    
+    var color = { backgroundColor : annotationExtension.PREFERENCE.getCharPref("annotationFragment.defaultBackground"),
+                  fontColor : annotationExtension.PREFERENCE.getCharPref("annotationFragment.defaultFont")};
+    
+    if (backgroundColor != null)
+    {      
+      if (this.checkRGBAColor(backgroundColor))
+        color.backgroundColor = backgroundColor;
+      else if (this.checkHexColor(backgroundColor))
+        color.backgroundColor = this.hexColorToRgbaColor(backgroundColor, 1);
+    }
+    
+    if (fontColor != null)
+    {
+      if (this.checkRGBAColor(fontColor))
+        color.fontColor = fontColor;
+      else if (this.checkHexColor(fontColor))
+        color.fontColor = this.hexColorToRgbaColor(fontColor, 1);
+      else
+        color.fontColor = annotationExtension.SETTING_NOT_SET;
+    }
+      
+    return color;
+  },
+  
+  /**
+   * Private
+   * Vrati barvu (jak je ulozena) pro typ
+   * @param {String} type, typ pro ktery chceme ziskat baarvu
+   * @returns barva pro typ z argumentu
+   */
+  getColorForType : function(type)
+  {
+    var backgroundColor = annotationExtensionChrome.colorsDatasource.getResourceProp('annotationExtension://' + type, 'backgroundColor');
+    var fontColor = annotationExtensionChrome.colorsDatasource.getResourceProp('annotationExtension://' + type, 'fontColor');
+    
+    var color = { backgroundColor : annotationExtension.PREFERENCE.getCharPref("annotationFragment.defaultBackground"),
+                  fontColor : annotationExtension.PREFERENCE.getCharPref("annotationFragment.defaultFont")};
+    
+    if (fontColor != null)
+      color.fontColor = fontColor;
+    
+    if (backgroundColor != null)
+      color.backgroundColor = backgroundColor;
+               
     return color;
   },
   

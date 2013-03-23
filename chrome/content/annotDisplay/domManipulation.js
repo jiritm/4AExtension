@@ -232,6 +232,7 @@ function injectFragment(fragment, id, type, frame_doc, nested, selectingALinkTyp
 		
 		var active = true;
 		var background = "";
+    var fontColor = "";
 		var colorsStack = [];
 		
     if (selectingALinkType != undefined && selectingALinkType != null)
@@ -241,7 +242,19 @@ function injectFragment(fragment, id, type, frame_doc, nested, selectingALinkTyp
         {//Muzes ihned zobrazit
             active = true;
             background = annotationExtension.ALINK_ANNOTATION_COLOR;
-            colorsStack.push(['aLinkColor',background]);
+            fontColor = annotationExtension.ALINK_ANNOTATION_COLOR_FONT;
+            
+            //Je potreba na zasobnik ulozit i barvu anotace, aby se fragment spravne zabarvoval
+            //po zruseni vyberu vnorene anotace
+            var typeName = annotationExtension.functions.linearTypeURI(type);
+            var typeColor = annotationExtensionChrome.typesColors.getColorForTypeWithLevel(typeName, 0);
+            var typeBackground = typeColor.backgroundColor;
+            var typeFontColor = typeColor.fontColor;
+            if (typeFontColor == annotationExtension.SETTING_NOT_SET)
+                typeFontColor = "";
+            colorsStack.push([id, typeBackground + ';' + typeFontColor]);
+            
+            colorsStack.push(['aLinkColor', background + ';' + fontColor]);
         }
     }
     else
@@ -253,8 +266,12 @@ function injectFragment(fragment, id, type, frame_doc, nested, selectingALinkTyp
         else
         {
             var typeName = annotationExtension.functions.linearTypeURI(type);
-            background = annotationExtensionChrome.typesColors.getColorForTypeWithLevel(typeName, 0);
-            colorsStack.push([id,background]);
+            var color = annotationExtensionChrome.typesColors.getColorForTypeWithLevel(typeName, 0);
+            background = color.backgroundColor;
+            fontColor = color.fontColor;
+            if (fontColor == annotationExtension.SETTING_NOT_SET)
+                fontColor = "";
+            colorsStack.push([id, background + ';' + fontColor]);
         }
     }
 		
@@ -266,7 +283,10 @@ function injectFragment(fragment, id, type, frame_doc, nested, selectingALinkTyp
         ' onmouseout="dispatch(this,' + "'HideAPanelEvent'" + ');"' +
         ' onclick="dispatch(this,' + "'OpenAPanelEvent'" + ');"' +
         ' onmouseover="dispatch(this,' + "'ShowAPanelEvent'" + ');"' +
-        ' style="background-color:' + background + '"' +
+        ' style="background-color:' + background + ';';
+            if (fontColor != "")
+               annotationSpanStart += ' color:' + fontColor + ';';
+            annotationSpanStart += '"' +
 				" colorsstack='" + colorsStack + "'" +
         ' active="' + active + '"' +
         ' xmlns:html="http://www.w3.org/1999/xhtml">';
@@ -506,13 +526,8 @@ function injectAnnotation(annotation, frame_doc)
     if(annotation.fragments.length > 0)
     {
         $.each(annotation.fragments, function(ind,fragment) { injectFragment(fragment,annotation.id,annotation.type,frame_doc,annotation.nested_id, annotationExtensionChrome.bottomAnnotationWindow.annotsALinkType); });
-        
-        if (annotation.nested_id)
-            var nestedAnnot = true;
-				else
-            var nestedAnnot = false;
 				
-        var panel = createRTAPanel(annotation.id, document.getElementById('aePanels'), nestedAnnot);
+        var panel = createAnnotationPanel(annotation, document.getElementById('aePanels'));
         return panel;
     }
     else
@@ -566,8 +581,24 @@ function removeAnnotation(annotation, frame_doc)
 };
 
 /**
+ * Vlozi vsechny anotace "DB" do bocniho panelu anotacniho doplnku
+ * @param {AnnotationsDB} annotDB, "databaze" obsahujici anotace k vlozeni
+ */
+function addAnnotationsToSidebar(annotDB)
+{		
+		$.each(annotDB.annotations, function(ind, annotation)
+		{
+				if(annotation.fragments.length < 1)
+				{                
+						createAnnotationToSidebar(annotation);
+				} 
+		});
+};
+
+/**
  * Vlozi anotaci do bocniho panelu anotacniho doplnku
- * @param {Annotation} annotation, objekt anotace
+ * @param {Annotation object} annotation, objekt anotace
+ * @returns {Node} vytvorena anotace
  */
 function createAnnotationToSidebar(annotation)
 {
@@ -575,15 +606,10 @@ function createAnnotationToSidebar(annotation)
 		if(isAnnotationSidebarActive(sidebarDocument))
 		{
 				try
-				{            
-            if (annotation.nested_id)
-								var nestedAnnot = true;
-						else
-								var nestedAnnot = false;
-                
-						var RTAsideBarPanel = createRTASidebarPanel(annotation.id, nestedAnnot);
-						actualizeRTASidebarPanel(RTAsideBarPanel, RTAsideBarPanel.id);
-            return RTAsideBarPanel;
+				{
+            var documentAnnotationsBox = sidebarDocument.getElementById('aeDocumentAnnotationsBox');
+						var sidebarAnnotationPanel = createAnnotationSidebarPanel(annotation, documentAnnotationsBox);
+            return sidebarAnnotationPanel;
 				}
 				catch(ex)
 		    {}
@@ -603,8 +629,8 @@ function removeAnnotationFromSidebar(annotation)
 		{
 				try
 				{
-					var RTAsideBarPanel = sidebarDocument.getElementById(annotation.id);
-					RTAsideBarPanel.parentNode.removeChild(RTAsideBarPanel);
+					var sidebarAnnotationPanel = sidebarDocument.getElementById(annotation.id);
+					sidebarAnnotationPanel.parentNode.removeChild(sidebarAnnotationPanel);
 				}
 				catch(ex)
 				{}
@@ -627,26 +653,11 @@ function removeAnnotationsFromSidebar(annotDB)
 };
 
 /**
- * Vlozi vsechny anotace "DB" do bocniho panelu anotacniho doplnku
- * @param {AnnotationsDB} annotDB, "databaze" obsahujici anotace k vlozeni
- */
-function addAnnotationsToSidebar(annotDB)
-{		
-		$.each(annotDB.annotations, function(ind, annotation)
-		{
-				if(annotation.fragments.length < 1)
-				{                
-						createAnnotationToSidebar(annotation);
-				} 
-		});
-};
-
-/**
  * Test, zda je bocni panel anotacniho doplnku otevreny
  */
 function isAnnotationSidebarActive(sidebarDocument)
 {
-		if (sidebarDocument.location.href == "chrome://annotationextension/content/annotDisplay/sideBar.xul")
+		if (sidebarDocument.location.href == "chrome://annotationextension/content/annotDisplay/sidebar.xul")
 				return true;
 		else
 				return false;
@@ -670,7 +681,9 @@ function updateAnnotationsColorInDoc()
             var typeColor = annotationExtensionChrome.typesColors.getColorForTypeWithLevel(typeName, level);
             
 						if (annotationFragmentIsActive(annot.id, annotationExtensionChrome.annotationsView.frame_doc))
-								setFragmentsBackground(annot.id, typeColor, annotationExtensionChrome.annotationsView.frame_doc, annot.tmpId);
+            {
+								setFragmentsColor(annot.id, typeColor, annotationExtensionChrome.annotationsView.frame_doc, annot.tmpId);
+            }
         }
     }
     catch(ex)
@@ -867,7 +880,7 @@ function removeChildrens(element)
 /**
  * Prida do atributu colorsArray barvu.
  * @param {Element} node, uzel s aributem colorsArray
- * @param {String} color, barva, ktera se ma pridat
+ * @param {Color object} color, barva, ktera se ma pridat
  * @param {String} id, id k barve
  */
 function pushFragmentColor(node, color, id)
@@ -875,7 +888,7 @@ function pushFragmentColor(node, color, id)
 		var colors = node.getAttribute('colorsstack');
 		var colorsArray = JSON.parse(colors);
 		
-		colorsArray.push([id, color])
+		colorsArray.push([id, color.backgroundColor + ';' + color.fontColor]);
 		
 		colors = JSON.stringify(colorsArray);
 		node.setAttribute('colorsstack', colors);
@@ -884,7 +897,7 @@ function pushFragmentColor(node, color, id)
 /**
  * Odebere z atributu colorsArray prvni barvu a vrati ji
  * @param {Element} node, uzel s aributem colorsArray
- * @returns {Array} dvouprvkove pole, s id anotace, ke ktere barva patri a samotnou barvou
+ * @returns {Array} dvouprvkove pole, s id anotace, ke ktere barva patri a samotnou barvu (Color object)
  */
 function popFragmentColor(node)
 {
@@ -894,24 +907,27 @@ function popFragmentColor(node)
     if (colorsArray.length <= 0)
         return null;
 		
-		var color = colorsArray.pop();
-		
+		var returnValue = colorsArray.pop();
+    var color = returnValue[1].split(";");
+    returnValue[1] = { backgroundColor : color[0],
+                       fontColor : color[1]}
+    
 		colors = JSON.stringify(colorsArray);
 		node.setAttribute('colorsstack', colors);
 		
-		return color;
+		return returnValue;
 };
 
 /**
- * Ziska z atributu colorsArray barvu s danum id
+ * Ziska z atributu colorsArray barvu s danym id
  * @param {String} id identifikujici barvu
  * @para {Element} node, uzel s parametrem colorsArray
- * @returns {String} barvu uzlu
+ * @returns {Color object} barvu uzlu
  */
 function getFragmentColorByID(node, id)
 {
 		if (node == null)
-				return "";
+				return null;
 		
 		var colors = node.getAttribute('colorsstack');
 		var colorsArray = JSON.parse(colors);
@@ -919,10 +935,15 @@ function getFragmentColorByID(node, id)
 		for (var i = 0; i < colorsArray.length; i++)
 		{
 				if (colorsArray[i][0] == id)
-						return colorsArray[i][1];
+        {
+            var color = colorsArray[i][1];
+            color = color.split(";");
+						return {backgroundColor : color[0],
+                    fontColor : color[1]};
+        }
 		}
 		
-		return "";
+		return null;
 };
 
 /**
@@ -953,15 +974,15 @@ function removeFragmentColorByID(node, id)
  * Pokud je color == "" a na zasobniku barev je nejaka barva ulozena nastavi prvni barvu ze zasobniku
  * @param {String} id, id(anotace ke ktere fragmenty patri) fragmentu, kterym se ma zmenit barva
  * @param {String} tmpId, tmpId(anotace ke ktere fragmenty patri) fragmentu, kterym se ma zmenit barva
- * @param {String} color, nova barva
+ * @param {Color object} color, nova barva
  * @param {Document} doc, dokument, kde se nachazeji spany fragmentu
  */
-function setFragmentsBackground(id, color, doc, tmpId)
+function setFragmentsColor(id, color, doc, tmpId)
 {
 		var spanNodes = doc.getElementsByName(id);
 		for (var i = 0; i < spanNodes.length; i++)
 		{
-				setFragmentBackground(spanNodes[i], color, id, tmpId);
+				setFragmentColor(spanNodes[i], color, id, tmpId);
 		}
 };
 
@@ -970,16 +991,16 @@ function setFragmentsBackground(id, color, doc, tmpId)
  * @param {Element} node, element pro ktery se ma zmenit barva.
  * @param {String} id, id(anotace ke ktere fragment patri) fragmentu
  * @param {String} id, tmpId(anotace ke ktere fragment patri) fragmentu
- * @param {String} color, nova barva
+ * @param {Color object} color, nova barva, null, pokud se ma barvu daneho id zrusit
  */
-function setFragmentBackground(node, color, id, tmpId)
+function setFragmentColor(node, color, id, tmpId)
 {
     var width = "1px";
     var style = "dashed";
     
-		if (color != "")
+		if (color != null)
 		{
-        $(node).css("background-color",color);
+        setNodeColor(node, color);
         if (tmpId != null && tmpId != undefined)
           $(node).css("border", width + " " + style + " " + annotationExtension.SUGGESTED_BORDER_COLOR);
 				
@@ -1000,12 +1021,12 @@ function setFragmentBackground(node, color, id, tmpId)
                 newColor = popFragmentColor(node);
                 if (newColor == undefined || newColor == null)
                 {//V zasobniku zadna barva pro fragment, nastav fragmentu prazdne pozadi
-                    $(node).css("background-color",color);
+                    setNodeColor(node, null);
                     $(node).css("border",  "0px solid #000000");
                 }
                 else
                 {
-                    $(node).css("background-color",newColor[1]);
+                    setNodeColor(node, newColor[1]);
                     if (tmpId != null && tmpId != undefined)
                       $(node).css("border", width + " " + style + " " + annotationExtension.SUGGESTED_BORDER_COLOR);
                     pushFragmentColor(node, newColor[1], newColor[0]);	
@@ -1023,9 +1044,35 @@ function setFragmentBackground(node, color, id, tmpId)
 		for (var i = 0; i < childNodes.length; i++)
 		{
 				if (childNodes[i].nodeType == Node.ELEMENT_NODE)
-						setFragmentBackground(childNodes[i], color, id, tmpId);
+						setFragmentColor(childNodes[i], color, id, tmpId);
 		}
 };
+
+/**
+ * Nastavi barvu uzlu, tato funkce by se mela volat vzdy pro nastaveni barvy uzlu
+ * @param {Node} node, uzel, kteremu se ma zmenit barva
+ * @param {Color object} color, nova barva
+ */
+function setNodeColor(node, color)
+{
+    var backgroundColor = null;
+    var fontColor = null;
+    
+    if (color)
+    {
+        backgroundColor = color.backgroundColor;
+        fontColor = color.fontColor;
+    }
+    
+    if (!fontColor || fontColor == annotationExtension.SETTING_NOT_SET)
+        fontColor = "";
+    
+    if (!backgroundColor || backgroundColor == annotationExtension.SETTING_NOT_SET)
+        backgroundColor = "";
+        
+    $(node).css("background-color", backgroundColor);
+    $(node).css("color", fontColor);        
+}
 
 /**
  * Zobrazi anotaci(fragmenty anotace) na strance jinou barvou
@@ -1033,7 +1080,10 @@ function setFragmentBackground(node, color, id, tmpId)
  */
 function annotHighlight(id, doc)
 {
-		setFragmentsBackgroundHiglight(id, annotationExtension.ANNOTATION_HIGHLIGHTED, doc);
+    var color = { backgroundColor : annotationExtension.ANNOTATION_HIGHLIGHTED,
+                  fontColor : annotationExtension.ANNOTATION_HIGHLIGHTED_FONT};
+                  
+    setFragmentsColorHiglight(id, color, doc);
 };
 
 /**
@@ -1042,22 +1092,22 @@ function annotHighlight(id, doc)
  */
 function annotHighlightClear(id, doc)
 {
-		setFragmentsBackgroundHiglight(id, "", doc);
+		setFragmentsColorHiglight(id, null, doc);
 };
 
 /**
- * Funkce setFragmentsBackground upravena pro zvyrazneni fragmentu...
- * Parametr "color" nesmi byt prazdny a nad fragmenty se nesmi volat jina zmena barvy
- * dokud se nezavola setFragmentsBackground s barvou nastavenou na "".
+ * Funkce setFragmentsColor upravena pro zvyrazneni fragmentu...
+ * Parametr "color" nesmi byt null a nad fragmenty se nesmi volat jina zmena barvy
+ * dokud se nezavola setFragmentsColor s barvou nastavenou na null.
  */
-function setFragmentsBackgroundHiglight(id, color, doc)
+function setFragmentsColorHiglight(id, color, doc)
 {
 		var spanNodes = doc.getElementsByName(id);
     try
     {
         for (var i = 0; i < spanNodes.length; i++)
         {
-            setFragmentBackground(spanNodes[i], color, 'highlightColor', null);
+            setFragmentColor(spanNodes[i], color, 'highlightColor', null);
         }
     }
     catch(ex)
@@ -1104,7 +1154,7 @@ function setFragmentBorder(node, color, width, style, id)
  * Skryje anotace v dokumentu, krom daneho typu.
  * Po teto funkci je nutne zavolat restoreAnnotationsAfterSelectALink()
  * @param {String} type, typ ktery ma zustat "aktivni"
- * @param {String} color, barva jako se ma "aktivni" typ zobrazit
+ * @param {Color object} color, barva jako se ma "aktivni" typ zobrazit
  * @param {document} doc, dokument, ve kterem se nachazeji fragmenty anotace
  */
 function hideAnnotationsForSelectALink(type, color, doc)
@@ -1231,8 +1281,8 @@ function checkChildsAttrsAndAlertWhenSelectNewALink(interfaceID)
  */
 function setALinkToUiById(id, annotID)
 {
+    //Nastaveni vybraneho textu
 		var annotSelectBox = document.getElementById(id+'-textbox1-'+annotationExtensionChrome.bottomAnnotationWindow.getCurrentTabID());
-		
 		var annotDB = annotationExtensionChrome.annotationsView.ANNOTATIONS;
 		var annots = []
 		for (var i = 0; i < annotID.length; i++)
@@ -1257,9 +1307,10 @@ function setALinkToUiById(id, annotID)
 		for (var j = 0; j < annots.length; j++)
 				for (var i = 0; i < annots[j].fragments.length; i++)
 						text += annots[j].fragments[i].text + separ;
-		
+
 		annotSelectBox.value = text;
 		
+    //Nastaveni boxu pro prejeti mysi -> zobrazeni panelu odkazovane anotace
     var contentDeck = document.getElementById(id+'-contentDeck-'+annotationExtensionChrome.bottomAnnotationWindow.getCurrentTabID());
 		var aLinkLabelBox = document.getElementById(id+'-aLinkLabelBox-'+annotationExtensionChrome.bottomAnnotationWindow.getCurrentTabID());
     
@@ -1347,8 +1398,7 @@ function setALinkToAttribute(interfaceID, annotID)
 				annotationObj.addAnnotation(annotID, 0);
 				annotationObj.hideSelectAnnotBoxForSelectAnnotation();
         annotationObj.hideAddDeleteBox();
-        tab.nestedAnnotations.addNew(annotationObj);
-				
+        tab.nestedAnnotations.addNew(annotationObj);				
 				
 				//setALinkToUiById(interfaceID, [annotID]);
 
@@ -1362,7 +1412,6 @@ function setALinkToAttribute(interfaceID, annotID)
 				annotationExtensionChrome.attributes.showOrHideAddAttrToAttrButtonByID(interfaceID);
 				//Ukonceni vyberu "vnorene anotace"
 				//annotationExtensionChrome.bottomAnnotationWindow.selectNestedAnnotation(interfaceID);
-
 		}
 		else
 		{//Pouze vloz (atribut uz ma nastaveny aLink)
@@ -1419,7 +1468,7 @@ function setALinkToAttributeProp(id, aLink)
 /**
  * Skryje anotace v dokumentu, krom daneho typu.
  * @param {String} type, typ ktery ma zustat "aktivni"
- * @param {String} color, barva jako se ma "aktivni" typ zobrazit
+ * @param {Color object} color, barva jakou se ma "aktivni" typ zobrazit
  * @param {document} doc, dokument, ve kterem se nachazeji fragmenty anotace
  */
 function hideAnnotationsExceptType(type, color, doc)
@@ -1437,7 +1486,7 @@ function hideAnnotationsExceptType(type, color, doc)
 								var span = annotSpans[i];
 								
 								span.setAttribute('active', true);
-                $(span).css("background-color",color);
+                setNodeColor(span, color);
 								pushFragmentColor(span, color, 'aLinkColor');
 						}
 				}
@@ -1448,7 +1497,7 @@ function hideAnnotationsExceptType(type, color, doc)
 								var span = annotSpans[i];
 								
 								span.setAttribute('active', false);
-                $(span).css("background-color","");
+                setNodeColor(span, null);
 								$(span).css("border",  "0px solid #000000");
 						}
 				}
@@ -1476,14 +1525,14 @@ function showMainAnnotations(doc)
 								removeFragmentColorByID(span, 'aLinkColor');
 								
 								var color = getFragmentColorByID(span, annotation.id);
-                if (color == "")
+                if (color == null)
                 {
                     var type = annotation.type;
                     var typeName = annotationExtension.functions.linearTypeURI(type);
                     color = annotationExtensionChrome.typesColors.getColorForTypeWithLevel(typeName, 0);
                 }
 								span.setAttribute('active', true);
-                $(span).css("background-color",color);
+                setNodeColor(span, color);
                 if (annotation.tmpId != null && annotation.tmpId != undefined)
                    $(span).css("border", "1px dashed " + annotationExtension.SUGGESTED_BORDER_COLOR);   
 						}
@@ -1497,7 +1546,7 @@ function showMainAnnotations(doc)
 								removeFragmentColorByID(span, 'aLinkColor');
 		
 								span.setAttribute('active', false);
-                $(span).css("background-color","");
+                setNodeColor(span, null);
                 $(span).css("border",  "0px solid #000000");
 
 								//Pokud by byla nastavena barva fragmentu, odstran ji

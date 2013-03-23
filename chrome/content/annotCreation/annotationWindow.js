@@ -333,6 +333,12 @@ annotationExtensionChrome.bottomAnnotationWindow =
     {
       var textboxID = this.nestedAnnotationUIID + '-textbox1-'+this.getCurrentTabID();
       var rangeLabel = this.nestedAnnotationUIID + '-aeSelectedRangeLabel-'+this.getCurrentTabID();
+			
+			//Pokud je vnorena anotace urcena odkazem, nenastavuj vybrany text (urci se z odkazovane anotace)
+			//(jinak by se nastavil prazdny vybrany text - odkaz na anotaci se urci kliknutim -> delka vybraneho textu = 0)
+			var annotationObj = annotationExtensionChrome.bottomAnnotationWindow.getCurrentTab().getNestedAnnotation(this.nestedAnnotationUIID);
+      if (annotationObj != null && annotationObj.aLinks == true)
+				return;
     }
     
     document.getElementById(textboxID).value = "";
@@ -600,11 +606,11 @@ annotationExtensionChrome.bottomAnnotationWindow =
 					if (annotationExtensionChrome.types.length <= 0)
 					{//pokud pridavas posledni typ do databaze upozorni autocomplete...
 					 //pokud se nepodari pridat vsechny typy - nejaka chyba - nenadelas nic
-						annotationExtension.typesStorageService.addTypes([type], typesStorageHandler);
+						//annotationExtension.typesStorageService.addTypes([type], typesStorageHandler);
 					}
 					else
 					{
-						annotationExtension.typesStorageService.addTypes([type], null);
+						//annotationExtension.typesStorageService.addTypes([type], null);
 					}
           
 					cont = true;
@@ -1174,7 +1180,9 @@ annotationExtensionChrome.bottomAnnotationWindow =
         {//Je mozne vybirat ODKAZ NA ANOTACI
           this.annotsAreHiddenForALink = true;
           this.annotsALinkType = annotationExtensionChrome.attributes.selectedAttrType;
-          hideAnnotationsForSelectALink(this.annotsALinkType, annotationExtension.ALINK_ANNOTATION_COLOR, annotationExtensionChrome.annotationsView.frame_doc);
+					var color = { backgroundColor : annotationExtension.ALINK_ANNOTATION_COLOR,
+					              fontColor : annotationExtension.ALINK_ANNOTATION_COLOR_FONT}
+          hideAnnotationsForSelectALink(this.annotsALinkType, color, annotationExtensionChrome.annotationsView.frame_doc);
         }
       }
       else

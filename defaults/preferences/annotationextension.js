@@ -27,4 +27,19 @@ pref("extensions.annotationextension.user.username", "");
 pref("extensions.annotationextension.server.serverAddress", "localhost");
 //Cislo portu serveru na ktery se uzivatel prihlasuje
 pref("extensions.annotationextension.server.serverPort", 8080);
-
+//Zobrazeni typu v panelu anotace
+pref("extensions.annotationextension.annotationPanel.showType", true);
+//Zobrazeni autora v panelu anotace
+pref("extensions.annotationextension.annotationPanel.showAuthor", true);
+//Zobrazeni data v panelu anotace
+pref("extensions.annotationextension.annotationPanel.showDate", true);
+//Nacteni vnorenych anotaci do panelu
+pref("extensions.annotationextension.annotationPanel.viewLevel", 1); 
+//Zobrazeni atributu vnorenych anotaci v panelu
+pref("extensions.annotationextension.annotationPanel.showViewLevel", 1);
+//Duvera v nabidky
+pref("extensions.annotationextension.suggestion.confidenceNumber", 0);
+//Defaultni barva pozadi fragmentu
+pref("extensions.annotationextension.annotationFragment.defaultBackground", "rgba(255,255,51,1)");
+//Defaultni barva pisma fragmentu
+pref("extensions.annotationextension.annotationFragment.defaultFont", "rgba(0,0,0,1)");

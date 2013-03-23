@@ -14,7 +14,11 @@ const Ci = Components.interfaces;
 
 Components.utils.import("resource://annotationextension/namespace.jsm");
 
+annotationExtension.PREFERENCE = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.annotationextension.");
+
 annotationExtension.ANNOTATION_EXTENSION = 'annotationExtension: ';
+
+annotationExtension.ELEM_NAMESPACE = "chrome://annotationExtension";
 
 annotationExtension.NAMESPACE = 'chrome://annotationextension/rdf#';
 annotationExtension.BASE_URI = 'chrome://annotationextension/';
@@ -27,10 +31,11 @@ annotationExtension.SUGGESTED_ANNOTATION = 'aeSuggestedAnnotation';
 annotationExtension.SUGGESTED_BORDER_COLOR = '#d2ef0c';
 
 //NEMENIT HEX TVAR BAREV!!!
-annotationExtension.ANNOTATION_COLOR = '#FFFF33';
-annotationExtension.NESTED_ANNOTATION_COLOR = '#FFCC00';
-annotationExtension.NESTED2_ANNOTATION_COLOR = '#FF0000';
 annotationExtension.ANNOTATION_HIGHLIGHTED = '#00AADD';
+annotationExtension.ANNOTATION_HIGHLIGHTED_FONT = '#000000';
+
+//pozor - XULu (u stromu) muze byt primo notSet
+annotationExtension.SETTING_NOT_SET = "notSet";
 
 annotationExtension.SEND_ANNOTATIONS_OK = 'sendAnnotations';
 annotationExtension.REMOVE_ANNOTATIONS_OK = 'removeAnnotations';
@@ -42,6 +47,7 @@ annotationExtension.SYNC_NAME = 'synchronization';
 
 annotationExtension.STATUSBAR_MESSAGE_COLOR = '#CCFFFF';
 annotationExtension.ALINK_ANNOTATION_COLOR = '#66CCFF';
+annotationExtension.ALINK_ANNOTATION_COLOR_FONT = '#000000';
 
 annotationExtension.ALINK_TEXTBOX_COLOR = '#FF6666';
 
