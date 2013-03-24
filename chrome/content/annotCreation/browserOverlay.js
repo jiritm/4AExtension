@@ -188,8 +188,8 @@ annotationExtensionChrome.browserOverlay = {
     var annotationSidebarSplitter = document.getElementById('aeSidebarSplitter');
     if (open != undefined && open != null)
     {
-      annotationSidebar.hidden = open;
-      annotationSidebarSplitter.hidden = open;
+      annotationSidebar.hidden = !open;
+      annotationSidebarSplitter.hidden = !open;
       this.sidebarShowStatus = open;
     }
     else
