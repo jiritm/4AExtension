@@ -396,7 +396,7 @@ annotationExtensionChrome.attributes =
         
         var attrIsALink = this.attributeIsALink(uri);
         
-        if (!attrIsALink && !annotationExtension.attrConstants.isSimple(type))
+        if (!annotationExtension.attrConstants.isSimple(oldType) && !attrIsALink && !annotationExtension.attrConstants.isSimple(type))
         {//Pokud se zmenil typ vnorene anotace na jiny typ vnorene anotace, ponechej v UI atributu ulozene hodnoty
           this.deleteNotFilledAttrs(uri);
           this.setNotDefaultToAttrs(uri);

@@ -1,5 +1,11 @@
 <?xml version="1.0"?>
 
+<!--
+ Box pro vyber typu anotace - poskytuje funkce autocomplete apod.
+ Lze uvest nekolik parametru. Viz priklady pouziti - vyber typu "hlavni" anotace
+ a vyber typu u atributu (napr. aeConfirmTextHidden - skryti textu pro potvrzeni vyberu, aeShowSimple - v autocomplete se zobrazi i jednoduche typy)
+-->
+
 <!DOCTYPE overlay SYSTEM "chrome://annotationextension/locale/annotationExtension.dtd">
 
 <bindings xmlns="http://www.mozilla.org/xbl"

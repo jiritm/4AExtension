@@ -1,5 +1,9 @@
 <?xml version="1.0"?>
 
+<!--
+ Panel anotace, ktery se zobrazuje v dokumentu.
+-->
+
 <!DOCTYPE overlay SYSTEM "chrome://annotationextension/locale/annotationExtension.dtd">
 
 <bindings xmlns="http://www.mozilla.org/xbl"
