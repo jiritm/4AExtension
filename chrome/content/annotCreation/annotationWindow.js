@@ -1296,6 +1296,8 @@ annotationExtensionChrome.bottomAnnotationWindow =
       var nestedAnnotations = this.getCurrentTab().getNestedAnnotations();
       
       var selection = window.content.getSelection();
+			if (!selection) return;
+			
       var savedAnnotation = null;
       selection.removeAllRanges();
       
