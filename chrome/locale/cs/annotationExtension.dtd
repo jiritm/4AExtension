@@ -7,6 +7,7 @@
 
 <!ENTITY annotationextension.Window.title                 "Anotační doplněk">
 <!ENTITY annotationextension.Window.close                 "Zavřít">
+<!ENTITY annotationextension.Window.closeKey              "(Ctrl+Alt+A)">
 <!ENTITY annotationextension.Window.annotateDocument      "Anotace celého dokumentu">
 <!ENTITY annotationextension.Window.logout                "Odhlásit se">
 <!ENTITY annotationextension.Window.suggest               "Zapnout nabízení anotací">
@@ -28,7 +29,9 @@
 <!ENTITY annotationextension.annotationWindow.chooseUser.tooltip    "Zobrazí uživatele">
 <!ENTITY annotationextension.annotationWindow.chooseGroup.tooltip   "Zobrazí uživatelské skupiny">
 
-<!ENTITY annotationextension.annotationWindow.sidebar               "Zobrazí boční panel s anotacemi dokumentu">
+<!ENTITY annotationextension.annotationWindow.sidebar               "Zobrazí/Skryje boční panel s anotacemi dokumentu">
+<!ENTITY annotationextension.annotationWindow.sidebarKey            "(Ctrl+Shift+V)">
+
 
 <!ENTITY annotationextension.aeSelectedText.selectedText.label      "Vybraný text:">
 <!ENTITY annotationextension.aeContentText.annotationText.label     "Anotace:">
@@ -159,9 +162,9 @@
 <!ENTITY annotationextension.attrTypesWindow.title             "Výběr typu atributu">
 
 <!ENTITY openDocumentAnnotationsSideBar.title   "Panel anotací dokumentu">
-<!ENTITY viewAnnotationsSidebar.commandkey      "A">
-<!ENTITY viewAnnotationsSidebar.modifierskey    "alt accel">
-<!ENTITY viewAnnotationWindow.commandkey        "R">
+<!ENTITY viewAnnotationsSidebar.commandkey      "V">
+<!ENTITY viewAnnotationsSidebar.modifierskey    "accel shift">
+<!ENTITY viewAnnotationWindow.commandkey        "A">
 <!ENTITY viewAnnotationWindow.modifierskey      "alt accel">
 <!ENTITY annotationextension.saveAnnotations.commandkey        "S">
 <!ENTITY annotationextension.saveAnnotations.modifierskey      "accel shift">

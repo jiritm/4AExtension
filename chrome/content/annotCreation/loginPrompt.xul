@@ -20,7 +20,7 @@
   <!-- PRIHLASOVACI OKNO -->
   <vbox id="aeLoginPrompt">
     <!-- Ovladaci panel -->
-    <hbox id="aeControlPanel" pack="center" align="center">
+    <hbox class="aeControlPanel" pack="center" align="center">
       <spacer flex="1"/>
       <label value="&annotationextension.Window.aeControlPanel.label;"/>
       <spacer flex="1"/>
@@ -32,7 +32,7 @@
         tooltiptext="&annotationextension.aeLoginPrompt.loginButton.label;"/>
       <image id="aeCloseButton"
         onclick="annotationExtensionChrome.browserOverlay.toggleAnnotationWindow();"
-        tooltiptext="&annotationextension.Window.close;"/>
+        tooltiptext="&annotationextension.Window.close; &annotationextension.Window.closeKey;"/>
     </hbox>
     <!-- Konec ovladaciho panelu --> 
 

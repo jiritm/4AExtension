@@ -29,7 +29,7 @@ toolbar[iconsize="small"] #aeButton {
 }
 
 /* Horni uzky panel (s tlacitkem zavrit, nastaveni...) */
-#aeControlPanel {
+.aeControlPanel {
   color: white;
   background-color: #888888;
 }
@@ -157,18 +157,29 @@ toolbar[iconsize="small"] #aeButton {
 }
 
 /* SHOW SIDEBAR "BUTTON" */
+.aeShowSidebarBox {
+  color: white;
+  background-color: #888888;
+}
+
+.aeShowSidebarBox:hover {
+  background-color: #444444;
+}
+
+.aeShowSidebarBox:hover:active {
+  background-color: #999999;
+}
+
 #aeShowSidebarButton {
-  margin: 0 0 0 3px;
-  list-style-image: url("chrome://annotationextension/skin/icons/sidebar16.png");
+  margin: 0 2px 0 2px;
+  list-style-image: url("chrome://annotationextension/skin/icons/sidebarShow.png");
 }
 
-#aeShowSidebarButton:hover {
-  list-style-image: url("chrome://annotationextension/skin/icons/sidebar16dark.png");
+#aeHideSidebarButton {
+  margin: 0 2px 0 2px;
+  list-style-image: url("chrome://annotationextension/skin/icons/sidebarHide.png");
 }
 
-#aeShowSidebarButton:hover:active {
-  list-style-image: url("chrome://annotationextension/skin/icons/sidebar16light.png");
-}
 
 /* DOCUMENT ANNOTATION "BUTTON" */
 #aeAnnotateDocumentButton {

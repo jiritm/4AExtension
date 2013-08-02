@@ -7,6 +7,7 @@
 
 <!ENTITY annotationextension.Window.title                 "4A Extension">
 <!ENTITY annotationextension.Window.close                 "Close">
+<!ENTITY annotationextension.Window.closeKey              "(Ctrl+Alt+A)">
 <!ENTITY annotationextension.Window.annotateDocument      "Document Annotation">
 <!ENTITY annotationextension.Window.logout                "Logout">
 <!ENTITY annotationextension.Window.suggest               "Turn On Suggesting of Annotations">
@@ -28,7 +29,8 @@
 <!ENTITY annotationextension.annotationWindow.chooseUser.tooltip    "Opens a window with users">
 <!ENTITY annotationextension.annotationWindow.chooseGroup.tooltip   "Opens a window with user groups">
 
-<!ENTITY annotationextension.annotationWindow.sidebar               "Shows sidebar with whole document annotations">
+<!ENTITY annotationextension.annotationWindow.sidebar               "Show/Hide sidebar with whole document annotations">
+<!ENTITY annotationextension.annotationWindow.sidebarKey            "(Ctrl+Shift+V)">
 
 <!ENTITY annotationextension.aeSelectedText.selectedText.label      "Selected text:">
 <!ENTITY annotationextension.aeContentText.annotationText.label     "Content:">
@@ -160,9 +162,9 @@
 <!ENTITY annotationextension.attrTypesWindow.title             "Attribute Type Select">
 
 <!ENTITY openDocumentAnnotationsSideBar.title           "Document Annotations Sidebar">
-<!ENTITY viewAnnotationsSidebar.commandkey      "A">
-<!ENTITY viewAnnotationsSidebar.modifierskey    "alt accel">
-<!ENTITY viewAnnotationWindow.commandkey        "R">
+<!ENTITY viewAnnotationsSidebar.commandkey      "V">
+<!ENTITY viewAnnotationsSidebar.modifierskey    "accel shift">
+<!ENTITY viewAnnotationWindow.commandkey        "A">
 <!ENTITY viewAnnotationWindow.modifierskey      "alt accel">
 <!ENTITY annotationextension.saveAnnotations.commandkey        "S">
 <!ENTITY annotationextension.saveAnnotations.modifierskey      "accel shift">

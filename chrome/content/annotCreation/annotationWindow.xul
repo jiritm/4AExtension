@@ -22,10 +22,7 @@
   <!-- ANOTACNI OKNO -->
   <vbox id="aeBottomWindowOverlay">
     <!-- Ovladaci panel -->
-    <hbox id="aeControlPanel" pack="center" align="center">
-      <image id="aeShowSidebarButton"
-        onclick="annotationExtensionChrome.browserOverlay.toggleAnnotationSidebar();"
-        tooltiptext="&annotationextension.annotationWindow.sidebar;"/>
+    <hbox class="aeControlPanel" pack="center" align="center">
       <image id="aeAnnotateDocumentButton"
         onclick="annotationExtensionChrome.bottomAnnotationWindow.annotateDocument();"
         tooltiptext="&annotationextension.Window.annotateDocument;"/>
@@ -48,7 +45,7 @@
         tooltiptext="&annotationextension.Window.logout;"/>
       <image id="aeCloseButton"
         onclick="annotationExtensionChrome.browserOverlay.toggleAnnotationWindow();"
-        tooltiptext="&annotationextension.Window.close;"/>
+        tooltiptext="&annotationextension.Window.close; &annotationextension.Window.closeKey;"/>
     </hbox>
     <!-- Konec ovladaciho panelu -->
     <!-- Zakladni cast anotacniho okna -->

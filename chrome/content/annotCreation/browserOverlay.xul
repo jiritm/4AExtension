@@ -119,7 +119,7 @@
     <splitter id="aeSidebarSplitter" class="aeSplitter" state="open" hidden="true"/>
 		<!-- Box pro anotace celeho dokumentu -->
 		<vbox id="aeSidebar" align="stretch" pack="start" hidden="true">
-			<vbox align="center">
+			<vbox class="aeControlPanel" align="center">
 				<label value="&annotationextension.documentAnnotations.title;"/>
 			</vbox>
 			<vbox id="aeDocumentAnnotationsBox"
@@ -143,6 +143,12 @@
         <vbox id="aeBottomWindowOverlay">
         </vbox>
       </deck>
+			<box class="aeShowSidebarBox" width="7px"
+				align="center" pack="center"
+				onclick="annotationExtensionChrome.browserOverlay.toggleAnnotationSidebar();"
+        tooltiptext="&annotationextension.annotationWindow.sidebar; &annotationextension.annotationWindow.sidebarKey;">
+				<image id="aeShowSidebarButton"/>
+			</box>
     </box>
 		
   </vbox>
