@@ -156,6 +156,12 @@ toolbar[iconsize="small"] #aeButton {
   padding : 5px;
 }
 
+/* BOX PRO ANTOACE DOKUMENTU */
+#aeDocumentAnnotationsBox {
+  background-color: #DDDDDD;
+  padding : 5px;
+}
+
 /* SHOW SIDEBAR "BUTTON" */
 .aeShowSidebarBox {
   color: white;
@@ -170,12 +176,12 @@ toolbar[iconsize="small"] #aeButton {
   background-color: #999999;
 }
 
-#aeShowSidebarButton {
+.aeShowSidebarButton {
   margin: 0 2px 0 2px;
   list-style-image: url("chrome://annotationextension/skin/icons/sidebarShow.png");
 }
 
-#aeHideSidebarButton {
+.aeHideSidebarButton {
   margin: 0 2px 0 2px;
   list-style-image: url("chrome://annotationextension/skin/icons/sidebarHide.png");
 }

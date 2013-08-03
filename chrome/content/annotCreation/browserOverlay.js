@@ -86,6 +86,7 @@ annotationExtensionChrome.browserOverlay = {
     
   showStatus : false,         /**< Status, zda je anotacni okno zobrazeno. */
   sidebarShowStatus : false,  /**< Status, zda je otevreny sidebar. */
+  lastSidebarShowStatus : null,  /**< Pokud se zavre a otevre anotacni okno, sidebar se otevre podle teto hodnoty. */ 
   preferences : null,         /**< Nastaveni. */
 
 
@@ -129,12 +130,18 @@ annotationExtensionChrome.browserOverlay = {
         
       if (this.showStatus)
       {//Okno je zobrazene -> skryj
+        this.lastSidebarShowStatus = this.sidebarShowStatus;
+        this.toggleAnnotationSidebar(false);
+        
         this.setShowingStatus('hide');
         if (annotationExtension.user.isLogged)
-          annotationExtensionChrome.bottomAnnotationWindow.windowClosed();
+          annotationExtensionChrome.bottomAnnotationWindow.windowClosed();  
       }
       else
       {//Okno je skryte -> zobraz
+        if (this.lastSidebarShowStatus)
+          this.toggleAnnotationSidebar(true);
+          
         this.setShowingStatus('show');
         if (annotationExtension.user.isLogged)
           annotationExtensionChrome.bottomAnnotationWindow.windowOpened();
@@ -185,12 +192,16 @@ annotationExtensionChrome.browserOverlay = {
   toggleAnnotationSidebar : function(open)
   {
     var annotationSidebar =  document.getElementById('aeSidebar');
+    var annotationSidebarButton = document.getElementById('aeToggleAnnotationSidebarButton');
     var annotationSidebarSplitter = document.getElementById('aeSidebarSplitter');
     if (open != undefined && open != null)
     {
       annotationSidebar.hidden = !open;
       annotationSidebarSplitter.hidden = !open;
       this.sidebarShowStatus = open;
+      
+      if (open) annotationSidebarButton.className = "aeHideSidebarButton";
+      else annotationSidebarButton.className = "aeShowSidebarButton";
     }
     else
     {
@@ -199,12 +210,14 @@ annotationExtensionChrome.browserOverlay = {
         annotationSidebar.hidden = true;
         annotationSidebarSplitter.hidden = true;
         this.sidebarShowStatus = false;
+        annotationSidebarButton.className = "aeShowSidebarButton";
       }
       else
       {//Sidebar je skryty -> zobraz
         annotationSidebar.hidden = false;
         annotationSidebarSplitter.hidden = false;
         this.sidebarShowStatus = true;
+        annotationSidebarButton.className = "aeHideSidebarButton";
       }
     }
     

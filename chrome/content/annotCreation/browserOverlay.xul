@@ -147,7 +147,7 @@
 				align="center" pack="center"
 				onclick="annotationExtensionChrome.browserOverlay.toggleAnnotationSidebar();"
         tooltiptext="&annotationextension.annotationWindow.sidebar; &annotationextension.annotationWindow.sidebarKey;">
-				<image id="aeShowSidebarButton"/>
+				<image id="aeToggleAnnotationSidebarButton" class="aeShowSidebarButton"/>
 			</box>
     </box>
 		
