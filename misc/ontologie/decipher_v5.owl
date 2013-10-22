@@ -1,0 +1,661 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:decipher="http://decipher.open.ac.uk/rdfs/decipher/decipher_v1.rdfs#"
+    xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
+    xmlns:xsp="http://www.owl-ontologies.com/2005/08/07/xsp.owl#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+    xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:crm="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#"
+  xml:base="http://decipher.open.ac.uk/rdfs/decipher/decipher_v1.rdfs">
+  <owl:Ontology rdf:about="">
+    <owl:imports rdf:resource="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs"/>
+  </owl:Ontology>
+  <rdfs:Class rdf:ID="Justification">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A justification/explanation for some plot description.
+Justification may provide a role for some domain description which may be e.g. a law of physics or theory of human behaviour.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:ID="Role"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="AffectedStoryComponent">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:ID="StoryComponentType"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="CuratorialStory">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The story of a curatorial narrative.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:ID="Story"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="Premise">
+    <rdfs:subClassOf rdf:resource="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#E28.Conceptual_Object"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The premise, point or moral of a plot.</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="Influencee">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:ID="EventType"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="HeritageObjectCollection">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Heritage objects can be placed into a collection. This could be a set of objects identified as interest by a curator or objects bookmarked on a physical or virtual museum visit	This differs from the concept of collection in CIDOC CRM which refers only to a physical collection such as the NGI collection.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#E73.Information_Object"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="PlotEntity">
+    <rdfs:subClassOf rdf:resource="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#E28.Conceptual_Object"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A plot entity may be a plot or a plot component.
+Plots a story, recounting events in a particular order (Rowe et al 2002)
+Contains plot descriptions that express relationships between events and/or story components</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="NarrativeComponent">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A component of a narrative. Is part of another narrative entity which may be a narrative or a component.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:ID="NarrativeEntity"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="#Story">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:ID="StoryEntity"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="NarrativeComponentStructure">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A structuring of narrative components of a narrative entity.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#E28.Conceptual_Object"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="RangeFacet">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A range facet allows a minimum and maximum value for an expression to be specified.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:ID="Facet"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="PivotalEvent">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="#EventType"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="TemporalRangeFacet">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A temporal range with a specified minimum and maximum value.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:ID="TemporalFacet"/>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf rdf:resource="#RangeFacet"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="HeritageObjectPlot">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A plot associated with the story of a heritage object.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:ID="Plot"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="DomainDescription">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A domain description that could be used to justify a plot relationship between story components or events. This could be e.g. a law of physics or thery of human psychology.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:ID="Description"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="FailedResolutionAttempt">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:ID="ConflictResolutonAttempt"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="#EventType">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Classifications of story events made in a plot description such as events that being classifed as a cause, effect or influence.
+In a story-event relation the type could be intervening event or pivotal event.
+Traditional narrative classifications of event could be conflict, sucessful resolution, unsucessful resolution, comedic.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#E28.Conceptual_Object"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="#Role">
+    <rdfs:subClassOf rdf:resource="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#E28.Conceptual_Object"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="InterveningEvent">
+    <rdfs:subClassOf rdf:resource="#EventType"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="#TemporalFacet">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >For specifying temporal facets.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="#Facet"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="EventRelationDescription">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A description of a relationship between events.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:ID="PlotDescription"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="SuccessfulResolutionAttempt">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="#ConflictResolutonAttempt"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="#StoryComponentType">
+    <rdfs:subClassOf rdf:resource="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#E28.Conceptual_Object"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Classifications of story components made in a plot description such as story components affected or unaffected by some intervention.</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="StoryComponent">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="#StoryEntity"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="HeritageObject">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >This class comprises objects of natural of cultural heritage, for example, paintings, sculptures and architectural objects. A heritage object can be associated with one or more heritage object stories/narratives/plots.
+These may, for example, cover the history of the object its creation, ownership and maintenance. They could be related to what the object depicts or some other narrative/story/plot associated with the object that can be told.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#E73.Information_Object"/>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:ID="RhetoricalEntity"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="#NarrativeEntity">
+    <rdfs:subClassOf rdf:resource="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#E73.Information_Object"/>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="#RhetoricalEntity"/>
+    </rdfs:subClassOf>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Can be either a narrative or narrative component.
+Its component parts can have a defined structure.</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="HeritageObjectStory">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The story associated with the narrative of a heritage object.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Story"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="CuratorialNarrative">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:ID="Narrative"/>
+    </rdfs:subClassOf>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A curatorial narrative makes use of heritage objects to illustrate aspects of the narrative (Rowe et al 2002, Pearce 1990).
+A curatorial narrative can make use of heritage objects and also their associated heritage object narratives or some other narrative that can be told from the heritage object.</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="StoryEventRelationDescription">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A description of a relationship between story events and components.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#EventRelationDescription"/>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:ID="StoryRelationDescription"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="#Facet">
+    <rdfs:subClassOf rdf:resource="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#E28.Conceptual_Object"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >An organisation of a story entity. This has an expression (i.e. dimension) on which events can be organised such as time, location or any other property used used within an event.
+The selection is one or more values which can be used to filter the events of interest such as particular times or locations of interest.</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="HeritageObjectNarrative">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="#Narrative"/>
+    </rdfs:subClassOf>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A narrative assoicated with a heritage object. The narrative could be about something depicted by the heritage object, about the heritage object itself (its creation, maintenance)</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="StoryEventRelationSituation">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A situation that matches a StoryEventRelationDescription. Specifies the situation in terms of the events, story components and any domain description used to support a justification.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:ID="EventRelationSituation"/>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:ID="StoryRelationSituation"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="#StoryRelationDescription">
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="#PlotDescription"/>
+    </rdfs:subClassOf>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A description of a relationship between story components.</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="#Narrative">
+    <rdfs:subClassOf rdf:resource="#NarrativeEntity"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The narrative is the telling of the plot and its associated story. The narrative may have particular (hypertext) rhetorical structure, e.g. linear, hierarchical, cyclic. It might be designed for presentation on a particular device.</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="CuratorialPlot">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The plot of a curatorial narrative.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:about="#Plot"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="#EventRelationSituation">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A situation that matches an EventRelationDescription. Specifies the situation in terms of the events and any domain description used to support a justification.</rdfs:comment>
+    <rdfs:subClassOf>
+      <rdfs:Class rdf:ID="PlotSituation"/>
+    </rdfs:subClassOf>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="UnaffectedStoryComponent">
+    <rdfs:subClassOf rdf:resource="#StoryComponentType"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="Influencer">
+    <rdfs:subClassOf rdf:resource="#EventType"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="#Plot">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A plot charts a particular path across the story (Hazel 2008). The plot states a network of relationships in the story that are seen as significant by the person constructing the plot (Roberts 2001). The plot can link events together in different ways for example, linking an event about a thought to an event in the world (a thought led to the action, or a happening in the world led to a thought) (Allen and Acheson 2000).
+In fictional narrative, the predominant plot relationship between events is “caused”, however here we might expect also a more nuanced set of relationships such as “influenced”. 
+We define the plot level as also describing relationships between components of the story, for example contrasting different times and/or locations.
+The plot level can also describe relationships between story components and events, for example identifying an event that marks the transition between two parts of the story space.
+A plot has a premise (point or moral) that binds together the elements of the plot into a whole (Rowe et al 2002).</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#PlotEntity"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="Situation"/>
+  <rdfs:Class rdf:about="#PlotSituation">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A situation that matches a plot description.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Situation"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  <rdfs:Class rdf:ID="Effect">
+    <rdfs:subClassOf rdf:resource="#EventType"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="#RhetoricalEntity">
+    <rdfs:subClassOf rdf:resource="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#E28.Conceptual_Object"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A work that communicates meaning through some mechanism such as the use of spoken or written words, or symbols.</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="#ConflictResolutonAttempt">
+    <rdfs:subClassOf rdf:resource="#EventType"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="#StoryRelationSituation">
+    <rdfs:subClassOf rdf:resource="#PlotSituation"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A situation that matches an StoryRelationDescription. Specifies the situation in terms of the story components and any domain description used to support a justification.</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="#StoryEntity">
+    <rdfs:subClassOf rdf:resource="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#E28.Conceptual_Object"/>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A story entity may be a either a story or a story component. It contains events.
+It has facets that can be used to organise the set of events.</rdfs:comment>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="Conflict">
+    <rdfs:subClassOf rdf:resource="#EventType"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="PlotComponent">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A component of a plot.
+Is part of a plot entity which may be a plot or itself a plot component.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#PlotEntity"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:about="#PlotDescription">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A description of some relationship between events and/or story components. A plot description is satisfied by a plot situation that specifies the events and/or story components described.
+Defines a justification for the plot description.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#Description"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="NarrativeComponentLink">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >A link structure from one narrative component to another.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="#NarrativeComponentStructure"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="RhetoricalForm">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >The structural form of the rhetoric such as linear or cyclical.</rdfs:comment>
+    <rdfs:subClassOf rdf:resource="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#E28.Conceptual_Object"/>
+  </rdfs:Class>
+  <rdfs:Class rdf:ID="Cause">
+    <rdfs:subClassOf rdf:resource="#EventType"/>
+  </rdfs:Class>
+  <owl:Class>
+    <owl:unionOf rdf:parseType="Collection">
+      <rdfs:Class rdf:about="#HeritageObject"/>
+      <rdfs:Class rdf:about="#Narrative"/>
+    </owl:unionOf>
+  </owl:Class>
+  <owl:Class>
+    <owl:unionOf rdf:parseType="Collection">
+      <rdfs:Class rdf:about="#CuratorialNarrative"/>
+      <rdfs:Class rdf:about="#CuratorialPlot"/>
+    </owl:unionOf>
+  </owl:Class>
+  <owl:ObjectProperty rdf:ID="isRoleOf">
+    <rdfs:range rdf:resource="#DomainDescription"/>
+    <rdfs:domain rdf:resource="#Justification"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="usedBy">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="uses"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="heritageObjectCollectionUsedBy">
+    <rdfs:domain rdf:resource="#HeritageObjectCollection"/>
+    <rdfs:subPropertyOf rdf:resource="#usedBy"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="usesHeritageObjectCollection"/>
+    </owl:inverseOf>
+    <rdfs:range>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdfs:Class rdf:about="#StoryEntity"/>
+          <rdfs:Class rdf:about="#PlotEntity"/>
+          <rdfs:Class rdf:about="#NarrativeEntity"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:range>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="satisfies">
+    <rdfs:domain rdf:resource="#PlotSituation"/>
+    <rdfs:range rdf:resource="#PlotDescription"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="isSatisfiedBy"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="narratesStory">
+    <rdfs:range rdf:resource="#StoryEntity"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="storyNarratedBy"/>
+    </owl:inverseOf>
+    <rdfs:domain rdf:resource="#NarrativeEntity"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="containsPlotDescription">
+    <rdfs:domain rdf:resource="#PlotEntity"/>
+    <rdfs:range rdf:resource="#PlotDescription"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasRhetoricalForm">
+    <rdfs:range rdf:resource="#RhetoricalForm"/>
+    <rdfs:domain rdf:resource="#RhetoricalEntity"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="heritageObjectNarrativeUsedBy">
+    <rdfs:subPropertyOf rdf:resource="#usedBy"/>
+    <rdfs:domain rdf:resource="#HeritageObjectNarrative"/>
+    <rdfs:range rdf:resource="#CuratorialNarrative"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="usesHeritageObjectNarrative"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="includesDomainDescription">
+    <rdfs:range rdf:resource="#DomainDescription"/>
+    <rdfs:domain rdf:resource="#PlotSituation"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="heritageObjectCollectionHasPart">
+    <rdfs:range rdf:resource="#HeritageObject"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="partOfHeritageObjectCollection"/>
+    </owl:inverseOf>
+    <rdfs:domain rdf:resource="#HeritageObjectCollection"/>
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:ID="hasPart"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#storyNarratedBy">
+    <rdfs:range rdf:resource="#NarrativeEntity"/>
+    <owl:inverseOf rdf:resource="#narratesStory"/>
+    <rdfs:domain rdf:resource="#StoryEntity"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="heritageObjectPlotUsedBy">
+    <rdfs:range rdf:resource="#CuratorialPlot"/>
+    <rdfs:subPropertyOf rdf:resource="#usedBy"/>
+    <rdfs:domain rdf:resource="#HeritageObjectPlot"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="usesHeritageObjectPlot"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="narratesPlot">
+    <rdfs:range rdf:resource="#PlotEntity"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="plotNarratedBy"/>
+    </owl:inverseOf>
+    <rdfs:domain rdf:resource="#NarrativeEntity"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="includesEvent">
+    <rdfs:range rdf:resource="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#E4.Period"/>
+    <rdfs:domain rdf:resource="#EventRelationSituation"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="fromNarrativeComponent">
+    <rdfs:domain rdf:resource="#NarrativeComponentLink"/>
+    <rdfs:range rdf:resource="#NarrativeComponent"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasExpression">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Can be of rdf:Property</rdfs:comment>
+    <rdfs:domain rdf:resource="#Facet"/>
+    <rdfs:range rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasNarrativeComponentStructure">
+    <rdfs:range rdf:resource="#NarrativeComponentStructure"/>
+    <rdfs:domain rdf:resource="#NarrativeEntity"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasAssociatedNarrative">
+    <rdfs:domain rdf:resource="#HeritageObject"/>
+    <rdfs:range rdf:resource="#HeritageObjectNarrative"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="plotsStory">
+    <rdfs:domain rdf:resource="#PlotEntity"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="storyPlottedBy"/>
+    </owl:inverseOf>
+    <rdfs:range rdf:resource="#StoryEntity"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasMaximumSelection">
+    <rdfs:range rdf:resource="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#E1.CRM_Entity"/>
+    <rdfs:domain rdf:resource="#RangeFacet"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="includesStoryComponent">
+    <rdfs:domain rdf:resource="#StoryRelationSituation"/>
+    <rdfs:range rdf:resource="#StoryComponent"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="narrativeEntityHasPart">
+    <rdfs:range rdf:resource="#NarrativeComponent"/>
+    <rdfs:domain rdf:resource="#NarrativeEntity"/>
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="#hasPart"/>
+    </rdfs:subPropertyOf>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="partOfNarrativeEntity"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="partOfPlotEntity">
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:ID="partOf"/>
+    </rdfs:subPropertyOf>
+    <rdfs:range rdf:resource="#PlotEntity"/>
+    <rdfs:domain rdf:resource="#PlotComponent"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="plotEntityHasPart"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="containsEvent">
+    <rdfs:domain rdf:resource="#StoryEntity"/>
+    <rdfs:range rdf:resource="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#E5.Event"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="usesHeritageObject">
+    <rdfs:domain rdf:resource="#CuratorialNarrative"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="heritageObjectUsedBy"/>
+    </owl:inverseOf>
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="#uses"/>
+    </rdfs:subPropertyOf>
+    <rdfs:range rdf:resource="#HeritageObject"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#plotNarratedBy">
+    <rdfs:domain rdf:resource="#PlotEntity"/>
+    <rdfs:range rdf:resource="#NarrativeEntity"/>
+    <owl:inverseOf rdf:resource="#narratesPlot"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#uses">
+    <owl:inverseOf rdf:resource="#usedBy"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="definesEventType">
+    <rdfs:range rdf:resource="#EventType"/>
+    <rdfs:domain rdf:resource="#EventRelationDescription"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#usesHeritageObjectPlot">
+    <rdfs:domain rdf:resource="#CuratorialPlot"/>
+    <owl:inverseOf rdf:resource="#heritageObjectPlotUsedBy"/>
+    <rdfs:subPropertyOf rdf:resource="#uses"/>
+    <rdfs:range rdf:resource="#HeritageObjectPlot"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasSelection">
+    <rdfs:domain rdf:resource="#Facet"/>
+    <rdfs:range rdf:resource="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#E1.CRM_Entity"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasMinimumSelection">
+    <rdfs:domain rdf:resource="#RangeFacet"/>
+    <rdfs:range rdf:resource="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#E1.CRM_Entity"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#partOf">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="#hasPart"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="partOfStoryEntity">
+    <rdfs:range rdf:resource="#StoryEntity"/>
+    <rdfs:subPropertyOf rdf:resource="#partOf"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="storyEntityHasPart"/>
+    </owl:inverseOf>
+    <rdfs:domain rdf:resource="#StoryComponent"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="usesHeritageObjectStory">
+    <rdfs:range rdf:resource="#HeritageObjectStory"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="hertitageObjectStoryUsedBy"/>
+    </owl:inverseOf>
+    <rdfs:subPropertyOf rdf:resource="#uses"/>
+    <rdfs:domain rdf:resource="#CuratorialStory"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasFacet">
+    <rdfs:domain rdf:resource="#StoryEntity"/>
+    <rdfs:range rdf:resource="#Facet"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#usesHeritageObjectCollection">
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdfs:Class rdf:about="#StoryEntity"/>
+          <rdfs:Class rdf:about="#PlotEntity"/>
+          <rdfs:Class rdf:about="#NarrativeEntity"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="#HeritageObjectCollection"/>
+    <rdfs:subPropertyOf rdf:resource="#uses"/>
+    <owl:inverseOf rdf:resource="#heritageObjectCollectionUsedBy"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasAssoociatedStory">
+    <rdfs:domain rdf:resource="#HeritageObject"/>
+    <rdfs:range rdf:resource="#HeritageObjectStory"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#usesHeritageObjectNarrative">
+    <owl:inverseOf rdf:resource="#heritageObjectNarrativeUsedBy"/>
+    <rdfs:range rdf:resource="#HeritageObjectNarrative"/>
+    <rdfs:domain rdf:resource="#CuratorialNarrative"/>
+    <rdfs:subPropertyOf rdf:resource="#uses"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="toNarrativeComponent">
+    <rdfs:range rdf:resource="#NarrativeComponent"/>
+    <rdfs:domain rdf:resource="#NarrativeComponentLink"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#storyEntityHasPart">
+    <rdfs:range rdf:resource="#StoryComponent"/>
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="#hasPart"/>
+    </rdfs:subPropertyOf>
+    <rdfs:domain rdf:resource="#StoryEntity"/>
+    <owl:inverseOf rdf:resource="#partOfStoryEntity"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="classifiesEvent">
+    <rdfs:range rdf:resource="http://www.cidoc-crm.org/rdfs/cidoc_crm_v5.0.2_english_label.rdfs#E4.Period"/>
+    <rdfs:domain rdf:resource="#EventType"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#hertitageObjectStoryUsedBy">
+    <rdfs:domain rdf:resource="#HeritageObjectStory"/>
+    <rdfs:subPropertyOf rdf:resource="#usedBy"/>
+    <rdfs:range rdf:resource="#CuratorialNarrative"/>
+    <owl:inverseOf rdf:resource="#usesHeritageObjectStory"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasAssociatedHeritageObject">
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdfs:Class rdf:about="#HeritageObjectNarrative"/>
+          <rdfs:Class rdf:about="#HeritageObjectStory"/>
+          <rdfs:Class rdf:about="#HeritageObjectPlot"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="#HeritageObject"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#partOfHeritageObjectCollection">
+    <rdfs:domain rdf:resource="#HeritageObject"/>
+    <rdfs:subPropertyOf rdf:resource="#partOf"/>
+    <rdfs:range rdf:resource="#HeritageObjectCollection"/>
+    <owl:inverseOf rdf:resource="#heritageObjectCollectionHasPart"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="definesStoryComponentType">
+    <rdfs:range rdf:resource="#StoryComponentType"/>
+    <rdfs:domain rdf:resource="#StoryRelationDescription"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#isSatisfiedBy">
+    <rdfs:range rdf:resource="#PlotSituation"/>
+    <rdfs:domain rdf:resource="#PlotDescription"/>
+    <owl:inverseOf rdf:resource="#satisfies"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="definesJustification">
+    <rdfs:range rdf:resource="#Justification"/>
+    <rdfs:domain rdf:resource="#PlotDescription"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#plotEntityHasPart">
+    <rdfs:domain rdf:resource="#PlotEntity"/>
+    <rdfs:range rdf:resource="#PlotComponent"/>
+    <owl:inverseOf rdf:resource="#partOfPlotEntity"/>
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="#hasPart"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#partOfNarrativeEntity">
+    <rdfs:domain rdf:resource="#NarrativeComponent"/>
+    <rdfs:subPropertyOf rdf:resource="#partOf"/>
+    <owl:inverseOf rdf:resource="#narrativeEntityHasPart"/>
+    <rdfs:range rdf:resource="#NarrativeEntity"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#heritageObjectUsedBy">
+    <rdfs:subPropertyOf rdf:resource="#usedBy"/>
+    <rdfs:domain rdf:resource="#HeritageObject"/>
+    <owl:inverseOf rdf:resource="#usesHeritageObject"/>
+    <rdfs:range rdf:resource="#CuratorialNarrative"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasAssociatedPlot">
+    <rdfs:range rdf:resource="#HeritageObjectPlot"/>
+    <rdfs:domain rdf:resource="#HeritageObject"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasPremise">
+    <rdfs:domain rdf:resource="#Plot"/>
+    <rdfs:range rdf:resource="#Premise"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#storyPlottedBy">
+    <rdfs:range rdf:resource="#PlotEntity"/>
+    <rdfs:domain rdf:resource="#StoryEntity"/>
+    <owl:inverseOf rdf:resource="#plotsStory"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#hasPart">
+    <owl:inverseOf rdf:resource="#partOf"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="classifiesStoryComponent">
+    <rdfs:domain rdf:resource="#StoryComponentType"/>
+    <rdfs:range rdf:resource="#StoryComponent"/>
+  </owl:ObjectProperty>
+  <decipher:RhetoricalForm rdf:ID="LinearRhetoricalForm"/>
+  <decipher:RhetoricalForm rdf:ID="CyclicalRhetoricalForm"/>
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 3.4.4, Build 579)  http://protege.stanford.edu -->
